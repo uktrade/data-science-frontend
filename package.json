@@ -5,8 +5,12 @@
   "main": "server.js",
   "scripts": {
     "test": "NODE_ENV=development; LOG_LEVEL=error; JASMINE_CONFIG_PATH=src/test/app/jasmine.json jasmine",
-    "start": "node server.js",
-    "watch": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'"
+    "start": "NODE_ENV=production node --use-strict dist/server.js",
+    "watch": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'",
+    "grunt": "grunt dist",
+    "build:dist": "grunt dist && npm run dist-install",
+    "dist-install": "cd dist && npm install --production",
+    "dist": "npm run build:dist && npm run start"
   },
   "repository": {
     "type": "git",
@@ -22,6 +26,7 @@
     "eslint": "4.15.0",
     "grunt": "1.0.1",
     "grunt-contrib-clean": "1.1.0",
+    "grunt-contrib-concat": "1.0.1",
     "grunt-contrib-copy": "1.0.0",
     "grunt-contrib-cssmin": "2.2.1",
     "grunt-contrib-uglify": "3.3.0",
