@@ -1,0 +1,46 @@
+{
+  "name": "datascience-fe",
+  "version": "1.0.0",
+  "description": "Front end for Data Science",
+  "main": "server.js",
+  "scripts": {
+    "test": "NODE_ENV=development; LOG_LEVEL=error; JASMINE_CONFIG_PATH=src/test/app/jasmine.json jasmine",
+    "start": "node server.js",
+    "watch": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uktrade/datascience-fe.git"
+  },
+  "author": "Graham Veal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/uktrade/datascience-fe/issues"
+  },
+  "homepage": "https://github.com/uktrade/datascience-fe#readme",
+  "devDependencies": {
+    "eslint": "4.15.0",
+    "grunt": "1.0.1",
+    "grunt-contrib-clean": "1.1.0",
+    "grunt-contrib-copy": "1.0.0",
+    "grunt-contrib-cssmin": "2.2.1",
+    "grunt-contrib-uglify": "3.3.0",
+    "grunt-filerev": "2.3.1",
+    "grunt-mkdir": "1.0.0",
+    "grunt-usemin": "3.1.1",
+    "jasmine": "2.9.0",
+    "jasmine-core": "2.9.1",
+    "load-grunt-tasks": "3.5.2",
+    "nodemon": "1.14.11",
+    "proxyquire": "1.8.0",
+    "supertest": "3.0.0"
+  },
+  "dependencies": {
+    "compression": "1.7.1",
+    "express": "4.16.2",
+    "morgan": "1.9.0",
+    "nunjucks": "3.0.1",
+    "raven": "2.4.0",
+    "winston": "2.4.0"
+  }
+}
