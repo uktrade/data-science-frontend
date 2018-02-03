@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Front end for Data Science",
   "main": "server.js",
+  "engines": {
+    "node": "8.9.3",
+    "npm": "5.5.1"
+  },
   "scripts": {
     "test": "NODE_ENV=development; LOG_LEVEL=error; JASMINE_CONFIG_PATH=src/test/app/jasmine.json jasmine",
     "start": "NODE_ENV=production node --use-strict dist/server.js",
