@@ -14,7 +14,8 @@
     "grunt": "grunt dist",
     "build:dist": "grunt dist && npm run dist-install",
     "dist-install": "cd dist && npm install --production",
-    "dist": "npm run build:dist && npm run start"
+    "dist": "npm run build:dist && npm run start",
+    "heroku-postbuild": "npm run build:dist"
   },
   "repository": {
     "type": "git",
