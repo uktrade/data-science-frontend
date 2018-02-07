@@ -15,6 +15,7 @@ const forceHttps = require( './middleware/force-https' );
 const headers = require( './middleware/headers' );
 const errors = require( './middleware/errors' );
 const sessionStore = require( './middleware/session-store' );
+const auth = require( './middleware/auth' );
 
 module.exports = {
 
@@ -49,6 +50,7 @@ module.exports = {
 		app.use( ping );
 
 		app.use( sessionStore.create() );
+		app.use( auth );
 		routes( express, app );
 
 		app.use( errors.handle404 );

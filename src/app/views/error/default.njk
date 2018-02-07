@@ -3,4 +3,10 @@
 {% set pageName='Error' %}
 {% block page_content %}
 Default error page
+
+{% if error && showErrors %}
+	<pre>
+		{{ error.stack }}
+	</pre>
+{% endif %}
 {% endblock %}

@@ -1,10 +1,18 @@
 const os = require( 'os' );
+const requiredEnvs = [];
 
 function env( name, defaultValue ){
 
 	var exists = ( typeof process.env[ name ] !== 'undefined' );
 
 	return ( exists ? process.env[ name ] : defaultValue );
+}
+
+function requiredEnv( name, defaultValue ){
+
+	requiredEnvs.push( name );
+
+	return env( name, defaultValue );
 }
 
 function bool( name, defaultValue ){
@@ -15,6 +23,25 @@ function bool( name, defaultValue ){
 function number( name, defaultValue ){
 
 	return parseInt( env( name, defaultValue ), 10 );
+}
+
+function checkRequiredEnvs(){
+
+	const missing = [];
+
+	for( let name of requiredEnvs ){
+
+		if( typeof process.env[ name ] === 'undefined' ){
+
+			missing.push( name );
+		}
+	}
+
+	if( missing.length ){
+
+		console.log( 'Missing required env variables:', missing );
+		throw new Error( 'Missing required env variables' );
+	}
 }
 
 const cpus = ( os.cpus().length || 1 );
@@ -48,7 +75,20 @@ let config = {
 	logLevel: env( 'LOG_LEVEL', 'warn' ),
 	sentryDsn: env( 'SENTRY_DSN' ),
 	analyticsId: env( 'ANALYTICS_ID' ),
-	oauth: {
+	sso: {
+		protocol: env( 'SSO_PROTOCOL', 'https' ),
+		domain: requiredEnv( 'SSO_DOMAIN' ),
+		port: number( 'SSO_PORT', 443 ),
+		client: requiredEnv( 'SSO_CLIENT' ),
+		secret: requiredEnv( 'SSO_SECRET' ),
+		mockCode: env( 'SSO_MOCK_CODE' ),
+		path: {
+			auth: requiredEnv( 'SSO_PATH_AUTH' ),
+			token: requiredEnv( 'SSO_PATH_TOKEN' ),
+			introspect: requiredEnv( 'SSO_PATH_INTROSPECT' ),
+			user: env( 'SSO_PATH_USER' )
+		},
+		redirectUri: requiredEnv( 'SSO_REDIRECT_URI' ),
 		paramLength: number( 'OAUTH_PARAM_LENGTH', 75 )
 	},
 	backend: {
@@ -60,5 +100,7 @@ let config = {
 };
 
 config.backend.href = `${config.backend.protocol}://${config.backend.host}:${config.backend.port}`;
+
+checkRequiredEnvs();
 
 module.exports = config;
