@@ -34,14 +34,23 @@ let config = {
 	views: {
 		cache: bool( 'CACHE_VIEWS', true )
 	},
+	redis: {
+		host: env( 'REDIS_HOST' ),
+		port: number( 'REDIS_PORT' ),
+		password: env( 'REDIS_PASSWORD' ),
+		url: env( 'REDIS_URL' ) || env( 'REDISTOGO_URL' )
+	},
+	session: {
+		ttl: ( 1000 * 60 * 60 * 2 ),//milliseconds for cookie
+		secret: env( 'SESSION_SECRET', 'thisisadefaultsecretchangemenow' )
+	},
 	cookieSecret: env( 'COOKIE_SECRET' ),
 	logLevel: env( 'LOG_LEVEL', 'warn' ),
 	sentryDsn: env( 'SENTRY_DSN' ),
 	analyticsId: env( 'ANALYTICS_ID' ),
-	jwt: {
-		secret: env( 'JWT_SECRET', 'thisshouldbeavalidsecret' )
+	oauth: {
+		paramLength: number( 'OAUTH_PARAM_LENGTH', 75 )
 	},
-	oauthParamLength: env( 'OAUTH_PARAM_LENGTH', '75' ),
 	backend: {
 		protocol: env( 'BACKEND_PROTOCOL', 'http' ),
 		host: env( 'BACKEND_HOST', 'localhost' ),
