@@ -68,6 +68,7 @@ module.exports = {
 		if( stateParam !== stateId ){
 
 			logger.error( `StateId mismatch: '${ stateParam }' !== '${ stateId }'` );
+			logger.info( req.session );
 			throw new Error( 'StateId mismatch' );
 		}
 
