@@ -42,7 +42,14 @@ module.exports = {
 		}
 
 		req.session.oauthStateId = stateId; // used to check the callback received contains matching state param
-		return res.redirect( `${ urls.auth }?${ stringify( urlParams ) }` );
+		req.session.save( ( err ) => {
+
+			if( err ){ throw err; }
+
+			logger.info( 'Session saved to redis' );
+
+			res.redirect( `${ urls.auth }?${ stringify( urlParams ) }` );
+		} );
 	},
 
 	callback: ( req, res ) => {
