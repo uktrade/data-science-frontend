@@ -65,7 +65,8 @@ let config = {
 		host: env( 'REDIS_HOST' ),
 		port: number( 'REDIS_PORT' ),
 		password: env( 'REDIS_PASSWORD' ),
-		url: env( 'REDIS_URL' ) || env( 'REDISTOGO_URL' )
+		url: env( 'REDIS_URL' ) || env( 'REDISTOGO_URL' ),
+		tls: env( 'REDIS_USE_TLS' )
 	},
 	session: {
 		ttl: ( 1000 * 60 * 60 * 2 ),//milliseconds for cookie
