@@ -70,7 +70,7 @@ let config = {
 	},
 	session: {
 		ttl: ( 1000 * 60 * 60 * 2 ),//milliseconds for cookie
-		secret: env( 'SESSION_SECRET', 'thisisadefaultsecretchangemenow' )
+		secret: requiredEnv( 'SESSION_SECRET' )
 	},
 	cookieSecret: env( 'COOKIE_SECRET' ),
 	logLevel: env( 'LOG_LEVEL', 'warn' ),
