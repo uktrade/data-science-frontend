@@ -47,7 +47,6 @@ module.exports = {
 			if( err ){ throw err; }
 
 			logger.info( 'Session saved to redis' );
-
 			res.redirect( `${ urls.auth }?${ stringify( urlParams ) }` );
 		} );
 	},
@@ -68,7 +67,6 @@ module.exports = {
 		if( stateParam !== stateId ){
 
 			logger.error( `StateId mismatch: '${ stateParam }' !== '${ stateId }'` );
-			logger.info( req.session );
 			throw new Error( 'StateId mismatch' );
 		}
 
