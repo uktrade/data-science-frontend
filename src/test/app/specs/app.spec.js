@@ -1,15 +1,9 @@
-const config = require( '../../../app/config' );
 const supertest = require( 'supertest' );
 const proxyquire = require( 'proxyquire' );
 const winston = require( 'winston' );
 
 const logger = require( '../../../app/lib/logger' );
-
-const app = proxyquire( '../../../app/app', {
-	'morgan': function(){ return function ( req, res, next ){ next(); }; }
-} );
-
-const createApp = app.create;
+const modulePath = '../../../app/app';
 
 function getTitle( res ){
 
@@ -38,10 +32,14 @@ describe( 'App', function(){
 
 	let app;
 	let oldTimeout;
+	let stubs;
 
 	beforeEach( function(){
 
-		app = createApp();
+		stubs = {
+			'morgan': function(){ return function ( req, res, next ){ next(); }; }
+		};
+
 		logger.remove( winston.transports.Console );
 		oldTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = 500;
@@ -52,41 +50,101 @@ describe( 'App', function(){
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = oldTimeout;
 	} );
 
-	describe( 'index page', function(){
+	describe( 'With SSO bypass enabled', function(){
 
-		it( 'Should render the index page', function( done ){
+		beforeEach( function(){
 
-			supertest( app ).get( '/' ).end( ( err, res ) => {
+			stubs[ './config' ] = {
+				isDev: true,
+				sso: { bypass: true }
+			};
+			app = proxyquire( modulePath, stubs ).create();
+		} );
 
-				checkResponse( res, 200 );
-				expect( getTitle( res ) ).toEqual( 'DS - Homepage' );
-				done();
+		describe( 'index page', function(){
+
+			it( 'Should render the index page', function( done ){
+
+				supertest( app ).get( '/' ).end( ( err, res ) => {
+
+					checkResponse( res, 200 );
+					expect( getTitle( res ) ).toEqual( 'DS - Homepage' );
+					done();
+				} );
+			} );
+		} );
+
+		describe( '404 page', function(){
+
+			it( 'Should render the 404 page', function( done ){
+
+				supertest( app ).get( '/abc123' ).end( ( err, res ) => {
+
+					checkResponse( res, 404 );
+					expect( getTitle( res ) ).toEqual( 'DS - Not found' );
+					done();
+				} );
+			} );
+		} );
+
+		describe( 'Ping', function(){
+
+			it( 'Should return a status of 200', function( done ){
+
+				supertest( app ).get( '/ping/' ).end( ( err, res ) => {
+
+					checkResponse( res, 200 );
+					done();
+				} );
 			} );
 		} );
 	} );
 
-	describe( '404 page', function(){
+	describe( 'With SSO bypass disabled', function(){
 
-		it( 'Should render the 404 page', function( done ){
+		beforeEach( function(){
 
-			supertest( app ).get( '/abc123' ).end( ( err, res ) => {
-
-				checkResponse( res, 404 );
-				expect( getTitle( res ) ).toEqual( 'DS - Not found' );
-				done();
-			} );
+			stubs[ './middleware/sso-bypass' ] = ( req, res, next ) => next();
+			app = proxyquire( modulePath, stubs ).create();
 		} );
-	} );
 
-	describe( 'Ping', function(){
+		describe( 'Pages requiring auth', function(){
 
-		it( 'Should return a status of 200', function( done ){
+			const pages = [
+				[ '/', 'Index' ]
+			];
 
-			supertest( app ).get( '/ping/' ).end( ( err, res ) => {
+			for( let [ path, page ] of pages ){
 
-				checkResponse( res, 200 );
-				done();
-			} );
+				it( `Should redirect the ${ page } page to the login page`, function( done ){
+
+					supertest( app ).get( path ).end( ( err, res ) => {
+
+						checkResponse( res, 302 );
+						expect( res.headers.location ).toEqual( '/login/' );
+						done();
+					} );
+				} );
+			}
+		} );
+
+		describe( 'Pages not requiring auth', function(){
+
+			const pages = [
+				[ '/ping/', 'Healthcheck' ]
+			];
+
+			for( let [ path, page ] of pages ){
+
+				it( `Should render the ${ page } page`, function( done ){
+
+					supertest( app ).get( path ).end( ( err, res ) => {
+
+						checkResponse( res, 200 );
+						done();
+					} );
+				} );
+			}
 		} );
 	} );
 
@@ -118,7 +176,7 @@ describe( 'App', function(){
 
 			it( 'Should setup the app in dev mode', function(){
 
-				const app = proxyquire( '../../../app/app', {
+				const app = proxyquire( modulePath, {
 					'./config': { isDev: true },
 					'morgan': morgan,
 					'compression': compression,
@@ -137,7 +195,7 @@ describe( 'App', function(){
 
 			it( 'Should setup the app in prod mode', function(){
 
-				const app = proxyquire( '../../../app/app', {
+				const app = proxyquire( modulePath, {
 					'./config': { isDev: false },
 					'morgan': morgan,
 					'compression': compression,

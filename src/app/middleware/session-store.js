@@ -12,7 +12,7 @@ module.exports = {
 			store: new RedisStore( {
 				client: redisClient.get(),
 				// config ttl defined in milliseconds for cookie
-				ttl: config.session.ttl / 1000,
+				ttl: ( config.session.ttl / 1000 ),
 				secret: config.session.secret
 			} ),
 			proxy: !config.isDev, //prod uses a proxy and we need to trust it to set cookies

@@ -51,15 +51,19 @@ let config = {
 	isDev,
 	showErrors: isDev,
 	version: env( 'npm_package_version', 'unknown' ),
+	logLevel: env( 'LOG_LEVEL', 'warn' ),
+	sentryDsn: env( 'SENTRY_DSN' ),
+	analyticsId: env( 'ANALYTICS_ID' ),
+	datahubDomain: env( 'DATA_HUB_DOMAIN', 'https://www.datahub.trade.gov.uk' ),
+	views: {
+		cache: bool( 'CACHE_VIEWS', true )
+	},
 	server: {
 		protocol: env( 'SERVER_PROTOCOL', 'http' ),
 		host: env( 'SERVER_HOST', 'localhost' ),
-		port: env( 'SERVER_PORT', env( 'PORT', 8080 ) ),
+		port: number( 'SERVER_PORT', number( 'PORT', 8080 ) ),
 		cpus,
-		workers: env( 'SERVER_WORKERS', env( 'WEB_CONCURRENCY', cpus ) )
-	},
-	views: {
-		cache: bool( 'CACHE_VIEWS', true )
+		workers: number( 'SERVER_WORKERS', number( 'WEB_CONCURRENCY', cpus ) )
 	},
 	redis: {
 		host: env( 'REDIS_HOST' ),
@@ -72,11 +76,8 @@ let config = {
 		ttl: ( 1000 * 60 * 60 * 2 ),//milliseconds for cookie
 		secret: requiredEnv( 'SESSION_SECRET' )
 	},
-	cookieSecret: env( 'COOKIE_SECRET' ),
-	logLevel: env( 'LOG_LEVEL', 'warn' ),
-	sentryDsn: env( 'SENTRY_DSN' ),
-	analyticsId: env( 'ANALYTICS_ID' ),
 	sso: {
+		bypass: bool( 'SSO_BYPASS' ),
 		protocol: env( 'SSO_PROTOCOL', 'https' ),
 		domain: requiredEnv( 'SSO_DOMAIN' ),
 		port: number( 'SSO_PORT', 443 ),
@@ -96,8 +97,7 @@ let config = {
 		protocol: env( 'BACKEND_PROTOCOL', 'http' ),
 		host: env( 'BACKEND_HOST', 'localhost' ),
 		port: env( 'BACKEND_PORT', 8000 )
-	},
-	datahubDomain: env( 'DATA_HUB_DOMAIN', 'https://www.datahub.trade.gov.uk' ),
+	}
 };
 
 config.backend.href = `${config.backend.protocol}://${config.backend.host}:${config.backend.port}`;
