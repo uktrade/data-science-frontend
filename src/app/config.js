@@ -59,7 +59,7 @@ let config = {
 		cache: bool( 'CACHE_VIEWS', true )
 	},
 	server: {
-		protocol: env( 'SERVER_PROTOCOL', 'http' ),
+		protocol: env( 'SERVER_PROTOCOL', 'https' ),
 		host: env( 'SERVER_HOST', 'localhost' ),
 		port: number( 'SERVER_PORT', number( 'PORT', 8080 ) ),
 		cpus,
@@ -94,13 +94,11 @@ let config = {
 		paramLength: number( 'OAUTH_PARAM_LENGTH', 75 )
 	},
 	backend: {
-		protocol: env( 'BACKEND_PROTOCOL', 'http' ),
-		host: env( 'BACKEND_HOST', 'localhost' ),
-		port: env( 'BACKEND_PORT', 8000 )
+		url: requiredEnv( 'BACKEND_URL' ),
+		key: requiredEnv( 'BACKEND_KEY' ),
+		user: requiredEnv( 'BACKEND_USER' )
 	}
 };
-
-config.backend.href = `${config.backend.protocol}://${config.backend.host}:${config.backend.port}`;
 
 checkRequiredEnvs();
 

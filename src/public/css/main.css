@@ -1,0 +1,40 @@
+/*
+	0.313em = 5px
+	0.625em = 10px
+	1em = 16px
+	1.188em = 19px
+	1.5em = 24px
+	1.875em = 30px
+	2.25em = 36px
+	2.813em = 45px
+	3.750em = 60px
+*/
+
+.page-heading {
+	font-size: 2.25em;
+	margin-bottom: 1.25em;
+}
+
+.lead {
+	font-size: 1.5em;
+	margin: 0 0 1.25em 0;
+}
+
+.error-panel {
+	border: 5px solid #B10E1E;
+	padding: 1.3em;
+	margin-bottom: 1.875em;
+}
+
+.error-panel_title {
+	font-size: 1.5em;
+}
+
+.error-panel_message {
+	color: #B10E1E;
+	font-weight: bold;
+}
+
+.company-timeline-heading {
+	font-size: 160%;
+}
