@@ -1,10 +1,8 @@
-const config = require( '../config' );
-
 const cspValues = [
 
 	`default-src 'none'`,
 	`base-uri 'self'`,
-	`script-src 'self' 'unsafe-inline' www.google-analytics.com`,
+	`script-src 'self' www.google-analytics.com`,
 	`style-src 'self' 'unsafe-inline'`,
 	`font-src 'self'`,
 	`img-src 'self' www.google-analytics.com`,

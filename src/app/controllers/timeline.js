@@ -67,9 +67,15 @@ module.exports = {
 
 				} else {
 
-					if( responseData.response.statusCode === 401 ){
+					const statusCode = responseData.response.statusCode;
+
+					if( statusCode === 401 ){
 
 						res.render( 'error/default', { message: 'Sorry, you don\'t have permission to view this company information' } );
+
+					} else if( statusCode === 500 ){
+
+						res.render( 'error/default', { message: 'Sorry, there was an error fetching the data' } );
 
 					} else {
 

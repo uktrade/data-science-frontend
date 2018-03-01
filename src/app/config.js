@@ -59,7 +59,7 @@ let config = {
 		cache: bool( 'CACHE_VIEWS', true )
 	},
 	server: {
-		protocol: env( 'SERVER_PROTOCOL', 'http' ),
+		protocol: env( 'SERVER_PROTOCOL', 'https' ),
 		host: env( 'SERVER_HOST', 'localhost' ),
 		port: number( 'SERVER_PORT', number( 'PORT', 8080 ) ),
 		cpus,
