@@ -2,10 +2,10 @@ const cspValues = [
 
 	`default-src 'none'`,
 	`base-uri 'self'`,
-	`script-src 'self' www.google-analytics.com`,
-	`style-src 'self' 'unsafe-inline'`,
-	`font-src 'self'`,
-	`img-src 'self' www.google-analytics.com`,
+	`script-src 'self' 'unsafe-inline' www.google-analytics.com maps.googleapis.com`,
+	`style-src 'self' 'unsafe-inline' fonts.googleapis.com`,
+	`font-src 'self' fonts.gstatic.com`,
+	`img-src 'self' www.google-analytics.com maps.gstatic.com maps.googleapis.com`,
 	`form-action 'self'`,
 	`connect-src 'self'`
 

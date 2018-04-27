@@ -9,17 +9,18 @@ const credentials = {
 	algorithm: 'sha256'
 };
 
-module.exports = function( path ){
+module.exports = function( path, opts = {} ){
 
+	const method = opts.method || 'GET';
 	const uri = ( config.backend.url + path );
 	let clientHeader;
 
-	logger.debug( 'Sending request to: ' + uri );
+	logger.debug( `Sending ${ method } request to: ${ uri }` );
 
 	try {
 
 		// Generate Authorization request header
-		clientHeader = hawk.client.header( uri, 'GET', { credentials } );
+		clientHeader = hawk.client.header( uri, method, { credentials, payload: opts.body } );
 
 	} catch( e ){
 
@@ -33,12 +34,18 @@ module.exports = function( path ){
 
 	const requestOptions = {
 		uri,
-		method: 'GET',
+		method,
 		headers: {
 			Authorization: clientHeader.header
 		},
 		json: true
 	};
+
+	if( opts.data ){
+
+		requestOptions.body = opts.data;
+		logger.debug( 'Payload: ' + opts.data );
+	}
 
 	return new Promise( ( resolve, reject ) => {
 		// Send authenticated request
@@ -53,7 +60,7 @@ module.exports = function( path ){
 				// Authenticate the server's response
 				const isValid = hawk.client.authenticate( response, credentials, clientHeader.artifacts, { payload: body } );
 
-				logger.debug( `Response code: ${response.statusCode}, isValid:` + !!isValid );
+				logger.debug( `Response code: ${response.statusCode} for ${ uri }, isValid:` + !!isValid );
 
 				if( !isValid ){
 

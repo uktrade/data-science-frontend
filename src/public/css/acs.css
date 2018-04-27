@@ -1,0 +1,134 @@
+.container {
+	padding: 10px 0 20px 0 !important;
+	max-width: 1500px;
+}
+
+.container .search-container {
+	padding-left: 15px !important;
+	padding-right: 15px !important;
+}
+
+table.company_filter {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	overflow: auto;
+}
+
+table.company_filter td,
+table.company_filter th {
+	border: 0px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	max-width: 200px;
+}
+
+table.company_info {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	overflow: auto;
+	width: 100%;
+}
+
+table.company_info td,
+table.company_info th {
+	border: 0px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+table.company_desc {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	overflow: auto;
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+table.company_desc td,
+table.company_info th {
+	border: 0px solid #dddddd;
+	text-align: left;
+	padding: 2px;
+}
+
+table.company_info tr:nth-child(even),
+table.company_desc tr:nth-child(even),
+table.company_filter tr:nth-child(even) {
+	background-color: #D3D3D3;
+}
+
+.scroll {
+	overflow-y: auto;
+}
+
+#searchTab .tab-content {
+	color: white;
+	background-color: #dddddd;
+	padding: 5px 15px;
+}
+
+#infoTab h3 {
+	padding: 5px 15px;
+	background-color: #428bca;
+}
+
+/* remove border radius for the tab */
+#searchTab .nav-pills > li > a {
+	border-radius: 0;
+}
+
+/* change border radius for the tab , apply corners on top*/
+#mapTab .nav-pills > li > a {
+	border-radius: 4px 4px 0 0 ;
+}
+
+#mapTab .tab-content {
+	background-color: #dddddd;
+	padding: 5px 15px;
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+	color: black;
+	background-color: #dddddd;
+}
+
+.border {
+	margin-top: 10px;
+	border: #cdcdcd medium solid;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+.border2 {
+	margin-top: 10px;
+	border: #cdcdcd medium solid;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	margin-bottom: 20px;
+
+}
+.pagination {
+	display: inline-block;
+	padding-left: 0;
+	margin: 0px 0;
+	border-radius: 4px;
+	height: 10px;
+}
+
+.additional-form-items {
+	padding: 15px 15px 0 15px;
+}
+
+.no-results {
+	font-size: 200%;
+	text-align: center;
+	font-weight: bold;
+	padding: 2em 0;
+}

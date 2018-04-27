@@ -49,18 +49,24 @@ module.exports = function( grunt ){
 						cwd: 'src/',
 						src: [ 'public/**/*', '!*/{sass,css,js}/**', '!**/*.{js,es}hintrc', '!**/*.map' ],
 						dest: 'dist/'
+					},
+					{
+						expand: true,
+						cwd: 'src/public/css/fonts',
+						src: [ '*' ],
+						dest: 'dist/public/fonts/'
 					}
 				]
 			}
 		},
 
 		useminPrepare: {
-			html: 'dist/app/views/{base,layout}*.njk'
+			html: 'dist/app/views/**/*.njk'
 		},
 
 		usemin: {
 			html: 'dist/app/views/**/*.njk',
-			js: 'dist/**/*.js',
+			js: 'dist/public/**/*.js',
 			css: 'dist/public/**/*.css',
 			options: {
 				assetsDirs: [ 'dist', 'dist/public' ],
@@ -78,7 +84,7 @@ module.exports = function( grunt ){
 				length: 8
 			},
 			pub: {
-				src: [ 'dist/public/**/*' ]
+				src: [ 'dist/public/**/*', '!dist/public/**/fonts/*' ]
 			}
 		}
 	});
@@ -95,7 +101,7 @@ module.exports = function( grunt ){
 			'useminPrepare',
 			'concat:generated',
 			'cssmin:generated',
-			//'uglify:generated',
+			'uglify:generated',
 			'filerev',
 			'usemin'
 		]);

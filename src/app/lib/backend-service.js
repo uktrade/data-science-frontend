@@ -49,5 +49,43 @@ module.exports = {
 		const responseData = await backendRequest( '/api/v1/company_timeline/events/?companies_house_id=' + parseInt( id, 10 ) );
 
 		return transformEvents( responseData );
+	},
+
+	getEventsByInternalCompanyId: async function( id ){
+
+		const responseData = await backendRequest( '/api/v1/company_timeline/events/?company_id=' + parseInt( id, 10 ) );
+		
+		return transformEvents( responseData );
+	},
+
+	searchBySicCode: async function( code ){
+		
+		const responseData = await backendRequest( '/api/v1/company/search/sic_code/?codes=' + encodeURIComponent( code ) );
+
+		return responseData;
+	},
+
+	searchByExportCode: async function( code ){
+
+		const responseData = await backendRequest( '/api/v1/company/search/commodity_code/?codes=' + encodeURIComponent( code ) );
+
+		return responseData;
+	},
+
+	getDataByType: async function( type ){
+
+		const responseData = await backendRequest( '/api/v1/company/search/' + encodeURIComponent( type ) + '/' );
+
+		return responseData;
+	},
+
+	searchForCompanies: async function( offset, limit, data ){
+
+		const responseData = await backendRequest( `/api/v1/company/search/?offset=${ offset }&limit=${ limit }`, {
+			method: 'POST',
+			data
+		});
+
+		return responseData;
 	}
 };
