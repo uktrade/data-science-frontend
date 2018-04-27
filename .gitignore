@@ -41,6 +41,7 @@ node_modules/
 
 # dotenv environment variables file
 .env
+.envrc
 
 .tmp
 dist
