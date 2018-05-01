@@ -31,11 +31,28 @@ function createRedisKey( method, path, data ){
 function createRequestOptions( uri, method, opts ){
 
 	let clientHeader;
+	let payload = '';
+
+	if( opts.data ){
+
+		try {
+
+			payload = JSON.stringify( opts.data );
+
+		} catch( e ){
+
+			logger.debug( 'Unable to parse data to JSON' );
+		}
+	}
 
 	try {
 
 		// Generate Authorization request header
-		clientHeader = hawk.client.header( uri, method, { credentials, payload: opts.body } );
+		clientHeader = hawk.client.header( uri, method, {
+			credentials,
+			payload,
+			contentType: ( payload ? 'application/json' : '' )
+		} );
 
 	} catch( e ){
 
