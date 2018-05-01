@@ -245,17 +245,22 @@ input:focus,textarea:focus,select:focus,button:focus{outline:3px solid #ffbf47}
 .top-nav_list_item {
   margin-bottom: 0.3125em;
 }
-  @media (min-width: 641px) {
-    .top-nav_list_item {
-      border-left: 1px solid #bfc1c3;
-      padding-left: 0.625em;
-      margin-left: 0.625em;
-      margin-bottom: 0;
-      display: inline-block;
-  }
-      .top-nav_list_item:first-of-type {
-        border-left: 0;
-        padding-left: 0;
-        margin-left: 0;
-       }
-   }
+
+@media (min-width: 641px) {
+  .top-nav_list_item {
+    border-left: 1px solid #bfc1c3;
+    padding-left: 0.625em;
+    margin-left: 0.625em;
+    margin-bottom: 0;
+    display: inline-block;
+}
+    .top-nav_list_item:first-of-type {
+      border-left: 0;
+      padding-left: 0;
+      margin-left: 0;
+     }
+}
+
+.top-nav_link {
+  margin-right: 0.75em;
+}
