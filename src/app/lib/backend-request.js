@@ -1,7 +1,11 @@
 const hawk = require( 'hawk' );
 const request = require( 'request' );
+const crypto = require( 'crypto' );
+const reporter =require( '../lib/reporter' );
+const redisClient = require( '../lib/redis-client' );
 const config = require( '../config' );
 const logger = require( './logger' );
+const getCacheTime = require( '../lib/get-cache-time' );
 
 const credentials = {
 	id: config.backend.user,
@@ -9,13 +13,24 @@ const credentials = {
 	algorithm: 'sha256'
 };
 
-module.exports = function( path, opts = {} ){
+const redis = redisClient.get();
 
-	const method = opts.method || 'GET';
-	const uri = ( config.backend.url + path );
+function createRedisKey( method, path, data ){
+
+	const hash = crypto.createHash( 'sha256' );
+	hash.update( method + path );
+
+	if( data ){
+
+		hash.update( data );
+	}
+
+	return hash.digest();
+}
+
+function createRequestOptions( uri, method, opts ){
+
 	let clientHeader;
-
-	logger.debug( `Sending ${ method } request to: ${ uri }` );
 
 	try {
 
@@ -44,34 +59,82 @@ module.exports = function( path, opts = {} ){
 	if( opts.data ){
 
 		requestOptions.body = opts.data;
-		logger.debug( 'Payload: ' + opts.data );
 	}
 
-	return new Promise( ( resolve, reject ) => {
-		// Send authenticated request
-		request( requestOptions, function( err, response, body ){
+	return { requestOptions, clientHeader };
+}
 
-			if( err ){
+function makeRequest( resolve, reject, uri, method, opts, key ){
 
-				reject( err );
+	logger.debug( `Sending ${ method } request to: ${ uri }` );
+
+	const { requestOptions, clientHeader } = createRequestOptions( uri, method, opts );
+	// Send authenticated request
+	request( requestOptions, function( err, response, body ){
+
+		if( err ){
+
+			reject( err );
+
+		} else {
+
+			// Authenticate the server's response
+			const isValid = hawk.client.authenticate( response, credentials, clientHeader.artifacts, { payload: body } );
+
+			logger.debug( `Response code: ${ response.statusCode } for ${ uri }, isValid:` + !!isValid );
+
+			if( !isValid ){
+
+				reject( new Error( 'Invalid response' ) );
 
 			} else {
 
-				// Authenticate the server's response
-				const isValid = hawk.client.authenticate( response, credentials, clientHeader.artifacts, { payload: body } );
+				const responseData = { response, body };
+				// Output results
+				resolve( responseData );
 
-				logger.debug( `Response code: ${response.statusCode} for ${ uri }, isValid:` + !!isValid );
+				if( opts.cache && key ){
 
-				if( !isValid ){
+					redis.set( key, JSON.stringify( responseData ), 'EX', getCacheTime().seconds, ( err ) => {
 
-					reject( new Error( 'Invalid response' ) );
+						if( err ){
+							reporter.captureException( err );
+						}
+					} );
+				}
+			}
+		}
+	} );
+}
+
+module.exports = function( path, opts = {} ){
+
+	const method = opts.method || 'GET';
+	const uri = ( config.backend.url + path );
+
+	return new Promise( ( resolve, reject ) => {
+
+		if( opts.cache ){
+
+			const key = createRedisKey( method, path, opts.data );
+
+			redis.get( key, function( err, value ){
+
+				if( !err && value ){
+
+					logger.debug( 'Cache HIT for %s', uri );
+					resolve( JSON.parse( value ) );
 
 				} else {
 
-					// Output results
-					resolve( { response, body } );
+					logger.debug( 'Cache MISS for %s', uri );
+					makeRequest( resolve, reject, uri, method, opts, key );
 				}
-			}
-		} );
+			} );
+
+		} else {
+
+			makeRequest( resolve, reject, uri, method, opts );
+		}
 	} );
 };

@@ -1,4 +1,6 @@
+const config = require( '../config' );
 const backendService = require( '../lib/backend-service' );
+const getCacheTime = require( '../lib/get-cache-time' );
 
 module.exports = {
 
@@ -42,6 +44,14 @@ module.exports = {
 	dataByType: async function( req, res ){
 
 		const data = await backendService.getDataByType( req.params.type );
+
+		if( !config.isDev ){
+
+			const cacheTime = getCacheTime();
+			
+			res.setHeader( 'Cache-Control', 'public, max-age=' + cacheTime.seconds );
+			res.setHeader( 'Expires', cacheTime.utc );
+		}
 
 		res.json( data.body );
 	}
