@@ -6,18 +6,14 @@ const logger = require( '../lib/logger' );
 const isAlpha = /^[a-zA-Z0-9-]+$/;
 
 const urls = [ 'auth', 'token' ].reduce( ( params, param ) => {
-
 	params[ param ] = `${ config.sso.protocol }://${ config.sso.domain}:${ config.sso.port }${ config.sso.path[ param ] }`;
 
 	return params;
 }, {} );
 
 function stringify( params ){
-
 	const arr = [];
-
 	for( let paramKey in params ){
-
 		arr.push( `${ paramKey }=${ encodeURIComponent( params[ paramKey ] ) }` );
 	}
 
@@ -25,34 +21,27 @@ function stringify( params ){
 }
 
 function checkCallbackErrors( errorParam, stateParam, codeParam, stateId ){
-
 	if( errorParam ){
-
 		return `Error with SSO: ${ errorParam }`;
 	}
 
 	if( stateParam !== stateId ){
-
 		return `StateId mismatch: '${ stateParam }' !== '${ stateId }'`;
 	}
 
 	if( stateParam.length > config.sso.paramLength ){
-
 		return ( 'State param too long: ' + stateParam.length );
 	}
 
 	if( !isAlpha.test( stateParam ) ){
-
 		return 'Invalid state param';
 	}
 
 	if( codeParam.length > config.sso.paramLength ){
-
 		return ( 'Code param too long' + codeParam.length );
 	}
 
 	if( !isAlpha.test( codeParam ) ){
-
 		return 'Invalid code param';
 	}
 }
@@ -60,9 +49,7 @@ function checkCallbackErrors( errorParam, stateParam, codeParam, stateId ){
 module.exports = {
 
 	authRedirect: ( req, res ) => {
-
 		const stateId = uuid();
-
 		const urlParams = {
 			response_type: 'code',
 			client_id: config.sso.client,
@@ -87,21 +74,18 @@ module.exports = {
 	},
 
 	callback: ( req, res ) => {
-
 		const errorParam = req.query.error;
 		const stateParam = req.query.state;
 		const codeParam = req.query.code;
 		const stateId = req.session.oauthStateId;
-
 		const errMessage = checkCallbackErrors( errorParam, stateParam, codeParam, stateId );
 
 		if( errMessage ){
-
 			logger.error( errMessage  );
 			throw new Error( errMessage );
 		}
 
-		request( {
+		request({
 			method: 'POST',
 			url: urls.token,
 			formData: {
@@ -114,23 +98,17 @@ module.exports = {
 			json: true,
 
 		}, ( err, response, data ) => {
-
 			if( err ){
-
 				logger.error( 'Error with SSO token request' );
 				logger.error( err );
 				throw new Error( 'Error with token request' );
 			}
 
 			if( data.access_token ){
-
 				req.session.ssoToken = data.access_token;
 				delete req.session.oauthStateId;
-
 				res.redirect( req.session.returnPath || '/' );
-
 			} else {
-
 				throw new Error( 'No access_token from SSO' );
 			}
 		} );

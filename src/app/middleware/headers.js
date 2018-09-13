@@ -1,5 +1,4 @@
 const cspValues = [
-
 	`default-src 'none'`,
 	`base-uri 'self'`,
 	`script-src 'self' 'unsafe-inline' www.google-analytics.com maps.googleapis.com`,
@@ -16,7 +15,6 @@ const cspValues = [
 module.exports = function( isDev ){
 
 	return function( req, res, next ){
-
 		res.setHeader( 'X-Download-Options', 'noopen' );
 		res.setHeader( 'X-XSS-Protection', '1; mode=block' );
 		res.setHeader( 'X-Content-Type-Options', 'nosniff' );
@@ -25,7 +23,6 @@ module.exports = function( isDev ){
 		res.setHeader( 'Cache-Control', 'no-cache, no-store' );
 
 		if( !isDev ){
-
 			res.setHeader( 'Strict-Transport-Security', 'max-age=31536000; includeSubDomains' );
 		}
 

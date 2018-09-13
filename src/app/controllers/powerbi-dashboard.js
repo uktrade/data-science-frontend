@@ -5,15 +5,11 @@ const logger = require('../lib/logger');
 const powerBIConfig = config.dashboard.powerbi;
 
 function getAccessToken(username, password, clientId) {
-
 	return new Promise( (resolve, reject) => {
-
 		const url = 'https://login.microsoftonline.com/common/oauth2/token';
-
 		const headers = {
 			'Content-Type': 'application/x-www-form-urlencoded'
 		};
-
 		const form = {
 			grant_type: 'password',
 			client_id: clientId,
@@ -36,16 +32,12 @@ function getAccessToken(username, password, clientId) {
 }
 
 function getEmbedToken(accessToken, groupId, reportId) {
-
 	return new Promise( (resolve, reject) => {
-
 		const url = `https://api.powerbi.com/v1.0/myorg/groups/${ groupId }/reports/${ reportId }/GenerateToken`;
-
 		const headers = {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'Authorization': 'Bearer ' + accessToken
 		};
-
 		const form = {
 			"accessLevel": "View"
 		};
@@ -63,24 +55,18 @@ function getEmbedToken(accessToken, groupId, reportId) {
 }
 
 async function generateReportToken(username, password, clientId, groupId, reportId) {
-
 	try {
-
 		const accessToken = await getAccessToken(username, password, clientId);
 		const token = await getEmbedToken(accessToken, groupId, reportId);
 		return token;
-
 	} catch (error) {
-
 		logger.error(error);
 		throw error;
 	}
 }
 
 module.exports = {
-
 	index: async function (req, res) {
-
 		const reportId = powerBIConfig.reportId;
 		const groupId = powerBIConfig.groupId;
 		const embedUrl = powerBIConfig.embedUrl;
@@ -100,7 +86,6 @@ module.exports = {
 	},
 
 	getEmbedToken: async function (req, res) {
-
 		try {
 			const token = await generateReportToken(
 				powerBIConfig.username,
