@@ -1,66 +1,71 @@
-{%- block top_of_page %}{% endblock -%}
-<!DOCTYPE html>
+{% from "back-link/macro.njk" import govukBackLink %}
+{% from "skip-link/macro.njk" import govukSkipLink %}
+{% from "header/macro.njk" import govukHeader %}
+{% from "phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "footer/macro.njk" import govukFooter %}
+
+
+{% block pageTitle %}GOV.UK - Department of International Trade{% endblock %}
+
+
 <!--[if lt IE 9]><html class="lte-ie8" lang="{{ html_lang|default('en') }}"><![endif]-->
 <!--[if gt IE 8]><!--><html lang="{{ html_lang|default('en') }}"><!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
-		<title>{% block page_title %}Department of International Trade{% endblock %}</title>
+
 		<link rel="shortcut icon" href="/public/img/favicon.ico" type="image/x-icon">
 		<link rel="icon" href="/public/img/favicon-192x192.png" type="image/png">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- build:css(src) /public/css/layout.min.css -->
-		<link href="/public/css/layout.css" media="screen" rel="stylesheet">
+		{#<link href="/public/css/layout.css" media="screen" rel="stylesheet">#}
 		<!-- endbuild -->
 		{% block head %}{% endblock -%}
 		{% block head_styles %}{% endblock -%}
 		{% block head_script %}{% endblock -%}
 	</head>
 
-	<body class="{% block body_classes %}{% endblock %}">
+	<body class="govuk-template__body {% block body_classes %}{% endblock %}">
 		<script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
 		{% block body_start %}{% endblock -%}
 
-		<div id="skiplink-container">
-			<div>
-				<a href="#content" class="skiplink">{{ skip_link_message|default('Skip to main content') }}</a>
-			</div>
-		</div>
+        {{ govukSkipLink({
+            text: "Skip to main content",
+            href: "#content"
+        }) }}
 
 		{% block body_site_header -%}
 
-			<header class="global-header" aria-label="global header">
-				<div class="global-header__inner">
-					{% block header_site_title %}
-						<div class="global-header__site-title">
-							<a href="{{ headerLink }}" class="global-header__link">
-								<span class="global-header__logo">
-									<span class="global-header__site-name">Department for International Trade</span>
-									<span class="global-header__service-name">Data Hub</span>
-								</span>
-							</a>
-							<span class="phase-badge">BETA</span>
-						</div>
-					{% endblock %}
-					{% block header_menu -%}
-						<nav aria-label="global nav">
-							<ul class="proposition-menu">
-								<li class="proposition-menu__item">
-									<a href="{{ feedbackLink }}" class="proposition-menu__link">Support</a>
-		  						</li>
-								{% if user -%}
-		 						<li class="proposition-menu__item">
-									<a href="{{ profileLink }}" class="proposition-menu__link">{% if user.internal %}(internal) {% endif %}{{ user.name or user.email }}</a>
-		 						</li>
-								<li class="proposition-menu__item">
-									<a href="{{ urls.signout() }}" class="proposition-menu__link">Sign out</a>
-								</li>
-								{% endif -%}
-							</ul>
-						</nav>
-					{% endblock %}
-				</div>
-			</header>
+            {{ govukHeader({
+                "serviceName": "Data Hub Labs",
+                "serviceUrl": "https://www.datahub.trade.gov.uk/",
+                "navigation": [
+                    {
+                        "href": "/timeline/",
+                        "text": "Company Timeline"
+                    },
+                    {
+                        "href": "/acs/",
+                        "text": "Company Finder",
+                        "active": true
+                    },
+                    {
+                        "href": "/google-dashboard/",
+                        "text": "GoogleDS Dashboard "
+                    },
+                    {
+                        "href": "/powerbi-dashboard/",
+                        "text": "PowerBI Dashboard"
+                    }
+                ]
+            }) }}
+
+            {{ govukPhaseBanner({
+                "tag": {
+                    "text": "Beta"
+                },
+                "html": "This is a new service - your <a href=\"#\" class=\"govuk-link\">feedback</a> will help us to improve it."
+            }) }}
 
 		{%- endblock -%}
 
@@ -70,8 +75,33 @@
 			{% block content %}{% endblock %}
 		</main>
 
-		{%- block footer %}{% endblock -%}
-		{% block body_end %}{% endblock %}
-		{% block body_end_scripts %}{% endblock %}
+        {% block footer %}
+            <!-- block:footer -->
+            {{ govukFooter({
+                "meta": {
+                    "items": [
+                        {
+                            "href": "#1",
+                            "text": "Aidez-moi"
+                        },
+                        {
+                            "href": "#2",
+                            "text": "Politique de confidentialit?"
+                        },
+                        {
+                            "href": "#3",
+                            "text": "Contactez-nous"
+                        }
+                    ]
+                }
+            }) }}
+            <!-- endblock:footer -->
+        {% endblock %}
+		{% block body_end %}
+            <script src="/public/js/all.js"></script>
+            <script>window.GOVUKFrontend.initAll()</script>
+        {% endblock %}
+
+
 	</body>
 </html>

@@ -1,0 +1,50 @@
+{% from "checkboxes/macro.njk" import govukCheckboxes %}
+{% from "label/macro.njk" import govukLabel %}
+{% from "input/macro.njk" import govukInput %}
+
+<div class="govuk-form-group">
+    <div class=" filter-group-heading">
+        {{ govukLabel({
+            text: "Market exported to",
+            classes: "govuk-!-font-weight-bold"
+        }) }}
+
+        {{ govukInput({
+            label: {
+                text: "Search for country"
+            },
+            id: "search-for-country",
+            name: "search-for-country"
+        }) }}
+
+    </div>
+    <div class="filter-group-list">
+        {{ govukCheckboxes({
+            idPrefix: "market-exported-to",
+            name: "market-exported-to",
+
+            items: [
+                {
+                    value: "Afghanistan",
+                    text: "Afghanistan"
+                },{
+                    value: "Albania",
+                    text: "Albania"
+                },{
+                    value: "London",
+                    text: "London"
+                },{
+                    value: "Algeria",
+                    text: "Algeria"
+                },{
+                    value: "Needs all countries",
+                    text: "Needs all countries"
+                }
+            ]
+        }) }}
+    </div>
+</div>
+
+
+
+

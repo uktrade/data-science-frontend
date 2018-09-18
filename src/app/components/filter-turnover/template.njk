@@ -1,0 +1,20 @@
+{% from "input/macro.njk" import govukInput %}
+
+<div class="govuk-form-group filter-group-heading">
+    <h4 class="govuk-heading-s">Turnover (&pound;)</h4>
+    {{ govukInput({
+        label: {
+            text: "Minimum"
+        },
+        id: "turnover-minimum",
+        name: "turnover-minimum"
+    }) }}
+
+    {{ govukInput({
+        label: {
+            text: "Maximum"
+        },
+        id: "turnover-maximum",
+        name: "turnover-maximum"
+    }) }}
+</div>

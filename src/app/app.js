@@ -27,15 +27,16 @@ module.exports = {
 		const isDev = config.isDev;
 		const pathToPublic = path.resolve( __dirname, '../public' );
 		const staticMaxAge = ( isDev ? 0 : '2y' );
-
 		const nunjucksEnv = nunjucks.configure( [
-				`${__dirname}/views`
+        'node_modules/govuk-frontend/components',
+        `${__dirname}/views`,
+        `${__dirname}/components`,
 			], {
 			autoescape: true,
 			watch: isDev,
 			noCache: !config.views.cache,
 			express: app
-		} );
+		});
 
 		app.set( 'view engine', 'njk' );
 		app.set( 'view cache', config.views.cache );
@@ -47,8 +48,9 @@ module.exports = {
 
 		if( !isDev ){ app.use( compression() ); }
 		app.use( forceHttps( isDev ) );
-		app.use( '/public', express.static( pathToPublic, { maxAge: staticMaxAge } ) );
-		app.use( morganLogger( ( isDev ? 'dev' : 'combined' ) ) );
+		app.use('/public', express.static( pathToPublic, { maxAge: staticMaxAge } ) );
+    app.use('/assets', express.static(path.join(__dirname, '/../../node_modules/govuk-frontend/assets')));
+    app.use( morganLogger( ( isDev ? 'dev' : 'combined' ) ) );
 		app.use( headers( isDev ) );
 		app.use( ping );
 

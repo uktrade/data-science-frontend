@@ -1,0 +1,46 @@
+{% from "checkboxes/macro.njk" import govukCheckboxes %}
+{% from "label/macro.njk" import govukLabel %}
+
+<div class="govuk-form-group">
+    <div class=" filter-group-heading">
+        {{ govukLabel({
+            text: "Service used",
+            classes: "govuk-!-font-weight-bold"
+        }) }}
+    </div>
+    <div class="filter-group-list">
+        {{ govukCheckboxes({
+            idPrefix: "service-used",
+            name: "service-used",
+
+            items: [
+                {
+                    value: "in-datahub",
+                    text: "In Datahub"
+                },{
+                    value: "not-in-datahub",
+                    text: "Not in Datahub"
+                },{
+                    value: "dit-export-wins",
+                    text: "DIT Export Wins"
+                },{
+                    value: "hmrc-exports",
+                    text: "HMRC-Exports"
+                },{
+                    value: "hmrc-importers",
+                    text: "HMRC-Importers"
+                },{
+                    value: "find-a-buyer",
+                    text: "Find a buyer"
+                },{
+                    value: "intellectual-property-office",
+                    text: "Intellectual Property Office"
+                }
+            ]
+        }) }}
+    </div>
+</div>
+
+
+
+

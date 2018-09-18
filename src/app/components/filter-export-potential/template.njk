@@ -1,0 +1,65 @@
+{% from "checkboxes/macro.njk" import govukCheckboxes %}
+{% from "details/macro.njk" import govukDetails %}
+{% from "label/macro.njk" import govukLabel %}
+
+<div class="govuk-form-group">
+    <div class=" filter-group-heading">
+        {{ govukLabel({
+            text: "Export potential",
+            classes: "govuk-!-font-weight-bold"
+        }) }}
+
+        {{ govukDetails({
+            summaryText: "What is export potential?",
+            classes: "filter-group-details",
+            html: "
+                <ul class='govuk-list'>
+                    <li>
+                        <p><span class='govuk-body govuk-!-font-weight-bold'>Very High:</span> Most of the businesses with common features to this one are exporters</p>
+                    </li>
+                    <li>
+                        <p><span class='govuk-body govuk-!-font-weight-bold'>High:</span> This business shares some features with successful exporters</p>
+                    </li>
+                    <li>
+                        <p><span class='govuk-body govuk-!-font-weight-bold'>Medium:</span> Some buinesses that look like this one do export, while some others don't</p>
+                    </li>
+                    <li>
+                        <p><span class='govuk-body govuk-!-font-weight-bold'>Low:</span> This business shares many features with companies that do not export</p>
+                    </li>
+                    <li>
+                        <p><span class='govuk-body govuk-!-font-weight-bold'>Very Low:</span> Most of the businesses with common features to this one aren't exporters</p>
+                    </li>
+                </ul>
+            "
+        }) }}
+    </div>
+    <div class="filter-group-list">
+        {{ govukCheckboxes({
+            idPrefix: "export-potential",
+            name: "export-potential",
+
+            items: [
+                {
+                    value: "very-high",
+                    text: "Very high"
+                },{
+                    value: "high",
+                    text: "High"
+                },{
+                    value: "medium",
+                    text: "Medium"
+                },{
+                    value: "low",
+                    text: "Low"
+                },{
+                    value: "very-low",
+                    text: "Very low"
+                }
+            ]
+        }) }}
+    </div>
+</div>
+
+
+
+

@@ -1,7 +1,8 @@
 
 module.exports = function( grunt ){
+  require( 'load-grunt-tasks' )( grunt );
 
-	grunt.initConfig({
+  grunt.initConfig({
 
 		pkg: grunt.file.readJSON( 'package.json' ),
 
@@ -16,7 +17,6 @@ module.exports = function( grunt ){
 		},
 
 		copy: {
-
 			main: {
 				files: [
 					{
@@ -86,14 +86,33 @@ module.exports = function( grunt ){
 			pub: {
 				src: [ 'dist/public/**/*', '!dist/public/**/fonts/*' ]
 			}
-		}
+		},
+
+    sass: {
+      options: {
+        loadPath: ['node_modules']
+      },
+      dist: {
+        files: {
+          'src/public/css/styles.css' : 'src/public/scss/styles.scss'
+        }
+      }
+    },
+
+    watch: {
+      css: {
+        files: '**/*.scss',
+        tasks: ['sass']
+      }
+    }
 	});
 
-	require( 'load-grunt-tasks' )( grunt );
-
-	grunt.registerTask( 'dist', [ 'default' ] );
-
-	grunt.registerTask( 'default', 'Default prod build', function(){
+  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.registerTask('default',['watch']);
+	grunt.registerTask('dist', [ 'default' ] );
+  grunt.registerTask('dev',['sass']);
+	grunt.registerTask('default', 'Default prod build', function(){
 
 		grunt.task.run([
 			'clean',

@@ -1,0 +1,12 @@
+{% from "input/macro.njk" import govukInput %}
+
+<div class="govuk-form-group filter-group-heading">
+    {{ govukInput({
+        label: {
+            text: "Company name",
+            classes: "govuk-!-font-weight-bold"
+        },
+        id: "company-name",
+        name: "company-name"
+    }) }}
+</div>

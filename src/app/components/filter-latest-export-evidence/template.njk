@@ -1,0 +1,28 @@
+{% from "date-input/macro.njk" import govukDateInput %}
+
+<div class="govuk-form-group filter-group-heading">
+    <h4 class="govuk-heading-s">Latest export evidence</h4>
+    {{ govukDateInput({
+        id: "export-evidence-start-date",
+        namePrefix: "export-evidence-start-date",
+        fieldset: {
+            legend: {
+                text: "Start date"
+            }
+        }
+    }) }}
+    {{ govukDateInput({
+        id: "export-evidence-end-date",
+        namePrefix: "export-evidence-end-date",
+        fieldset: {
+            legend: {
+                text: "End date"
+            }
+        }
+    }) }}
+</div>
+
+
+
+
+
