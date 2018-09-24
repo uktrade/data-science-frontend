@@ -3,7 +3,7 @@
 {% from "input/macro.njk" import govukInput %}
 
 <div class="govuk-form-group">
-    <div class=" filter-group-heading">
+    <div class=" app-filter-group-heading">
         {{ govukLabel({
             text: "Market exported to",
             classes: "govuk-!-font-weight-bold"
@@ -18,7 +18,7 @@
         }) }}
 
     </div>
-    <div class="filter-group-list">
+    <div class="app-filter-group-list">
         {{ govukCheckboxes({
             idPrefix: "market-exported-to",
             name: "market-exported-to",

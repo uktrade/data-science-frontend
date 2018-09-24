@@ -3603,11 +3603,11 @@
     .govuk-\!-width-one-quarter {
       width: 25% !important; } }
 
-.filter-group-heading {
+.app-filter-group-heading {
   background-color: #dee0e2;
   padding: 10px; }
 
-.filter-group-list {
+.app-filter-group-list {
   background-color: white;
   border-style: solid;
   border-color: #dee0e2;
@@ -3616,7 +3616,30 @@
   height: 8.5em;
   overflow-y: scroll; }
 
-.filter-group-details {
+.app-filter-group-details {
   margin-bottom: 0; }
+
+.app-collection-item {
+  position: relative; }
+
+.app-pull-right {
+  float: right; }
+
+.app-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 2px solid #dee0e2;
+  border-radius: 4px;
+  padding: 2px 5px; }
+
+.app-form-group-no-margin .govuk-form-group {
+  margin-bottom: 0; }
+
+.app-sort-select {
+  width: auto; }
+
+.app-large-section-break {
+  border-bottom: 5px solid #0b0c0c; }
 
 /*# sourceMappingURL=styles.css.map */

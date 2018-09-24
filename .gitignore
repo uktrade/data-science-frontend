@@ -49,4 +49,6 @@ dist
 
 #IntelliJ
 .idea
-/.sass-cache/
+.sass-cache/
+
+

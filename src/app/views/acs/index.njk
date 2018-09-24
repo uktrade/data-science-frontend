@@ -9,6 +9,7 @@
 {% from "filter-market-of-interest/macro.njk" import filterMarketOfInterest %}
 {% from "filter-market-exported-to/macro.njk" import filterMarketExportedTo %}
 {% from "filter-latest-export-evidence/macro.njk" import filterLatestExportEvidence %}
+{% from "render-collection/macro.njk" import renderCollection %}
 
 {% extends "layout.njk" %}
 
@@ -36,10 +37,7 @@
             </form>
         </div>
         <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-m">Two thirds</h2>
-            <p class="govuk-body">
-                This guide shows how to make your service look consistent with the rest of GOV.UK. It includes example code and guidance for layout, typography, colour, images, icons, forms, buttons and data.
-            </p>
+            {{ renderCollection({}) }}
         </div>
     </div>
 {% endblock %}

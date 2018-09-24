@@ -3,7 +3,7 @@
 {% from "label/macro.njk" import govukLabel %}
 
 <div class="govuk-form-group">
-    <div class=" filter-group-heading">
+    <div class=" app-filter-group-heading">
         {{ govukLabel({
             text: "Export potential",
             classes: "govuk-!-font-weight-bold"
@@ -11,7 +11,7 @@
 
         {{ govukDetails({
             summaryText: "What is export potential?",
-            classes: "filter-group-details",
+            classes: "app-filter-group-details",
             html: "
                 <ul class='govuk-list'>
                     <li>
@@ -33,7 +33,7 @@
             "
         }) }}
     </div>
-    <div class="filter-group-list">
+    <div class="app-filter-group-list">
         {{ govukCheckboxes({
             idPrefix: "export-potential",
             name: "export-potential",
