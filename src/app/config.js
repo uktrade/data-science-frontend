@@ -1,6 +1,7 @@
 /* eslint no-console:0 */
 const os = require( 'os' );
 const requiredEnvs = [];
+require('dotenv').config();
 
 function env( name, defaultValue ){
 

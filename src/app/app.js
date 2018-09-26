@@ -18,6 +18,8 @@ const errors = require( './middleware/errors' );
 const sessionStore = require( './middleware/session-store' );
 const auth = require( './middleware/auth' );
 const ssoBypass = require( './middleware/sso-bypass' );
+require('dotenv').config();
+
 
 module.exports = {
 

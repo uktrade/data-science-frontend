@@ -3603,6 +3603,9 @@
     .govuk-\!-width-one-quarter {
       width: 25% !important; } }
 
+.app-pull-right {
+  float: right; }
+
 .app-filter-group-heading {
   background-color: #dee0e2;
   padding: 10px; }
@@ -3621,9 +3624,6 @@
 
 .app-collection-item {
   position: relative; }
-
-.app-pull-right {
-  float: right; }
 
 .app-badge {
   position: absolute;

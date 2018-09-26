@@ -101,7 +101,7 @@ module.exports = function( grunt ){
 
     watch: {
       css: {
-        files: '**/*.scss',
+        files: ['**/*.scss', '**/app/components/**/*.scss'],
         tasks: ['sass']
       }
     }

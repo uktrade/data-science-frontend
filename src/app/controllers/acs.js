@@ -4,7 +4,11 @@ const getCacheTime = require( '../lib/get-cache-time' );
 
 module.exports = {
 	index: function( req, res ){
-		res.render( 'acs/index' );
+    // const offset = req.query.offset;
+    // const limit = req.query.limit;
+    // const data = backendService.searchForCompanies( offset, limit, postData );
+    // console.log('pisica ', data);
+    res.render( 'acs/index' );
 	},
 
 	search: async function( req, res ){
