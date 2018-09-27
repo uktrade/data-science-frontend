@@ -7,7 +7,7 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half">
                     <p class="govuk-body-l govuk-!-margin-bottom-2 ">
-                        <span class="govuk-body govuk-!-font-size-36 govuk-!-font-weight-bold govuk-!-padding-right-2">3,341,881</span>
+                        <span class="govuk-body govuk-!-font-size-36 govuk-!-font-weight-bold govuk-!-padding-right-2">### 3,341,881</span>
                         companies
                     </p>
                 </div>
@@ -19,7 +19,7 @@
             <hr class="govuk-section-break govuk-section-break--visible app-large-section-break">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half">
-                    <span class="govuk-caption-m govuk-!-margin-top-5">Page 1 of 1000</span>
+                    <span class="govuk-caption-m govuk-!-margin-top-5">Page 1 of ###</span>
                 </div>
                 <div class="govuk-grid-column-one-half govuk-!-margin-top-3 govuk-!-margin-bottom-3">
                     <form method="" action="">
@@ -59,54 +59,85 @@
             <hr class="govuk-section-break govuk-section-break--visible">
         </header>
         <ol class="govuk-list govuk-body app-collection-list">
-            <li class="app-collection-item">
+
+            {% for item in params %}
+                <li class="app-collection-item">
                 <div class="app-collection-heading">
-                    <h3 class="govuk-heading-m govuk-!-margin-top-4">Anker International</h3>
-                    <span class="govuk-!-font-size-16 govuk-!-font-weight-bold app-badge">South East</span>
-                    <a class="govuk-link" href="#">View Data Hub profile</a>
-                    <span class="govuk-caption-m">Export potential:</span>
-                    <span class="govuk-body govuk-!-font-size-24">Very high</span>
+                    <h3 class="govuk-heading-m govuk-!-margin-top-4">{{ item.company_name | title }}</h3>
+
+                    {% if item.region %}
+                        <span class="govuk-!-font-size-16 govuk-!-font-weight-bold app-badge">{{ item.region }}</span>
+                    {% endif %}
+
+                    {% if item.datahub_company_id %}
+                        <a class="govuk-link"
+                           target="_blank"
+                           href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}"
+                        >View Data Hub profile</a>
+                    {% endif %}
+
+                    {% if item.export_propensity  %}
+                        <span class="govuk-caption-m">Export potential:</span>
+                        <span class="govuk-body govuk-!-font-size-24">{{ item.export_propensity }}</span>
+                    {% endif %}
                 </div>
                 <div class="govuk-grid-row">
                     <ul class="govuk-grid-column-one-half govuk-list">
-                        <li>
-                            <span class="govuk-caption-m govuk-!-display-inline">Last export evidence:</span>
-                            April 2018
-                        </li>
-                        <li>
-                            <span class="govuk-caption-m govuk-!-display-inline">DIT export wins:</span>
-                            12
-                        </li>
-                        <li>
-                            <span class="govuk-caption-m govuk-!-display-inline">DIT export opportunities:</span>
-                            6
-                        </li>
-                        <li>
-                            <span class="govuk-caption-m govuk-!-display-inline">Cash in the bank:</span>
-                            &pound;20,500,000
-                        </li>
+                        {% if item.last_export_evidence %}
+                            <li>
+                                <span class="govuk-caption-m govuk-!-display-inline">Last export evidence:</span>
+                                {{ item.last_export_evidence }}
+                            </li>
+                        {% endif %}
+                        {% if item.num_export_wins %}
+                            <li>
+                                <span class="govuk-caption-m govuk-!-display-inline">DIT export wins:</span>
+                                {{ item.num_export_wins }}
+                            </li>
+                        {% endif %}
+                        {% if item.num_export_opp_enquiries %}
+                            <li>
+                                <span class="govuk-caption-m govuk-!-display-inline">DIT export opportunities:</span>
+                                {{ item.num_export_opp_enquiries }}
+                            </li>
+                        {% endif %}
+                        {% if item.cash_bank_in_hand %}
+                            <li>
+                                <span class="govuk-caption-m govuk-!-display-inline">Cash in the bank:</span>
+                                &pound;{{ item.cash_bank_in_hand }}
+                            </li>
+                        {% endif %}
                     </ul>
                     <ul class="govuk-grid-column-one-half govuk-list">
-                        <li>
-                            <span class="govuk-caption-m govuk-!-display-inline">HMRC export of goods:</span>
-                            7
-                        </li>
-                        <li>
-                            <span class="govuk-caption-m govuk-!-display-inline">HMRC import of goods:</span>
-                            1
-                        </li>
-                        <li>
-                            <span class="govuk-caption-m govuk-!-display-inline">Employee range:</span>
-                            1 to 15
-                        </li>
-                        <li>
-                            <span class="govuk-caption-m govuk-!-display-inline">Turnover:</span>
-                            &pound;42,000,000
-                        </li>
+                        {% if item.num_hmrc_export_goods_outside_eu %}
+                            <li>
+                                <span class="govuk-caption-m govuk-!-display-inline">HMRC export of goods:</span>
+                                {{ item.num_hmrc_export_goods_outside_eu }}
+                            </li>
+                        {% endif %}
+                        {% if item.num_hmrc_import_goods_outside_eu %}
+                            <li>
+                                <span class="govuk-caption-m govuk-!-display-inline">HMRC import of goods:</span>
+                                {{ item.num_hmrc_import_goods_outside_eu }}
+                            </li>
+                        {% endif %}
+                        {% if item.employee_range %}
+                            <li>
+                                <span class="govuk-caption-m govuk-!-display-inline">Employee range:</span>
+                                {{ item.employee_range }}
+                            </li>
+                        {% endif %}
+                        {% if item.turnover %}
+                            <li>
+                                <span class="govuk-caption-m govuk-!-display-inline">Turnover:</span>
+                                &pound;{{ item.turnover }}
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <hr class="govuk-section-break govuk-section-break--visible">
             </li>
+            {% endfor %}
         </ol>
 
 

@@ -11,25 +11,15 @@ let clusterFile = '/app/cluster.js';
 const childExits = [];
 let child;
 
-if( !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ){
+if ( !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ){
 	clusterFile = ( '/src/' + clusterFile );
 }
 
 function createChildProcess(){
-  if ( !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ){
-    child = childProcess.fork(
-      __dirname + clusterFile,
-      // [],
-      // {
-      //   execArgv: ['--inspect-brk']
-      // }
-    );
-  } else {
-    child = childProcess.fork(
-        __dirname + clusterFile,
-      );
-  }
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>', process.env);
+  child = childProcess.fork(
+    __dirname + clusterFile
+  );
+
 	console.info( 'Child process created, pid: ' + child.pid );
 
 	child.on( 'exit', handleChildExit );

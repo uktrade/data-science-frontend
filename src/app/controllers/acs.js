@@ -4,11 +4,25 @@ const getCacheTime = require( '../lib/get-cache-time' );
 
 module.exports = {
 	index: function( req, res ){
-    // const offset = req.query.offset;
-    // const limit = req.query.limit;
-    // const data = backendService.searchForCompanies( offset, limit, postData );
-    // console.log('pisica ', data);
-    res.render( 'acs/index' );
+    async function getData() {
+      try {
+        //TODO(jf): store the default offset and limit vals
+        return await backendService.searchForCompanies(3, 20, {});
+      } catch (err) {
+        //TODO(jf): add logging module
+        console.log('error ', err);
+      }
+    }
+
+    getData().then(function(response) {
+      try {
+        const result = response.body.result || {};
+        res.render( 'acs/index', { result });
+      } catch (err) {
+        //TODO(jf): add logging module
+        console.log('error ', err);
+      }
+    });
 	},
 
 	search: async function( req, res ){
