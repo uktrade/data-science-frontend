@@ -86,7 +86,7 @@
                         {% if item.last_export_evidence %}
                             <li>
                                 <span class="govuk-caption-m govuk-!-display-inline">Last export evidence:</span>
-                                {{ item.last_export_evidence }}
+                                {{ item.last_export_evidence | formatDate }}
                             </li>
                         {% endif %}
                         {% if item.num_export_wins %}
@@ -104,7 +104,7 @@
                         {% if item.cash_bank_in_hand %}
                             <li>
                                 <span class="govuk-caption-m govuk-!-display-inline">Cash in the bank:</span>
-                                &pound;{{ item.cash_bank_in_hand }}
+                                &pound;{{ item.cash_bank_in_hand | round | formatNumberWithCommas}}
                             </li>
                         {% endif %}
                     </ul>
@@ -130,7 +130,7 @@
                         {% if item.turnover %}
                             <li>
                                 <span class="govuk-caption-m govuk-!-display-inline">Turnover:</span>
-                                &pound;{{ item.turnover }}
+                                &pound;{{ item.turnover | round | formatNumberWithCommas }}
                             </li>
                         {% endif %}
                     </ul>
