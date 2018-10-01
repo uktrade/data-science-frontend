@@ -2,19 +2,21 @@
 {% from "label/macro.njk" import govukLabel %}
 {% from "input/macro.njk" import govukInput %}
 
-<div class="govuk-form-group">
+<div class="govuk-form-group ">
     <div class=" app-filter-group-heading">
         {{ govukLabel({
             text: "Market exported to",
-            classes: "govuk-!-font-weight-bold"
+            classes: "govuk-!-font-weight-bold app-filter-label"
         }) }}
 
         {{ govukInput({
             label: {
-                text: "Search for country"
+                text: "Search for country",
+                classes: "app-filter-subheading"
             },
             id: "search-for-country",
             name: "search-for-country"
+            
         }) }}
 
     </div>
@@ -22,6 +24,7 @@
         {{ govukCheckboxes({
             idPrefix: "market-exported-to",
             name: "market-exported-to",
+            classes: "app-filter-checkboxes-group",
 
             items: [
                 {

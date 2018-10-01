@@ -3606,6 +3606,17 @@
 .app-pull-right {
   float: right; }
 
+.app-filter-label,
+.app-filter-heading,
+.app-filter-subheading,
+.app-filter-checkboxes-select,
+.app-filter-dateinput-group label {
+  font-size: 16px; }
+
+.app-filter-checkboxes-group label {
+  font-size: 16px;
+  padding-top: 11px; }
+
 .app-filter-group-heading {
   background-color: #dee0e2;
   padding: 10px; }
@@ -3641,5 +3652,11 @@
 
 .app-large-section-break {
   border-bottom: 5px solid #0b0c0c; }
+
+.app-pagination-list {
+  border: 2px solid purple; }
+  .app-pagination-list-item {
+    background: green;
+    display: inline-block; }
 
 /*# sourceMappingURL=styles.css.map */

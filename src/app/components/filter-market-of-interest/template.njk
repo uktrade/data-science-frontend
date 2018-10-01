@@ -6,22 +6,24 @@
     <div class=" app-filter-group-heading">
         {{ govukLabel({
             text: "Market of interest",
-            classes: "govuk-!-font-weight-bold"
+            classes: "govuk-!-font-weight-bold app-filter-label"
         }) }}
 
         {{ govukInput({
             label: {
-                text: "Search for country"
+                text: "Search for country",
+                classes: "app-filter-label"
             },
             id: "search-for-country",
             name: "search-for-country"
         }) }}
 
     </div>
-    <div class="app-filter-group-list">
+    <div class="app-filter-group-list ">
         {{ govukCheckboxes({
             idPrefix: "market-of-interest",
             name: "market-of-interest",
+            classes: "app-filter-checkboxes-group",
 
             items: [
                 {

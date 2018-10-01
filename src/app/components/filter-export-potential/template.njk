@@ -6,28 +6,28 @@
     <div class=" app-filter-group-heading">
         {{ govukLabel({
             text: "Export potential",
-            classes: "govuk-!-font-weight-bold"
+            classes: "govuk-!-font-weight-bold app-filter-label"
         }) }}
 
         {{ govukDetails({
             summaryText: "What is export potential?",
-            classes: "app-filter-group-details",
+            classes: "app-filter-group-details app-filter-label",
             html: "
                 <ul class='govuk-list'>
                     <li>
-                        <p><span class='govuk-body govuk-!-font-weight-bold'>Very High:</span> Most of the businesses with common features to this one are exporters</p>
+                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-label'>Very High:</span> Most of the businesses with common features to this one are exporters</p>
                     </li>
                     <li>
-                        <p><span class='govuk-body govuk-!-font-weight-bold'>High:</span> This business shares some features with successful exporters</p>
+                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>High:</span> This business shares some features with successful exporters</p>
                     </li>
                     <li>
-                        <p><span class='govuk-body govuk-!-font-weight-bold'>Medium:</span> Some buinesses that look like this one do export, while some others don't</p>
+                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Medium:</span> Some buinesses that look like this one do export, while some others don't</p>
                     </li>
                     <li>
-                        <p><span class='govuk-body govuk-!-font-weight-bold'>Low:</span> This business shares many features with companies that do not export</p>
+                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Low:</span> This business shares many features with companies that do not export</p>
                     </li>
                     <li>
-                        <p><span class='govuk-body govuk-!-font-weight-bold'>Very Low:</span> Most of the businesses with common features to this one aren't exporters</p>
+                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Very Low:</span> Most of the businesses with common features to this one aren't exporters</p>
                     </li>
                 </ul>
             "
@@ -36,6 +36,7 @@
     <div class="app-filter-group-list">
         {{ govukCheckboxes({
             idPrefix: "export-potential",
+            classes:"app-filter-checkboxes-group label",
             name: "export-potential",
 
             items: [
