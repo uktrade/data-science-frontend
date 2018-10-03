@@ -1,6 +1,8 @@
 {% from "input/macro.njk" import govukInput %}
 {% from "select/macro.njk" import govukSelect %}
 
+{% set pagination = params.pagination %}
+
 <article class="column-two-thirds" id="xhr-outlet">
     <article class="c-collection">
         <header>
@@ -19,7 +21,7 @@
             <hr class="govuk-section-break govuk-section-break--visible app-large-section-break">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half">
-                    <span class="govuk-caption-m govuk-!-margin-top-5">Page 1 of ###</span>
+                    <span class="govuk-caption-m govuk-!-margin-top-5">Page {{ pagination.currentPage }} of {{ pagination.totalPages }}</span>
                 </div>
                 <div class="govuk-grid-column-one-half govuk-!-margin-top-3 govuk-!-margin-bottom-3">
                     <form method="" action="">
@@ -60,7 +62,7 @@
         </header>
         <ol class="govuk-list govuk-body app-collection-list">
 
-            {% for item in params %}
+            {% for item in params.result %}
                 <li class="app-collection-item">
                 <div class="app-collection-heading">
                     <h3 class="govuk-heading-m govuk-!-margin-top-4">{{ item.company_name | title }}</h3>
@@ -141,39 +143,14 @@
         </ol>
 
 
-        <nav class="c-pagination" aria-label="pagination: total 1000 pages">
-            <ul class="c-pagination__list">
-                <li class="c-pagination__list-item"><a href="?sortby=date%3Adesc&amp;page=1"
-                                                       class="c-pagination__label is-current">1</a></li>
-                <li class="c-pagination__list-item"><a href="?sortby=date%3Adesc&amp;page=2"
-                                                       class="c-pagination__label">2</a></li>
-                <li class="c-pagination__list-item"><a href="?sortby=date%3Adesc&amp;page=3"
-                                                       class="c-pagination__label">3</a></li>
-                <li class="c-pagination__list-item"><a href="?sortby=date%3Adesc&amp;page=4"
-                                                       class="c-pagination__label">4</a></li>
-                <li class="c-pagination__list-item"><span
-                            class="c-pagination__label c-pagination__label--truncation">?</span></li>
-                <li class="c-pagination__list-item"><a href="?sortby=date%3Adesc&amp;page=1000"
-                                                       class="c-pagination__label">1000</a></li>
-            </ul>
-            <a href="?sortby=date%3Adesc&amp;page=2" class="c-pagination__label c-pagination__label--next">Next</a>
-        </nav>
-
-
-.app-pagination
-    .app-pagination-list
-        app-pagination-list-item
-
-        
-        <nav>
-            <ul>
-                <li>
-                <a href
-                1
-                </li>
-
-                
-            </ul>
+        <nav class="c-pagination" aria-label="pagination: total {{ pagination.totalPages }} pages">
+            {% if pagination.currentPage > 1 %}
+                <a href="{{ pagination.prev }}" class="c-pagination__label c-pagination__label--next">Prev</a>
+            {% endif %}
+            {% for page in pagination.pages %}
+                <a href="{{ page.url }}">{{ page.label }}</a>
+            {% endfor %}
+            <a href="{{ pagination.next }}" class="c-pagination__label c-pagination__label--next">Next</a>
         </nav>
     </article>
 </article>

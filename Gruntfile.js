@@ -1,128 +1,150 @@
+const config = require('./src/app/config')
 
-module.exports = function( grunt ){
-  require( 'load-grunt-tasks' )( grunt );
+module.exports = (grunt) => {
+  require('load-grunt-tasks')(grunt)
 
   grunt.initConfig({
 
-		pkg: grunt.file.readJSON( 'package.json' ),
+    pkg: grunt.file.readJSON('package.json'),
 
-		uglify: {
-			options: {
-				banner: '/*! <%= pkg.name %> <%= grunt.template.today( "yyyy-mm-dd" ) %> */\n'
-			}
-		},
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+      },
+    },
 
-		clean: {
-			dist: { src: [ 'dist/**/*', '!dist/node_modules/**' ] }
-		},
+    clean: {
+      dist: { src: [ 'dist/**/*', '!dist/node_modules/**' ] },
+    },
 
-		copy: {
-			main: {
-				files: [
-					{
-						expand: true,
-						src: [ 'server.js', 'package.json', 'npm-shrinkwrap.json' ],
-						dest: 'dist/'
-					},{
-						expand: true,
-						src: [ 'run/**/*', '!**/*.{log,pid}' ],
-						dest: 'dist/'
-					}
-				]
-			},
+    copy: {
+      main: {
+        files: [
+          {
+            expand: true,
+            src: [ 'server.js', 'package.json', 'npm-shrinkwrap.json' ],
+            dest: 'dist/',
+          }, {
+            expand: true,
+            src: [ 'run/**/*', '!**/*.{log,pid}' ],
+            dest: 'dist/',
+          },
+        ],
+      },
 
-			app: {
-				files: [
-					{
-						expand: true,
-						cwd: 'src/',
-						src: [ 'app/**/*', '!**/*.{js,es}hintrc' ],
-						dest: 'dist/'
-					}
-				]
-			},
+      app: {
+        files: [
+          {
+            expand: true,
+            cwd: 'src/',
+            src: [ 'app/**/*', '!**/*.{js,es}hintrc' ],
+            dest: 'dist/',
+          },
+        ],
+      },
 
-			pub: {
-				files: [
-					{
-						expand: true,
-						cwd: 'src/',
-						src: [ 'public/**/*', '!*/{sass,css,js}/**', '!**/*.{js,es}hintrc', '!**/*.map' ],
-						dest: 'dist/'
-					},
-					{
-						expand: true,
-						cwd: 'src/public/css/fonts',
-						src: [ '*' ],
-						dest: 'dist/public/fonts/'
-					}
-				]
-			}
-		},
+      pub: {
+        files: [
+          {
+            expand: true,
+            cwd: 'src/',
+            src: [ 'public/**/*', '!*/{sass,css,js}/**', '!**/*.{js,es}hintrc', '!**/*.map' ],
+            dest: 'dist/',
+          },
+          {
+            expand: true,
+            cwd: 'src/public/css/fonts',
+            src: [ '*' ],
+            dest: 'dist/public/fonts/',
+          },
+        ],
+      },
+    },
 
-		useminPrepare: {
-			html: 'dist/app/views/**/*.njk'
-		},
+    useminPrepare: {
+      html: 'dist/app/views/**/*.njk',
+    },
 
-		usemin: {
-			html: 'dist/app/views/**/*.njk',
-			js: 'dist/public/**/*.js',
-			css: 'dist/public/**/*.css',
-			options: {
-				assetsDirs: [ 'dist', 'dist/public' ],
-				patterns: {
-					js: [
-						[ /(img\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images' ]
-					]
-				}
-			}
-		},
+    usemin: {
+      html: 'dist/app/views/**/*.njk',
+      js: 'dist/public/**/*.js',
+      css: 'dist/public/**/*.css',
+      options: {
+        assetsDirs: [ 'dist', 'dist/public' ],
+        patterns: {
+          js: [
+            [ /(img\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images' ],
+          ],
+        },
+      },
+    },
 
-		filerev: {
-			options: {
-				algorithm: 'md5',
-				length: 8
-			},
-			pub: {
-				src: [ 'dist/public/**/*', '!dist/public/**/fonts/*' ]
-			}
-		},
+    filerev: {
+      options: {
+        algorithm: 'md5',
+        length: 8,
+      },
+      pub: {
+        src: [ 'dist/public/**/*', '!dist/public/**/fonts/*' ],
+      },
+    },
 
     sass: {
       options: {
-        loadPath: ['node_modules']
+        loadPath: ['node_modules'],
       },
       dist: {
         files: {
-          'src/public/css/styles.css' : 'src/public/scss/styles.scss'
-        }
-      }
+          'src/public/css/styles.css': 'src/public/scss/styles.scss',
+        },
+      },
     },
 
     watch: {
       css: {
         files: ['**/*.scss', '**/app/components/**/*.scss'],
-        tasks: ['sass']
-      }
-    }
-	});
+        tasks: ['sass'],
+      },
+    },
 
-  grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.registerTask('default',['watch']);
-	grunt.registerTask('dist', [ 'default' ] );
-  grunt.registerTask('dev',['sass']);
-	grunt.registerTask('default', 'Default prod build', function(){
+    // browserSync: {
+    //   dev: {
+    //     bsFiles: {
+    //       src: [
+    //         'src/public/css/*.css',
+    //         '**/*.js',
+    //         '**/*.njk',
+    //       ],
+    //     },
+    //     options: {
+    //       server: {
+    //         baseDir: './',
+    //       },
+    //       port: config.server.port + 1,
+    //       proxy: `http://localhost:${config.server.port}`,
+    //       open: false,
+    //       watchTask: true,
+    //     },
+    //   },
+    // },
+  })
 
-		grunt.task.run([
-			'clean',
-			'copy',
-			'useminPrepare',
-			'concat:generated',
-			'cssmin:generated',
-			'uglify:generated',
-			'filerev',
-			'usemin'
-		]);
-	} );
-};
+  grunt.loadNpmTasks('grunt-contrib-sass')
+  grunt.loadNpmTasks('grunt-contrib-watch')
+  grunt.loadNpmTasks('grunt-browser-sync')
+  grunt.registerTask('default', ['watch'])
+  grunt.registerTask('dist', [ 'default' ])
+  grunt.registerTask('dev', ['sass'])
+  grunt.registerTask('default', 'Default prod build', () => {
+    grunt.task.run([
+      'clean',
+      'copy',
+      'useminPrepare',
+      'concat:generated',
+      'cssmin:generated',
+      'uglify:generated',
+      'filerev',
+      'usemin',
+    ])
+  })
+}
