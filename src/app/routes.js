@@ -12,9 +12,6 @@ const {
   searchByExportCode,
 } = require( './controllers/acs' )
 
-const googleDashboardController = require( './controllers/google-dashboard' )
-const powerBIDashboardController = require( './controllers/powerbi-dashboard' )
-
 module.exports = function( express, app ){
 
 	app.get( '/', homeController )
@@ -36,7 +33,4 @@ module.exports = function( express, app ){
 	app.get( '/acs/api/data/:type', dataByType )
 	app.post( '/acs/api/search/', express.json(), search )
 
-	app.get( '/google-dashboard/', googleDashboardController.index )
-	app.get( '/powerbi-dashboard/', powerBIDashboardController.index )
-	app.get( '/powerbi-dashboard/api/embed-token/', powerBIDashboardController.getEmbedToken )
 }

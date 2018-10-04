@@ -18,10 +18,10 @@ if ( !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ){
 function createChildProcess(){
   child = childProcess.fork(
     __dirname + clusterFile,
-    [],
-    {
-      execArgv: ['--inspect-brk'],
-    }
+    //[],
+    //{
+    //  execArgv: ['--inspect-brk'],
+    //}
   )
 
 	console.info( 'Child process created, pid: ' + child.pid )

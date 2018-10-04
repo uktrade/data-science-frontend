@@ -1,5 +1,6 @@
 /* eslint no-console:0 */
 const os = require( 'os' );
+const vcap = require( './lib/vcap-services' );
 const requiredEnvs = [];
 require('dotenv').config();
 
@@ -48,6 +49,7 @@ function checkRequiredEnvs(){
 
 const cpus = ( os.cpus().length || 1 );
 const isDev = ( ( process.env.NODE_ENV || 'development' ) === 'development' );
+const vcapRedisUrl = vcap.parseRedis( env( 'VCAP_SERVICES' ) );
 
 let config = {
 	isDev,
@@ -70,7 +72,7 @@ let config = {
 		host: env( 'REDIS_HOST' ),
 		port: number( 'REDIS_PORT' ),
 		password: env( 'REDIS_PASSWORD' ),
-		url: env( 'REDIS_URL' ) || env( 'REDISTOGO_URL' ),
+		url: ( vcapRedisUrl || env( 'REDIS_URL', env( 'REDISTOGO_URL' ) ) ),
 		tls: bool( 'REDIS_USE_TLS' )
 	},
 	session: {
@@ -98,19 +100,6 @@ let config = {
 		url: requiredEnv( 'BACKEND_URL' ),
 		key: requiredEnv( 'BACKEND_KEY' ),
 		user: requiredEnv( 'BACKEND_USER' )
-	},
-	dashboard: {
-		powerbi: {
-			clientId: requiredEnv( 'DASHBOARD_POWERBI_CLIENTID' ),
-			username: requiredEnv( 'DASHBOARD_POWERBI_USERNAME' ),
-			password: requiredEnv( 'DASHBOARD_POWERBI_PASSWORD' ),
-			embedUrl: requiredEnv( 'DASHBOARD_POWERBI_EMBEDURL' ),
-			groupId: requiredEnv( 'DASHBOARD_POWERBI_GROUPID' ),
-			reportId: requiredEnv( 'DASHBOARD_POWERBI_REPORTID' )
-		},
-		googleds: {
-			embedURL: requiredEnv( 'DASHBOARD_GOOGLEDS_EMBEDURL' )
-		}
 	}
 };
 
