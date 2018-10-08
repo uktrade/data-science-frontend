@@ -109,45 +109,40 @@
             </li>
         </ol>
 
-<div class="app-aligned-center">
-    <ul class="app-pagination-list"> 
-            
-        <li class="app-pagination-list-item is-current"> 
-            <a class="app-pagination-link" href=""> 1 
-            </a>
-        </li>
 
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> 2
-            </a>
-        </li>
+        <nav class="c-pagination" aria-label="pagination: total 1000 pages">
+            <ul class="c-pagination__list">
+                <li class="c-pagination__list-item"><a href="?sortby=date%3Adesc&amp;page=1"
+                                                       class="c-pagination__label is-current">1</a></li>
+                <li class="c-pagination__list-item"><a href="?sortby=date%3Adesc&amp;page=2"
+                                                       class="c-pagination__label">2</a></li>
+                <li class="c-pagination__list-item"><a href="?sortby=date%3Adesc&amp;page=3"
+                                                       class="c-pagination__label">3</a></li>
+                <li class="c-pagination__list-item"><a href="?sortby=date%3Adesc&amp;page=4"
+                                                       class="c-pagination__label">4</a></li>
+                <li class="c-pagination__list-item"><span
+                            class="c-pagination__label c-pagination__label--truncation">?</span></li>
+                <li class="c-pagination__list-item"><a href="?sortby=date%3Adesc&amp;page=1000"
+                                                       class="c-pagination__label">1000</a></li>
+            </ul>
+            <a href="?sortby=date%3Adesc&amp;page=2" class="c-pagination__label c-pagination__label--next">Next</a>
+        </nav>
 
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> 3
-            </a>
-        </li>
 
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> 4 </a>
-        </li>
+.app-pagination
+    .app-pagination-list
+        app-pagination-list-item
 
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> ...
-            </a>
-        </li>
+        
+        <nav>
+            <ul>
+                <li>
+                <a href
+                1
+                </li>
 
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> 1000
-            </a>
-        </li>
-
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> Next
-            </a>
-        </li>
-
-    </ul>
-</div>
-
+                
+            </ul>
+        </nav>
     </article>
 </article>
