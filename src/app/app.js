@@ -28,9 +28,9 @@ module.exports = {
     const pathToPublic = path.resolve(__dirname, '../public')
     const staticMaxAge = (isDev ? 0 : '2y')
     const nunjucksEnv = nunjucks.configure([
-      path.resolve(__dirname, (isDev ? '../' : '') + '../node_modules/govuk-frontend'),
       `${__dirname}/views`,
       `${__dirname}/components`,
+      path.resolve(__dirname, (isDev ? '../' : '') + '../node_modules/govuk-frontend'),
     ],
     {
       autoescape: true,
@@ -50,7 +50,7 @@ module.exports = {
     if (!isDev) { app.use(compression()) }
     app.use(forceHttps(isDev))
     app.use('/public', express.static(pathToPublic, { maxAge: staticMaxAge }))
-    app.use('/assets', express.static(path.join(__dirname, '/../../node_modules/govuk-frontend/assets')))
+    app.use('/assets', express.static(path.join(__dirname, '../node_modules/govuk-frontend/assets')))
     app.use(morganLogger((isDev ? 'dev' : 'combined')))
     app.use(headers(isDev))
     app.use(ping)
