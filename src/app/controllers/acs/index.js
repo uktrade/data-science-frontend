@@ -1,9 +1,9 @@
-const config = require('../config')
-const backendService = require('../lib/backend-service')
-const getCacheTime = require('../lib/get-cache-time')
-const logger = require('../lib/logger')
+const config = require('../../config')
+const backendService = require('../../lib/backend-service')
+const getCacheTime = require('../../lib/get-cache-time')
+const logger = require('../../lib/logger')
 
-const { buildPagination } = require('../lib/pagination')
+const { buildPagination } = require('../../lib/pagination')
 
 async function dataByType (req, res) {
   const data = await backendService.getDataByType(req.params.type)
@@ -74,10 +74,6 @@ async function searchByExportCode (req, res) {
   res.json(data.body)
 }
 
-function sum(a, b) {
-  return a + b
-}
-
 module.exports = {
   dataByType,
   internalCompanyIdEvents,
@@ -85,5 +81,4 @@ module.exports = {
   search,
   searchBySicCode,
   searchByExportCode,
-  sum,
 }
