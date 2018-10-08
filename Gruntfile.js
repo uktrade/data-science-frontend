@@ -106,27 +106,6 @@ module.exports = (grunt) => {
         tasks: ['sass'],
       },
     },
-
-    // browserSync: {
-    //   dev: {
-    //     bsFiles: {
-    //       src: [
-    //         'src/public/css/*.css',
-    //         '**/*.js',
-    //         '**/*.njk',
-    //       ],
-    //     },
-    //     options: {
-    //       server: {
-    //         baseDir: './',
-    //       },
-    //       port: config.server.port + 1,
-    //       proxy: `http://localhost:${config.server.port}`,
-    //       open: false,
-    //       watchTask: true,
-    //     },
-    //   },
-    // },
   })
 
   grunt.loadNpmTasks('grunt-contrib-sass')
