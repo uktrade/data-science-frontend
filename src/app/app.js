@@ -29,7 +29,6 @@ module.exports = {
     const staticMaxAge = (isDev ? 0 : '2y')
     const nunjucksEnv = nunjucks.configure([
       path.resolve(__dirname, (isDev ? '../' : '') + '../node_modules/govuk-frontend'),
-      'node_modules/govuk-frontend/components',
       `${__dirname}/views`,
       `${__dirname}/components`,
     ],

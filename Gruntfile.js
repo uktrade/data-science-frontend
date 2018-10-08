@@ -118,6 +118,7 @@ module.exports = (grunt) => {
     grunt.task.run([
       'clean',
       'copy',
+      'sass',
       'useminPrepare',
       'concat:generated',
       'cssmin:generated',
