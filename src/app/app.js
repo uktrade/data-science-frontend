@@ -31,7 +31,7 @@ module.exports = {
     console.log('>>>>>>>>>>>>>>>>>>>>> ', __dirname)
     console.log('!!!!!!!!!!!!!!!!!!!!! ', path.resolve(__dirname, (isDev ? '../' : '') + '../node_modules/govuk-frontend'))
     const nunjucksEnv = nunjucks.configure([
-      path.resolve(__dirname, (isDev ? '../' : '') + '../node_modules/govuk-frontend'),
+      path.resolve(__dirname, (isDev ? '../' : '') + '../node_modules/govuk-frontend/components'),
       `${__dirname}/views`,
       `${__dirname}/components`,
     ],
