@@ -1,21 +1,21 @@
 /* eslint no-console: 0 */
 
 const CHILD_EXIT_LIMIT = 5
-const CHILD_EXIT_THRESHOLD = 60000 //1 minute
+const CHILD_EXIT_THRESHOLD = 60000 // 1 minute
 
-const childProcess = require( 'child_process' )
-const pkg = require( './package.json' )
+const childProcess = require('child_process')
+const pkg = require('./package.json')
 
 let clusterFile = '/app/cluster.js'
 
 const childExits = []
 let child
 
-if ( !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ){
-	clusterFile = ( '/src/' + clusterFile )
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  clusterFile = ('/src/' + clusterFile)
 }
 
-function createChildProcess(){
+function createChildProcess () {
   child = childProcess.fork(
     __dirname + clusterFile,
     [],
@@ -24,72 +24,60 @@ function createChildProcess(){
     }
   )
 
-	console.info( 'Child process created, pid: ' + child.pid )
+  console.info('Child process created, pid: ' + child.pid)
 
-	child.on( 'exit', handleChildExit )
+  child.on('exit', handleChildExit)
 }
 
-function handleChildExit( e ){
+function handleChildExit (e) {
+  const now = Date.now()
+  let exitsInLastMinute = 0
 
-	const now = Date.now()
-	let exitsInLastMinute = 0
+  console.log('Child exits so far: %d', childExits.length)
 
-	console.log( 'Child exits so far: %d', childExits.length )
+  if (childExits.length >= CHILD_EXIT_LIMIT) {
+    childExits.slice(-CHILD_EXIT_LIMIT).forEach((item) => {
+      const delta = now - item
 
-	if( childExits.length >= CHILD_EXIT_LIMIT ){
+      if (delta < CHILD_EXIT_THRESHOLD) {
+        exitsInLastMinute++
+      }
+    })
+  }
 
-		childExits.slice( -CHILD_EXIT_LIMIT ).forEach( function( item ){
+  console.log('Child exits in last minute: %d', exitsInLastMinute)
 
-			var delta = now - item
-
-			if( delta < CHILD_EXIT_THRESHOLD ){
-
-				exitsInLastMinute++
-			}
-
-		} )
-	}
-
-	console.log( 'Child exits in last minute: %d', exitsInLastMinute )
-
-	if( exitsInLastMinute >= CHILD_EXIT_LIMIT ){
-
-		console.log( 'Too many exits within the last minute, not spawning new child' )
-
-	} else {
-
-		console.error( 'Process terminated, restarting...', e )
-
-		childExits.push( Date.now() )
-
-		createChildProcess()
-	}
+  if (exitsInLastMinute >= CHILD_EXIT_LIMIT) {
+    console.log('Too many exits within the last minute, not spawning new child')
+  } else {
+    console.error('Process terminated, restarting...', e)
+    childExits.push(Date.now())
+    createChildProcess()
+  }
 }
 
-function createErrorHandler( type ){
+function createErrorHandler (type) {
+  return () => {
+    console.log('Parent event: %s', type)
 
-	return function(){
+    if (child) {
+      child.kill()
+      child = null
+    }
 
-		console.log( 'Parent event: %s', type )
-
-		if( child ){
-			child.kill()
-			child = null
-		}
-
-		process.exit( 0 )
-	}
+    process.exit(0)
+  }
 }
 
-process.on( 'unhandledException', createErrorHandler( 'unhandled exception' ) )
-process.on( 'SIGTERM', createErrorHandler( 'SIGTERM' ) )
-process.on( 'SIGINT', createErrorHandler( 'SIGINT' ) )
-process.on( 'SIGQUIT', createErrorHandler( 'SIGQUIT' ) )
-process.on( 'exit', createErrorHandler( 'exit' ) )
-process.on( 'message', function( msg ){
-	console.log( 'server got message: ' + msg )
-} )
+process.on('unhandledException', createErrorHandler('unhandled exception'))
+process.on('SIGTERM', createErrorHandler('SIGTERM'))
+process.on('SIGINT', createErrorHandler('SIGINT'))
+process.on('SIGQUIT', createErrorHandler('SIGQUIT'))
+process.on('exit', createErrorHandler('exit'))
+process.on('message', (msg) => {
+  console.log('server got message: ' + msg)
+})
 
-console.log( 'Starting ' + pkg.name + ', version: ' + pkg.version )
+console.log('Starting ' + pkg.name + ', version: ' + pkg.version)
 
 createChildProcess()
