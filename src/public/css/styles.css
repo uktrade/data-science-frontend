@@ -3603,6 +3603,20 @@
     .govuk-\!-width-one-quarter {
       width: 25% !important; } }
 
+.app-pull-right {
+  float: right; }
+
+.app-filter-label,
+.app-filter-heading,
+.app-filter-subheading,
+.app-filter-checkboxes-select,
+.app-filter-dateinput-group label {
+  font-size: 16px; }
+
+.app-filter-checkboxes-group label {
+  font-size: 16px;
+  padding-top: 11px; }
+
 .app-filter-group-heading {
   background-color: #dee0e2;
   padding: 10px; }
@@ -3621,9 +3635,6 @@
 
 .app-collection-item {
   position: relative; }
-
-.app-pull-right {
-  float: right; }
 
 .app-badge {
   position: absolute;

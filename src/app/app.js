@@ -1,70 +1,71 @@
-const express = require( 'express' );
-const nunjucks = require( 'nunjucks' );
-const path = require( 'path' );
-const morganLogger = require( 'morgan' );
-const compression = require( 'compression' );
+const express = require('express')
+const nunjucks = require('nunjucks')
+const path = require('path')
+const morganLogger = require('morgan')
+const compression = require('compression')
 
-const routes = require( './routes' );
-const config = require( './config' );
+const routes = require('./routes')
+const config = require('./config')
 
-const reporter = require( './lib/reporter' );
-const staticGlobals = require( './lib/static-globals' );
-const nunjucksFilters = require( './lib/nunjucks-filters' );
+const reporter = require('./lib/reporter')
+const staticGlobals = require('./lib/static-globals')
+const nunjucksFilters = require('./lib/nunjucks-filters')
 
-const ping = require( './middleware/ping' );
-const forceHttps = require( './middleware/force-https' );
-const headers = require( './middleware/headers' );
-const errors = require( './middleware/errors' );
-const sessionStore = require( './middleware/session-store' );
-const auth = require( './middleware/auth' );
-const ssoBypass = require( './middleware/sso-bypass' );
+const ping = require('./middleware/ping')
+const forceHttps = require('./middleware/force-https')
+const headers = require('./middleware/headers')
+const errors = require('./middleware/errors')
+const sessionStore = require('./middleware/session-store')
+const auth = require('./middleware/auth')
+const ssoBypass = require('./middleware/sso-bypass')
+require('dotenv').config()
 
 module.exports = {
 
-	create: function(){
+  create: () => {
+    const app = express()
+    const isDev = config.isDev
+    const pathToPublic = path.resolve(__dirname, '../public')
+    const staticMaxAge = (isDev ? 0 : '2y')
+    const nunjucksEnv = nunjucks.configure([
+      'node_modules/govuk-frontend/components',
+      `${__dirname}/views`,
+      `${__dirname}/components`,
+    ],
+    {
+      autoescape: true,
+      watch: isDev,
+      noCache: !config.views.cache,
+      express: app,
+    })
 
-		const app = express();
-		const isDev = config.isDev;
-		const pathToPublic = path.resolve( __dirname, '../public' );
-		const staticMaxAge = ( isDev ? 0 : '2y' );
-		const nunjucksEnv = nunjucks.configure( [
-        'node_modules/govuk-frontend/components',
-        `${__dirname}/views`,
-        `${__dirname}/components`,
-			], {
-			autoescape: true,
-			watch: isDev,
-			noCache: !config.views.cache,
-			express: app
-		});
+    app.set('view engine', 'njk')
+    app.set('view cache', config.views.cache)
+    app.disable('x-powered-by')
 
-		app.set( 'view engine', 'njk' );
-		app.set( 'view cache', config.views.cache );
-		app.disable( 'x-powered-by' );
+    staticGlobals(nunjucksEnv)
+    nunjucksFilters(nunjucksEnv)
+    reporter.setup(app)
 
-		staticGlobals( nunjucksEnv );
-		nunjucksFilters( nunjucksEnv );
-		reporter.setup( app );
+    if (!isDev) { app.use(compression()) }
+    app.use(forceHttps(isDev))
+    app.use('/public', express.static(pathToPublic, { maxAge: staticMaxAge }))
+    app.use('/assets', express.static(path.join(__dirname, '/../../node_modules/govuk-frontend/assets')))
+    app.use(morganLogger((isDev ? 'dev' : 'combined')))
+    app.use(headers(isDev))
+    app.use(ping)
 
-		if( !isDev ){ app.use( compression() ); }
-		app.use( forceHttps( isDev ) );
-		app.use('/public', express.static( pathToPublic, { maxAge: staticMaxAge } ) );
-    app.use('/assets', express.static(path.join(__dirname, '/../../node_modules/govuk-frontend/assets')));
-    app.use( morganLogger( ( isDev ? 'dev' : 'combined' ) ) );
-		app.use( headers( isDev ) );
-		app.use( ping );
+    app.use(sessionStore.create())
+    if (isDev) { app.use(ssoBypass) }
+    app.use(auth)
+    routes(express, app)
 
-		app.use( sessionStore.create() );
-		if( isDev ){ app.use( ssoBypass ); }
-		app.use( auth );
-		routes( express, app );
+    app.use(errors.handle404)
 
-		app.use( errors.handle404 );
+    reporter.handleErrors(app)
 
-		reporter.handleErrors( app );
+    app.use(errors.catchAll)
 
-		app.use( errors.catchAll );
-
-		return app;
-	}
-};
+    return app
+  },
+}

@@ -5,13 +5,14 @@
     <div class=" app-filter-group-heading">
         {{ govukLabel({
             text: "UK regions",
-            classes: "govuk-!-font-weight-bold"
+            classes: "govuk-!-font-weight-bold app-filter-heading"
         }) }}
     </div>
     <div class="app-filter-group-list">
         {{ govukCheckboxes({
             idPrefix: "uk-regions",
             name: "uk-regions",
+            classes: "app-filter-checkboxes-group",
 
             items: [
                 {

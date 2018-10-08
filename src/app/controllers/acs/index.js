@@ -1,9 +1,9 @@
-const config = require('../config')
-const backendService = require('../lib/backend-service')
-const getCacheTime = require('../lib/get-cache-time')
-const logger = require('../lib/logger')
+const config = require('../../config')
+const backendService = require('../../lib/backend-service')
+const getCacheTime = require('../../lib/get-cache-time')
+const logger = require('../../lib/logger')
 
-const { buildPagination } = require('../lib/pagination')
+const { buildPagination } = require('../../lib/pagination')
 
 async function dataByType (req, res) {
   const data = await backendService.getDataByType(req.params.type)

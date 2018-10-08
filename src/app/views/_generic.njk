@@ -2,13 +2,15 @@
 
 {% set htmlClasses = "app-no-canvas-background" %}
 
-{% block pageTitle %}GOV.UK Frontend{% endblock %}
+{% block pageTitle %}DS - Prospects{% endblock %}
 
 {% block head %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!--[if !IE 8]><!-->
-    <link rel="stylesheet" href="/public/css/styles.css">
+    <!-- build:css(src) /public/css/acs.vendor.min.css -->
+        <link rel="stylesheet" href="/public/css/styles.css">
+    <!-- endbuild -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
     <!--<![endif]-->
@@ -23,7 +25,10 @@
 {% endblock %}
 
 {% block bodyEnd %}
-    <script src="/public/js/all.js"></script>
+    <!-- build:js(src) /public/js/acs.min.js -->
+        <script src="/public/js/acs.js"></script>
+    <!-- endbuild -->
+
     <script>window.GOVUKFrontend.initAll()</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.15/iframeResizer.min.js"></script>
     <!--[if lte IE 8]>

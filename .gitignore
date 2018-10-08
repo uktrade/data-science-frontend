@@ -51,4 +51,5 @@ dist
 .idea
 .sass-cache/
 
-
+# webstorm cluster debugger config
+/server-debug.js
