@@ -1,5 +1,5 @@
 {
-  "name": "data-hub-lab-frontend",
+  "name": "prospects-fe",
   "version": "1.4.0",
   "description": "Front end for Data Hub lab features",
   "main": "server.js",

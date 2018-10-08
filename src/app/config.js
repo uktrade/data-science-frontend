@@ -1,24 +1,22 @@
 /* eslint no-console:0 */
 const os = require('os')
+const vcap = require('./lib/vcap-services')
 const requiredEnvs = []
 require('dotenv').config()
 
-function env (name, defaultValue){
-
-  var exists = (typeof process.env[ name ] !== 'undefined')
+function env (name, defaultValue) {
+  const exists = (typeof process.env[ name ] !== 'undefined')
 
   return (exists ? process.env[ name ] : defaultValue)
 }
 
-function requiredEnv (name, defaultValue){
-
+function requiredEnv (name, defaultValue) {
   requiredEnvs.push(name)
 
   return env(name, defaultValue)
 }
 
-function bool (name, defaultValue){
-
+function bool (name, defaultValue) {
   return (env(name, defaultValue) + '') === 'true'
 }
 
@@ -26,12 +24,11 @@ function number (name, defaultValue) {
   return parseInt(env(name, defaultValue), 10)
 }
 
-function checkRequiredEnvs() {
+function checkRequiredEnvs () {
   const missing = []
 
   for (let name of requiredEnvs) {
-    if (typeof process.env[ name ] === 'undefined'){
-
+    if (typeof process.env[ name ] === 'undefined') {
       missing.push(name)
     }
   }
@@ -44,6 +41,7 @@ function checkRequiredEnvs() {
 
 const cpus = (os.cpus().length || 1)
 const isDev = ((process.env.NODE_ENV || 'development') === 'development')
+const vcapRedisUrl = vcap.parseRedis(env('VCAP_SERVICES'))
 
 let config = {
   isDev,
@@ -60,14 +58,14 @@ let config = {
     host: env('SERVER_HOST', 'localhost'),
     port: number('SERVER_PORT', number('PORT', 8080)),
     cpus,
-    workers: number('SERVER_WORKERS', number('WEB_CONCURRENCY', cpus))
+    workers: number('SERVER_WORKERS', number('WEB_CONCURRENCY', cpus)),
   },
   paginationMaxResults: 10000,
   redis: {
     host: env('REDIS_HOST'),
     port: number('REDIS_PORT'),
     password: env('REDIS_PASSWORD'),
-    url: env('REDIS_URL') || env('REDISTOGO_URL'),
+    url: (vcapRedisUrl || env('REDIS_URL', env('REDISTOGO_URL'))),
     tls: bool('REDIS_USE_TLS'),
   },
   session: {
@@ -95,19 +93,6 @@ let config = {
     url: requiredEnv('BACKEND_URL'),
     key: requiredEnv('BACKEND_KEY'),
     user: requiredEnv('BACKEND_USER'),
-  },
-  dashboard: {
-    powerbi: {
-      clientId: requiredEnv('DASHBOARD_POWERBI_CLIENTID'),
-      username: requiredEnv('DASHBOARD_POWERBI_USERNAME'),
-      password: requiredEnv('DASHBOARD_POWERBI_PASSWORD'),
-      embedUrl: requiredEnv('DASHBOARD_POWERBI_EMBEDURL'),
-      groupId: requiredEnv('DASHBOARD_POWERBI_GROUPID'),
-      reportId: requiredEnv('DASHBOARD_POWERBI_REPORTID'),
-    },
-    googleds: {
-      embedURL: requiredEnv('DASHBOARD_GOOGLEDS_EMBEDURL'),
-    },
   },
 }
 
