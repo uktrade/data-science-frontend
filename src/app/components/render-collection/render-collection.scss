@@ -60,9 +60,7 @@
   background-color: #f8f8f8;
 }
 
-.pie-box {
-  color: yellow;
-}
+
 
 .app-pagination-list-item.is-current {
   background: transparent;
@@ -82,3 +80,51 @@
 .app-aligned-center {
   text-align: center;
 }
+
+.app-collection-heading-link {
+display: inline-block;
+margin: 0px, 15px;
+}
+
+.app-metric-header {
+  font-size: 16px;
+  font-family: "nta", Arial, sans-serif;
+  color: #6f777b;
+}
+
+.app-metric-value {
+  font-size: 16px;
+  font-family: "nta", Arial, sans-serif;
+  color: black;
+}
+
+.app-metric-link {
+  font-size: 16px;
+  font-family: "nta", Arial, sans-serif;
+  color: #005ea5;
+  display: inline-block;
+  margin: 0px, 15px;
+}
+
+.app-metric-potential-title {
+  font-size: 16px;
+  font-family: "nta", Arial, sans-serif;
+  margin: 0px, 15px;
+  display: block;
+  color: #6f777b;
+}
+
+.app-metric-potential-data {
+  font-size: 16px;
+  font-family: "nta", Arial, sans-serif;
+  margin: 0px, 15px;
+  font-weight: bold;
+}
+
+.app-header-company {
+  font-size: 19px;
+  font-family: "nta", Arial, sans-serif;
+  margin: 0px, 15px;
+  font-weight: bold;
+}
+
