@@ -3,6 +3,7 @@ const ssoController = require('./controllers/sso')
 const timelineController = require('./controllers/timeline')
 
 const {
+  buildFilters,
   dataByType,
   internalCompanyIdEvents,
   renderIndex,
@@ -20,6 +21,7 @@ module.exports = function (express, app) {
   app.get('/timeline/search/', timelineController.search)
 
   app.get('/acs/',
+    buildFilters,
     renderIndex
   )
 
