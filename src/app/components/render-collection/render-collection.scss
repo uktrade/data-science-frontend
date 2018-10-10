@@ -22,12 +22,12 @@
 }
 
 .app-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
+  display: block;
+  margin-top: 15px;
   border: 2px solid govuk-colour("grey-3");
   border-radius: 4px;
   padding: 2px 5px;
+  float: right;
 }
 
 .app-form-group-no-margin {
@@ -44,11 +44,76 @@
   border-bottom: 5px solid govuk-colour("black");
 }
 
+.app-pagination-list {
+  padding: 8px 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  color:  $govuk-link-colour;
+  text-decoration: none;
+  margin: 0 auto;
+  width: auto;
+  display: block;
+}
 
+.app-pagination-list-item {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: govuk-colour("grey-4");
+}
 
+.app-pagination-list-item.is-current,
+.app-pagination-list-item.is-truncated {
+  background: transparent;
+}
 
+.app-pagination-link {
+  text-decoration: none;
+  color: $govuk-link-colour;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: none;
+}
 
+.app-aligned-center {
+  text-align: center;
+}
 
+.app-collection-heading-link {
+  display: inline-block;
+  margin: 0 15px;
 
+}
 
+.app-metric-header {
+  font-size: 16px;
+  color: govuk-colour("grey-1");
+}
+
+.app-metric-value {
+  font-size: 16px;
+  color: black;
+}
+
+.app-metric-link  {
+  font-size: 16px;
+  color: $govuk-link-colour;
+  display: inline-block;
+  margin: 0 15px;
+}
+
+.app-metric-potential-title {
+  font-size: 16px;
+  display: block;
+  color: govuk-colour("grey-1");
+}
+
+.app-metric-potential-data {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.app-header-company {
+  font-size: 19px;
+  margin: 0 15px;
+  font-weight: bold;
+}
 
