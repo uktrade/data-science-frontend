@@ -8,7 +8,6 @@
             text: "Export potential",
             classes: "govuk-!-font-weight-bold app-filter-label"
         }) }}
-
         {{ govukDetails({
             summaryText: "What is export potential?",
             classes: "app-filter-group-details app-filter-label",
@@ -38,25 +37,7 @@
             idPrefix: "export-potential",
             classes:"app-filter-checkboxes-group label",
             name: "export-potential",
-
-            items: [
-                {
-                    value: "very-high",
-                    text: "Very high"
-                },{
-                    value: "high",
-                    text: "High"
-                },{
-                    value: "medium",
-                    text: "Medium"
-                },{
-                    value: "low",
-                    text: "Low"
-                },{
-                    value: "very-low",
-                    text: "Very low"
-                }
-            ]
+            items: params.exportPotential
         }) }}
     </div>
 </div>

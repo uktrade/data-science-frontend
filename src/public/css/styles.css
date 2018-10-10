@@ -3637,12 +3637,12 @@
   position: relative; }
 
 .app-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
+  display: block;
+  margin-top: 15px;
   border: 2px solid #dee0e2;
   border-radius: 4px;
-  padding: 2px 5px; }
+  padding: 2px 5px;
+  float: right; }
 
 .app-form-group-no-margin .govuk-form-group {
   margin-bottom: 0; }
@@ -3663,18 +3663,17 @@
   display: block; }
 
 .app-pagination-list-item {
-  color: red;
   display: inline-block;
   padding: 8px 16px;
   background-color: #f8f8f8; }
 
-.app-pagination-list-item.is-current {
+.app-pagination-list-item.is-current,
+.app-pagination-list-item.is-truncated {
   background: transparent; }
 
 .app-pagination-link {
   text-decoration: none;
   color: #005ea5;
-  text-decoration: none;
   font-size: 16px;
   font-weight: 600;
   text-transform: none; }
@@ -3684,7 +3683,7 @@
 
 .app-collection-heading-link {
   display: inline-block;
-  margin: 0px, 15px; }
+  margin: 0 15px; }
 
 .app-metric-header {
   font-size: 16px;
@@ -3698,22 +3697,20 @@
   font-size: 16px;
   color: #005ea5;
   display: inline-block;
-  margin: 0px, 15px; }
+  margin: 0 15px; }
 
 .app-metric-potential-title {
   font-size: 16px;
-  margin: 0px, 15px;
   display: block;
   color: #6f777b; }
 
 .app-metric-potential-data {
   font-size: 16px;
-  margin: 0px, 15px;
   font-weight: bold; }
 
 .app-header-company {
   font-size: 19px;
-  margin: 0px, 15px;
+  margin: 0 15px;
   font-weight: bold; }
 
 /*# sourceMappingURL=styles.css.map */

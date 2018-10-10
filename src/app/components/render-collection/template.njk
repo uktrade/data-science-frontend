@@ -1,6 +1,10 @@
 {% from "input/macro.njk" import govukInput %}
 {% from "select/macro.njk" import govukSelect %}
 
+{% set pagination = params.data.pagination %}
+{% set result = params.data.result %}
+{% set filters = params.filters %}
+
 <article class="column-two-thirds" id="xhr-outlet">
     <article class="c-collection">
         <header>
@@ -12,14 +16,32 @@
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-half">
-                    <a class="govuk-link app-pull-right govuk-!-margin-top-3  " href="#">Remove all filters</a>
+                    <a class="govuk-link app-pull-right govuk-!-margin-top-3  " href="/acs/">Remove all filters</a>
                 </div>
+                {% for key, value in filters %}
+                    {% if value %}
+                        {% if value|isString %}
+                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ value }}</span>
+                        {% endif %}
 
+                        {% if key == 'turnover' %}
+                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">Turnover: min {{ value.min }}, max: {{ value.max }}</span>
+                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold"></span>
+                        {% endif %}
+
+                        {% for item in value %}
+                            {% if item.checked %}
+                                <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ item.text }}</span>
+                            {% endif %}
+                        {% endfor %}
+
+                    {% endif %}
+                {% endfor %}
             </div>
             <hr class="govuk-section-break govuk-section-break--visible app-large-section-break">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half">
-                    <span class="govuk-caption-m govuk-!-margin-top-5">Page 1 of 1000</span>
+                    <span class="govuk-caption-m govuk-!-margin-top-5">Page {{ pagination.currentPage }} of {{ pagination.totalPages }}</span>
                 </div>
                 <div class="govuk-grid-column-one-half govuk-!-margin-top-3 govuk-!-margin-bottom-3">
                     <form method="" action="">
@@ -59,102 +81,119 @@
             <hr class="govuk-section-break govuk-section-break--visible">
         </header>
         <ol class="govuk-list govuk-body app-collection-list">
-            <li class="app-collection-item ">
+            {% for item in result %}
+                <li class="app-collection-item">
                 <div class="app-collection-heading">
-                    <h3 class="app-header-company govuk-!-margin-top-4">Anker International</h3>
-                    <span class="govuk-!-font-size-16 govuk-!-font-weight-bold app-badge">South East</span>
-                    <a class="app-metric-link govuk-!-margin-bottom-3" href="#">View Data Hub profile</a>
-                    <span class="app-metric-potential-title">Export potential:</span>
-                    <span class="app-metric-potential-data">Very high</span>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            <h3 class="govuk-heading-m govuk-!-margin-top-4">{{ item.company_name | title }}</h3>
+                        </div>
+                        {% if item.region %}
+                            <div class="govuk-grid-column-one-third">
+                                <span class="govuk-!-font-size-16 govuk-!-font-weight-bold app-badge">{{ item.region }}</span>
+                            </div>
+                        {% endif %}
+                        <div class="govuk-grid-column-full">
+                            {% if item.datahub_company_id %}
+                                <a class="govuk-link"
+                                   target="_blank"
+                                   href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}"
+                                >View Data Hub profile</a>
+                            {% endif %}
+
+                            {% if item.export_propensity  %}
+                                <span class="app-metric-potential-title">Export potential:</span>
+                                <span class="app-metric-potential-data">{{ item.export_propensity }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
                 <div class="govuk-grid-row">
                     <ul class="govuk-grid-column-one-half govuk-list">
-                        <li>
-                            <span class="app-metric-header govuk-!-display-inline">Last export evidence:</span>
-                            <span class="app-metric-value govuk-!-display-inline"> April 2018</span>        
-                        </li>
-                        
-                        <li>
-                            <span class="app-metric-header govuk-!-display-inline">DIT export wins:</span>
-                            <span class="app-metric-value govuk-!-display-inline">12</span>
-                        </li>
-                        
-                        <li>
-                            <span class="app-metric-header govuk-!-display-inline">DIT export opportunities:</span>
-                            <span class="app-metric-value govuk-!-display-inline"> 6 </span>
-                        </li>
-                        
-                        <li>
-                            <span class="app-metric-header govuk-!-display-inline">Cash in the bank:</span>
-                            <span class="app-metric-value govuk-!-display-inline"> &pound;20,500,000 </span>
-                        </li>
+                        {% if item.last_export_evidence %}
+                            <li>
+                                <span class="app-metric-header govuk-!-display-inline">Last export evidence:</span>
+                                <span class="app-metric-value govuk-!-display-inline">{{ item.last_export_evidence | formatDate }}</span>
+                            </li>
+                        {% endif %}
+                        {% if item.num_export_wins %}
+                            <li>
+                                <span class="app-metric-header govuk-!-display-inline">DIT export wins:</span>
+                                <span class="app-metric-value govuk-!-display-inline">{{ item.num_export_wins }}</span>
+                            </li>
+                        {% endif %}
+                        {% if item.num_export_opp_enquiries %}
+                            <li>
+                                <span class="app-metric-header govuk-!-display-inline">DIT export opportunities:</span>
+                                <span class="app-metric-value govuk-!-display-inline">{{ item.num_export_opp_enquiries }}</span>
+                            </li>
+                        {% endif %}
+                        {% if item.cash_bank_in_hand %}
+                            <li>
+                                <span class="app-metric-header govuk-!-display-inline">Cash in the bank:</span>
+                                <span class="app-metric-value govuk-!-display-inline">&pound;{{ item.cash_bank_in_hand | round | formatNumberWithCommas}}</span>
+                            </li>
+                        {% endif %}
                     </ul>
                     <ul class="govuk-grid-column-one-half govuk-list">
-                        <li>
-                            <span class="app-metric-header govuk-!-display-inline">HMRC export of goods:</span>
-                            <span class="app-metric-value govuk-!-display-inline">7</span>
-                        </li>
-                        
-                        <li>
-                            <span class="app-metric-header govuk-!-display-inline">HMRC import of goods:</span>
-                            <span class="app-metric-value govuk-!-display-inline">1</span>
-                        </li>
-                       
-                        <li>
-                            <span class="app-metric-header govuk-!-display-inline">Employee range:</span>
-                            <span class="app-metric-value govuk-!-display-inline">1 to 15</span>
-                        </li>
-                        
-                        <li>
-                            <span class="app-metric-header govuk-!-display-inline">Turnover:</span>
-                            <span class="app-metric-value govuk-!-display-inline">&pound;42,000,000</span>
-                        </li>
+                        {% if item.num_hmrc_export_goods_outside_eu %}
+                            <li>
+                                <span class="app-metric-header govuk-!-display-inline">HMRC export of goods:</span>
+                                <span class="app-metric-value govuk-!-display-inline">{{ item.num_hmrc_export_goods_outside_eu }}</span>
+                            </li>
+                        {% endif %}
+                        {% if item.num_hmrc_import_goods_outside_eu %}
+                            <li>
+                                <span class="app-metric-header govuk-!-display-inline">HMRC import of goods:</span>
+                                <span class="app-metric-value govuk-!-display-inline">{{ item.num_hmrc_import_goods_outside_eu }}</span>
+                            </li>
+                        {% endif %}
+                        {% if item.employee_range %}
+                            <li>
+                                <span class="app-metric-header govuk-!-display-inline">Employee range:</span>
+                                <span class="app-metric-value govuk-!-display-inline">{{ item.employee_range }}</span>
+                            </li>
+                        {% endif %}
+                        {% if item.turnover %}
+                            <li>
+                                <span class="app-metric-header govuk-!-display-inline">Turnover:</span>
+                                <span class="app-metric-value govuk-!-display-inline">&pound;{{ item.turnover | round | formatNumberWithCommas }}</span>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <hr class="govuk-section-break govuk-section-break--visible">
             </li>
+            {% endfor %}
         </ol>
-
-<div class="app-aligned-center">
-    <ul class="app-pagination-list"> 
-            
-        <li class="app-pagination-list-item is-current"> 
-            <a class="app-pagination-link" href=""> 1 
-            </a>
-        </li>
-
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> 2
-            </a>
-        </li>
-
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> 3
-            </a>
-        </li>
-
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> 4 
-            </a>
-        </li>
-
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> ...
-            </a>
-        </li>
-
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> 1000
-            </a>
-        </li>
-
-        <li class="app-pagination-list-item"> 
-            <a class="app-pagination-link" href=""> Next
-            </a>
-        </li>
-
-    </ul>
-</div>
-
+        <nav class="app-pagination" aria-label="pagination: total {{ pagination.totalPages }} pages">
+            <div class="app-aligned-center">
+                <ul class="app-pagination-list">
+                    {% if pagination.currentPage > 1 %}
+                        <li class="app-pagination-list-item">
+                            <a href="{{ pagination.prev }}" class="app-pagination-link">Prev</a>
+                        </li>
+                    {% endif %}
+                    {% for page in pagination.pages %}
+                        {% if pagination.currentPage == page.label %}
+                            <li class="app-pagination-list-item  is-current">
+                                <a href="{{ page.url }}" class="app-pagination-link">{{ page.label }}</a>
+                            </li>
+                        {% elseif page.label == '?' %}
+                            <li class="app-pagination-list-item is-truncated">
+                                <p>...</p>
+                            </li>
+                        {% else %}
+                            <li class="app-pagination-list-item">
+                                <a href="{{ page.url }}" class="app-pagination-link">{{ page.label }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="app-pagination-list-item">
+                        <a href="{{ pagination.next }}" class="app-pagination-link">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </article>
 </article>
