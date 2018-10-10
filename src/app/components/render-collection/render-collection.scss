@@ -46,7 +46,8 @@
 
 .app-pagination-list {
   padding: 8px 16px;
-  color: #005ea5;
+  font-family: Arial, Helvetica, sans-serif;
+  color:  $govuk-link-colour;
   text-decoration: none;
   margin: 0 auto;
   width: auto;
@@ -57,7 +58,7 @@
   color: red;
   display: inline-block;
   padding: 8px 16px;
-  background-color: #f8f8f8;
+  background-color: govuk-colour("grey-4");
 }
 
 
@@ -68,12 +69,10 @@
 
 .app-pagination-link {
   text-decoration: none;
-  color: #005ea5;
+  color: $govuk-link-colour;
   text-decoration: none;
-  font-family: Arial,Helvetica Neue,sans-serif;
   font-size: 16px;
   font-weight: 600;
-  line-height: 24px;
   text-transform: none;
 }
 
@@ -82,48 +81,43 @@
 }
 
 .app-collection-heading-link {
-display: inline-block;
-margin: 0px, 15px;
+  display: inline-block;
+  margin: 0px, 15px;
+
 }
 
 .app-metric-header {
   font-size: 16px;
-  font-family: "nta", Arial, sans-serif;
-  color: #6f777b;
+  color: govuk-colour("grey-1");
 }
 
 .app-metric-value {
   font-size: 16px;
-  font-family: "nta", Arial, sans-serif;
   color: black;
 }
 
-.app-metric-link {
+.app-metric-link  {
   font-size: 16px;
-  font-family: "nta", Arial, sans-serif;
-  color: #005ea5;
+  color: $govuk-link-colour;
   display: inline-block;
   margin: 0px, 15px;
 }
 
 .app-metric-potential-title {
   font-size: 16px;
-  font-family: "nta", Arial, sans-serif;
   margin: 0px, 15px;
   display: block;
-  color: #6f777b;
+  color: govuk-colour("grey-1");
 }
 
 .app-metric-potential-data {
   font-size: 16px;
-  font-family: "nta", Arial, sans-serif;
   margin: 0px, 15px;
   font-weight: bold;
 }
 
 .app-header-company {
   font-size: 19px;
-  font-family: "nta", Arial, sans-serif;
   margin: 0px, 15px;
   font-weight: bold;
 }
