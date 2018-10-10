@@ -54,7 +54,7 @@ The above needs to be changed according to the backend environment you want to p
 
 ## Coding standards
 
-Eslint will run as part of the build, ensure you run the command below before committing:
+Standard will run as part of the build, ensure you run the command below before committing:
 
 `$ npm run lint`
 
