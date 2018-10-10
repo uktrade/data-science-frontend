@@ -23,22 +23,24 @@
     <h1 class="govuk-heading-l">Prospects</h1>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
-            <form action="">
-                {{ filterCompanyName({}) }}
-                <button type="submit"></button>
-                {{ filterExportPotential({}) }}
+            <form action="/acs/">
+                {{ filterCompanyName(filters) }}
+                {{ filterExportPotential(filters) }}
                 {{ filterCommodityCode({}) }}
                 {{ filterLatestExportEvidence({}) }}
                 {{ filterSicCodes({}) }}
-                {{ filterTurnover({}) }}
-                {{ filterMarketOfInterest({}) }}
-                {{ filterMarketExportedTo({}) }}
-                {{ filterServiceUsed({}) }}
-                {{ filterUkRegions({}) }}
+                {{ filterTurnover(filters) }}
+                {{ filterMarketOfInterest(filters) }}
+                {{ filterMarketExportedTo(filters) }}
+                {{ filterServiceUsed(filters) }}
+                {{ filterUkRegions(filters) }}
+                <button class="govuk-button" type="submit">Refresh results</button>
             </form>
         </div>
+
         <div class="govuk-grid-column-two-thirds">
-            {{ renderCollection(result) }}
+
+            {{ renderCollection({data: result, filters: filters}) }}
         </div>
     </div>
 {% endblock %}

@@ -1,7 +1,7 @@
 const dateFns = require('date-fns')
 
 function formatNumberWithCommas (x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
 function formatDate (value, format = 'MMMM YYYY') {
@@ -14,10 +14,10 @@ function formatDate (value, format = 'MMMM YYYY') {
   return dateFns.format(parsedDate, format)
 }
 
-
-module.exports = function( env ){
-	env.addFilter( 'formatDate', formatDate )
-	env.addFilter( 'formatNumberWithCommas', formatNumberWithCommas )
-	env.addFilter( 'dateOnly', require( './date-only' ) )
-	env.addFilter( 'isArray', require( 'lodash' ) )
-};
+module.exports = function (env) {
+  env.addFilter('formatDate', formatDate)
+  env.addFilter('formatNumberWithCommas', formatNumberWithCommas)
+  env.addFilter('dateOnly', require('./date-only'))
+  env.addFilter('isArray', require('lodash'))
+  env.addFilter('isString', (obj) => typeof obj === 'string')
+}

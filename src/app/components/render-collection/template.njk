@@ -1,7 +1,9 @@
 {% from "input/macro.njk" import govukInput %}
 {% from "select/macro.njk" import govukSelect %}
 
-{% set pagination = params.pagination %}
+{% set pagination = params.data.pagination %}
+{% set result = params.data.result %}
+{% set filters = params.filters %}
 
 <article class="column-two-thirds" id="xhr-outlet">
     <article class="c-collection">
@@ -14,8 +16,29 @@
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-half">
-                    <a class="govuk-link app-pull-right govuk-!-margin-top-3  " href="#">Remove all filters</a>
+                    <a class="govuk-link app-pull-right govuk-!-margin-top-3  " href="/acs/">Remove all filters</a>
                 </div>
+
+
+                {% for key, value in filters %}
+                    {% if value %}
+                        {% if value|isString %}
+                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ value }}</span>
+                        {% endif %}
+
+                        {% if key == 'turnover' %}
+                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">Turnover: min {{ value.min }}, max: {{ value.max }}</span>
+                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold"></span>
+                        {% endif %}
+
+                        {% for item in value %}
+                            {% if item.checked %}
+                                <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ item.text }}</span>
+                            {% endif %}
+                        {% endfor %}
+
+                    {% endif %}
+                {% endfor %}
 
             </div>
             <hr class="govuk-section-break govuk-section-break--visible app-large-section-break">
@@ -62,7 +85,7 @@
         </header>
         <ol class="govuk-list govuk-body app-collection-list">
 
-            {% for item in params.result %}
+            {% for item in result %}
                 <li class="app-collection-item">
                 <div class="app-collection-heading">
                     <h3 class="govuk-heading-m govuk-!-margin-top-4">{{ item.company_name | title }}</h3>
