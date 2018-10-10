@@ -69,3 +69,7 @@ Tests are written in jest and can be executed by running the command below:
 Run the command below to start the application:
 
 `$ npm run watch`
+
+## Acceptance tests
+
+Refer to the following [readme](uiTest/README.md) for acceptance tests instructions.
