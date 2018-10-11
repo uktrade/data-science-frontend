@@ -33,6 +33,13 @@ function transformQueryToTurnoverFilter (key, min, max) {
   } })
 }
 
+function transformQueryToEvidenceFilter (key, min, max) {
+  return (((min && min.length) && (max && max.length)) && { [key]: {
+    'min': new Date(min),
+    'max': new Date(max),
+  } })
+}
+
 function tranformQueryToDoubleFilter (key, value) {
   return ((value && value.length) && { [key]: {
     'code_match': ['48000000', '48116000'],
@@ -51,6 +58,7 @@ module.exports = {
   selectCheckboxFilter,
   sanitizeKeyValuePair,
   tranformQueryToDoubleFilter,
+  transformQueryToEvidenceFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
 }

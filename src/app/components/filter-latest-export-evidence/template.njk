@@ -1,28 +1,35 @@
-{% from "date-input/macro.njk" import govukDateInput %}
+{% from "input/macro.njk" import govukInput %}
 
 <div class="govuk-form-group app-filter-group-heading">
     <h4 class="govuk-heading-s app-filter-heading">Latest export evidence</h4>
-    {{ govukDateInput({
+    {{ govukInput({
+        label: {
+            classes: "app-filter-label",
+            text: "Start date"
+        },
         id: "export-evidence-start-date",
-        namePrefix: "export-evidence-start-date",
-        classes: "app-filter-dateinput-group",    
-        fieldset:  {
-            legend: {
-                text: "Start date",
-                classes: "app-filter-label"
-            }
-        }
+        name: "export-evidence-start-date",
+        classes: "app-filter-dateinput-group",
+        hint: {
+            text: 'YYYY-MM'
+        },
+        placeholder: 'e.g. 2018-07',
+        value: params.latestExport.startDate
     }) }}
-    {{ govukDateInput({
+
+    {{ govukInput({
+        label: {
+            classes: "app-filter-label",
+            text: "End date"
+        },
         id: "export-evidence-end-date",
-        namePrefix: "export-evidence-end-date",
-        classes: "app-filter-dateinput-group", 
-        fieldset: {
-            legend: {
-                text: "End date",
-                classes: "app-filter-label"
-            }
-        }
+        name: "export-evidence-end-date",
+        classes: "app-filter-dateinput-group",
+        hint: {
+            text: 'YYYY-MM'
+        },
+        placeholder: 'e.g. 2018-07',
+        value: params.latestExport.endDate
     }) }}
 </div>
 

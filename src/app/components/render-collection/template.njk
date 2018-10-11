@@ -29,6 +29,11 @@
                             <span class="govuk-!-font-size-16 govuk-!-font-weight-bold"></span>
                         {% endif %}
 
+                        {% if key == 'latestExport' %}
+                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">Latest export evidence - Start date: {{ value.startDate }}, End date: {{ value.endDate }}</span>
+                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold"></span>
+                        {% endif %}
+
                         {% for item in value %}
                             {% if item.checked %}
                                 <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ item.text }}</span>

@@ -9,6 +9,7 @@ const {
   selectCheckboxFilter,
   sanitizeKeyValuePair,
   // tranformQueryToDoubleFilter,
+  transformQueryToEvidenceFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
 } = require('../transformers')
@@ -20,6 +21,7 @@ async function buildFilters (req, res, next) {
       ...sanitizeKeyValuePair('company_name', req.query['company-name'], toLower),
       ...sanitizeKeyValuePair('export_propensity', req.query['export-potential'], castArray),
       ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
+      ...transformQueryToEvidenceFilter('last_export_evidence', req.query['export-evidence-start-date'], req.query['export-evidence-end-date']),
       // ...tranformQueryToDoubleFilter('export_codes', req.query['commodity-code']),
       ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
       ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], castArray),
@@ -81,13 +83,16 @@ async function renderIndex (req, res) {
     }
   })
 
-  console.log('???????? ', exportPotential)
   return res.render('acs/index', {
     result: data,
     filters: {
       companyName: req.query['company-name'],
       exportPotential: selectCheckboxFilter(req.query['export-potential'], map(exportPotential.body.result, transformStringToOption)),
       turnover: res.locals.query.filters.turnover,
+      latestExport: {
+        startDate: req.query['export-evidence-start-date'],
+        endDate: req.query['export-evidence-end-date'],
+      },
       ukRegions: selectCheckboxFilter(req.query['uk-regions'], map(ukRegions.body.result, transformStringToOption)),
       marketOfInterest: selectCheckboxFilter(req.query['market-of-interest'], map(marketOfInterestList.body.result, transformStringToOption)),
       serviceUsed: selectCheckboxFilter(req.query['service-used'], map(serviceUsed.body.result, transformStringToOption)),
