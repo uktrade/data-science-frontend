@@ -18,6 +18,8 @@ module.exports = function (env) {
   env.addFilter('formatDate', formatDate)
   env.addFilter('formatNumberWithCommas', formatNumberWithCommas)
   env.addFilter('dateOnly', require('./date-only'))
-  env.addFilter('isArray', require('lodash'))
+  env.addFilter('isArray', require('lodash/isArray'))
+  env.addFilter('lowerCase', require('lodash/lowerCase'))
+  env.addFilter('startCase', require('lodash/startCase'))
   env.addFilter('isString', (obj) => typeof obj === 'string')
 }

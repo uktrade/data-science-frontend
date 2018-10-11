@@ -18,16 +18,16 @@ function selectCheckboxFilter (query, filter) {
  * @param utility = utility function e.g. for transforming string to array,
  */
 
-function sanitizeKeyValuePair (key, value, utility = {}) {
+function sanitizeKeyValuePair (key, value = '', utility = {}) {
   if (isFunction(utility)) {
-    return ((value && value.length) && { [key]: utility(value) })
+    return (value.length && { [key]: utility(value) })
   } else {
-    return ((value && value.length) && { [key]: value })
+    return (value.length && { [key]: value })
   }
 }
 
-function transformQueryToTurnoverFilter (key, min, max) {
-  return (((min && min.length) && (max && max.length)) && { [key]: {
+function transformQueryToTurnoverFilter (key, min = '', max = '') {
+  return ((min.length && max.length) && { [key]: {
     'min': toNumber(min),
     'max': toNumber(max),
   } })
@@ -40,10 +40,9 @@ function transformQueryToEvidenceFilter (key, min, max) {
   } })
 }
 
-function tranformQueryToDoubleFilter (key, value) {
-  return ((value && value.length) && { [key]: {
-    'code_match': ['48000000', '48116000'],
-    'keyword_search': 'fabric',
+function tranformQueryToDoubleFilter (key, value = '') {
+  return (value.length && { [key]: {
+    'code_match': value,
   } })
 }
 

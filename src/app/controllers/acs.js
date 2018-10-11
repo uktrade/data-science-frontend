@@ -8,7 +8,7 @@ const logger = require('../lib/logger')
 const {
   selectCheckboxFilter,
   sanitizeKeyValuePair,
-  // tranformQueryToDoubleFilter,
+  tranformQueryToDoubleFilter,
   transformQueryToEvidenceFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
@@ -22,7 +22,7 @@ async function buildFilters (req, res, next) {
       ...sanitizeKeyValuePair('export_propensity', req.query['export-potential'], castArray),
       ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
       ...transformQueryToEvidenceFilter('last_export_evidence', req.query['export-evidence-start-date'], req.query['export-evidence-end-date']),
-      // ...tranformQueryToDoubleFilter('export_codes', req.query['commodity-code']),
+      ...tranformQueryToDoubleFilter('export_codes', req.query['commodity-code']),
       ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
       ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], castArray),
       ...sanitizeKeyValuePair('service_usage', req.query['service-used'], castArray),
@@ -65,6 +65,17 @@ async function internalCompanyIdEvents (req, res) {
   res.json(data.body)
 }
 
+function getLatestExportFilter (startDate = '', endDate = '') {
+  if (startDate.length || endDate.length) {
+    return {
+      latestExport: {
+        startDate,
+        endDate,
+      },
+    }
+  }
+}
+
 async function renderIndex (req, res) {
   const marketOfInterestList = await backendService.getDataByType('market_of_interest')
   const serviceUsed = await backendService.getDataByType('service_usage')
@@ -83,16 +94,16 @@ async function renderIndex (req, res) {
     }
   })
 
+  const latestExport = getLatestExportFilter(req.query['export-evidence-start-date'], req.query['export-evidence-end-date'])
+
   return res.render('acs/index', {
     result: data,
     filters: {
       companyName: req.query['company-name'],
+      commodityCode: req.query['commodity-code'],
       exportPotential: selectCheckboxFilter(req.query['export-potential'], map(exportPotential.body.result, transformStringToOption)),
       turnover: res.locals.query.filters.turnover,
-      latestExport: {
-        startDate: req.query['export-evidence-start-date'],
-        endDate: req.query['export-evidence-end-date'],
-      },
+      latestExport,
       ukRegions: selectCheckboxFilter(req.query['uk-regions'], map(ukRegions.body.result, transformStringToOption)),
       marketOfInterest: selectCheckboxFilter(req.query['market-of-interest'], map(marketOfInterestList.body.result, transformStringToOption)),
       serviceUsed: selectCheckboxFilter(req.query['service-used'], map(serviceUsed.body.result, transformStringToOption)),

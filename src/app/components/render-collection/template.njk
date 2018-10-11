@@ -21,7 +21,7 @@
                 {% for key, value in filters %}
                     {% if value %}
                         {% if value|isString %}
-                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ value }}</span>
+                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ key | lowerCase | startCase}}: {{ value }}</span>
                         {% endif %}
 
                         {% if key == 'turnover' %}
