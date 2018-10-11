@@ -20,13 +20,14 @@ async function buildFilters (req, res, next) {
     filters: {
       ...sanitizeKeyValuePair('company_name', req.query['company-name'], toLower),
       ...sanitizeKeyValuePair('export_propensity', req.query['export-potential'], castArray),
-      ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
-      ...transformQueryToEvidenceFilter('last_export_evidence', req.query['export-evidence-start-date'], req.query['export-evidence-end-date']),
       ...tranformQueryToDoubleFilter('export_codes', req.query['commodity-code']),
-      ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
+      ...transformQueryToEvidenceFilter('last_export_evidence', req.query['export-evidence-start-date'], req.query['export-evidence-end-date']),
+      ...tranformQueryToDoubleFilter('sic_codes', req.query['sic-codes']),
+      ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
       ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], castArray),
-      ...sanitizeKeyValuePair('service_usage', req.query['service-used'], castArray),
       ...sanitizeKeyValuePair('market_exported', req.query['market-exported-to'], castArray),
+      ...sanitizeKeyValuePair('service_usage', req.query['service-used'], castArray),
+      ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
     },
   }
 
@@ -100,14 +101,15 @@ async function renderIndex (req, res) {
     result: data,
     filters: {
       companyName: req.query['company-name'],
-      commodityCode: req.query['commodity-code'],
       exportPotential: selectCheckboxFilter(req.query['export-potential'], map(exportPotential.body.result, transformStringToOption)),
-      turnover: res.locals.query.filters.turnover,
+      commodityCode: req.query['commodity-code'],
       latestExport,
-      ukRegions: selectCheckboxFilter(req.query['uk-regions'], map(ukRegions.body.result, transformStringToOption)),
+      sicCodes: req.query['sic-codes'],
+      turnover: res.locals.query.filters.turnover,
       marketOfInterest: selectCheckboxFilter(req.query['market-of-interest'], map(marketOfInterestList.body.result, transformStringToOption)),
-      serviceUsed: selectCheckboxFilter(req.query['service-used'], map(serviceUsed.body.result, transformStringToOption)),
       marketExportedTo: selectCheckboxFilter(req.query['market-exported-to'], map(marketExportedTo.body.result, transformStringToOption)),
+      serviceUsed: selectCheckboxFilter(req.query['service-used'], map(serviceUsed.body.result, transformStringToOption)),
+      ukRegions: selectCheckboxFilter(req.query['uk-regions'], map(ukRegions.body.result, transformStringToOption)),
     },
   })
 }
