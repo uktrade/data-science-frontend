@@ -82,7 +82,7 @@ module.exports = {
   },
 
   getDataByType: async (type) => {
-    const responseData = await backendRequest('/api/v1/company/search/' + encodeURIComponent(type) + '/', { cache: true })
+    const responseData = await backendRequest('/api/v1/company/search/' + encodeURIComponent(type) + '/')
 
     return responseData
   },

@@ -67,7 +67,7 @@ async function renderIndex (req, res) {
   const marketOfInterestList = await backendService.getDataByType('market_of_interest')
   const serviceUsed = await backendService.getDataByType('service_usage')
   const marketExportedTo = await backendService.getDataByType('market_exported')
-  // const ukRegions = await backendService.getDataByType('region')
+  const ukRegions = await backendService.getDataByType('region')
   const data = await getData(req, res, req.body).then((response) => {
     const result = response.body.result || {}
 
@@ -104,36 +104,7 @@ async function renderIndex (req, res) {
       ]),
       turnover: res.locals.query.filters.turnover,
 
-      ukRegions: selectCheckboxFilter(req.query['uk-regions'], [
-        {
-          value: 'East of England',
-          text: 'East of England',
-        }, {
-          value: 'East Midlands',
-          text: 'East Midlands',
-        }, {
-          value: 'London',
-          text: 'London',
-        }, {
-          value: 'North East',
-          text: 'North East',
-        }, {
-          value: 'North West',
-          text: 'North West',
-        }, {
-          value: 'South East',
-          text: 'South East',
-        }, {
-          value: 'South West',
-          text: 'South West',
-        }, {
-          value: 'West Midlands',
-          text: 'West Midlands',
-        }, {
-          value: 'Yorkshire and Humber',
-          text: 'Yorkshire and Humber',
-        },
-      ]),
+      ukRegions: selectCheckboxFilter(req.query['uk-regions'], map(ukRegions.body.result, transformStringToOption)),
       marketOfInterest: selectCheckboxFilter(req.query['market-of-interest'], map(marketOfInterestList.body.result, transformStringToOption)),
       serviceUsed: selectCheckboxFilter(req.query['service-used'], map(serviceUsed.body.result, transformStringToOption)),
       marketExportedTo: selectCheckboxFilter(req.query['market-exported-to'], map(marketExportedTo.body.result, transformStringToOption)),
