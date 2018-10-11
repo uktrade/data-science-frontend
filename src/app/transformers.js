@@ -1,4 +1,4 @@
-const { castArray, isFunction, lowerCase, map, toNumber, startCase } = require('lodash')
+const { castArray, isFunction, map, toLower, toNumber, startCase } = require('lodash')
 
 function selectCheckboxFilter (query, filter) {
   return map(filter, (item) => {
@@ -43,7 +43,7 @@ function tranformQueryToDoubleFilter (key, value) {
 function transformStringToOption (string) {
   return {
     value: string,
-    text: startCase(lowerCase(string)),
+    text: startCase(toLower(string)),
   }
 }
 

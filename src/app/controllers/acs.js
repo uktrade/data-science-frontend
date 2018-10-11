@@ -1,4 +1,4 @@
-const { isEmpty, map, castArray } = require('lodash')
+const { isEmpty, map, castArray, toLower } = require('lodash')
 
 const config = require('../config')
 const backendService = require('../lib/backend-service')
@@ -8,7 +8,7 @@ const logger = require('../lib/logger')
 const {
   selectCheckboxFilter,
   sanitizeKeyValuePair,
-  tranformQueryToDoubleFilter,
+  // tranformQueryToDoubleFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
 } = require('../transformers')
@@ -17,7 +17,7 @@ const { buildPagination } = require('../lib/pagination')
 async function buildFilters (req, res, next) {
   res.locals.query = {
     filters: {
-      ...sanitizeKeyValuePair('company_name', req.query['company-name']),
+      ...sanitizeKeyValuePair('company_name', req.query['company-name'], toLower),
       ...sanitizeKeyValuePair('export_propensity', req.query['export-potential']),
       ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
       // ...tranformQueryToDoubleFilter('export_codes', req.query['commodity-code']),
@@ -83,7 +83,7 @@ async function renderIndex (req, res) {
   return res.render('acs/index', {
     result: data,
     filters: {
-      companyName: res.locals.query.filters.company_name,
+      companyName: req.query['company-name'],
       exportPotential: selectCheckboxFilter(req.query['export-potential'], [
         {
           value: 'very-high',
@@ -103,23 +103,6 @@ async function renderIndex (req, res) {
         },
       ]),
       turnover: res.locals.query.filters.turnover,
-
-      /**
-       * Not working!!
-       [ 'INVEST NORTHERN IRELAND',
-       'ISLE OF MAN',
-       'NORTH EAST REGIONAL INTERNATIONAL TRADE OFFICE',
-       'NORTH WEST INTERNATIONAL TRADE CENTRE',
-       'SCOTTISH DEVELOPMENT INTERNATIONAL',
-       'UKTI EAST MIDLANDS',
-       'UKTI EAST OF ENGLAND',
-       'UKTI INTERNATIONAL BUSINESS WALES',
-       'UKTI SOUTH EAST',
-       'UKTI YORKSHIRE',
-       'UK TRADE & INVESTMENT LONDON INTERNATIONAL TRADE TEAM',
-       'UK TRADE & INVESTMENT SOUTH WEST',
-       'WEST MIDLANDS CHAMBERS OF COMMERCE LLP CENTRAL SERVICES TEAM' ]
-       */
 
       ukRegions: selectCheckboxFilter(req.query['uk-regions'], [
         {
