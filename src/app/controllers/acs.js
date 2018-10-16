@@ -1,4 +1,4 @@
-const { isEmpty, map, castArray, toLower } = require('lodash')
+const { isEmpty, map, castArray } = require('lodash')
 
 const config = require('../config')
 const backendService = require('../lib/backend-service')
@@ -8,21 +8,23 @@ const logger = require('../lib/logger')
 const {
   selectCheckboxFilter,
   sanitizeKeyValuePair,
-  tranformQueryToDoubleFilter,
+  transformPageToOffset,
+  transformQueryToDoubleFilter,
   transformQueryToEvidenceFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
+  transformToLowerTrimStart,
 } = require('../transformers')
 const { buildPagination } = require('../lib/pagination')
 
 async function buildFilters (req, res, next) {
   res.locals.query = {
     filters: {
-      ...sanitizeKeyValuePair('company_name', req.query['company-name'], toLower),
+      ...sanitizeKeyValuePair('company_name', req.query['company-name'], transformToLowerTrimStart),
       ...sanitizeKeyValuePair('export_propensity', req.query['export-potential'], castArray),
-      ...tranformQueryToDoubleFilter('export_codes', req.query['commodity-code']),
+      ...transformQueryToDoubleFilter('export_codes', req.query['commodity-code']),
       ...transformQueryToEvidenceFilter('last_export_evidence', req.query['export-evidence-start-date'], req.query['export-evidence-end-date']),
-      ...tranformQueryToDoubleFilter('sic_codes', req.query['sic-codes']),
+      ...transformQueryToDoubleFilter('sic_codes', req.query['sic-codes']),
       ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
       ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], castArray),
       ...sanitizeKeyValuePair('market_exported', req.query['market-exported-to'], castArray),
@@ -49,12 +51,11 @@ async function dataByType (req, res) {
 
 async function getData (req, res, query = {}) {
   try {
-    const page = req.query.page || 0
-    const offset = page === 0 ? page : page * 20
+    const page = req.query.page || 1
+    const offset = transformPageToOffset(page)
     const query = isEmpty(res.locals.query.filters) ? {} : res.locals.query
-    // TODO(jf): store the default offset and limit vals
 
-    return await backendService.searchForCompanies(offset, 20, query)
+    return await backendService.searchForCompanies(offset, config.paginationOffset, query)
   } catch (err) {
     logger.error(err)
   }
@@ -85,13 +86,15 @@ async function renderIndex (req, res) {
   const exportPotential = await backendService.getDataByType('export_propensity')
   const data = await getData(req, res, req.body).then((response) => {
     const result = response.body.result || {}
+    const count = response.body.count || 0
 
     return {
       ...response,
+      result,
+      count,
       page: 1,
       limit: 20,
-      pagination: buildPagination(req.query, { count: config.paginationMaxResults, page: 1, result }),
-      result,
+      pagination: buildPagination(req.query, { count, page: 1, result }),
     }
   })
 

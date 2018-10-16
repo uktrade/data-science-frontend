@@ -39,8 +39,11 @@
         </div>
 
         <div class="govuk-grid-column-two-thirds">
-
-            {{ renderCollection({data: result, filters: filters}) }}
+            {{ renderCollection({
+                count: count,
+                data: result,
+                filters: filters
+            }) }}
         </div>
     </div>
 {% endblock %}

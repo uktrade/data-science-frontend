@@ -3,6 +3,7 @@
 
 {% set pagination = params.data.pagination %}
 {% set result = params.data.result %}
+{% set count = params.data.count %}
 {% set filters = params.filters %}
 
 <article class="column-two-thirds" id="xhr-outlet">
@@ -11,7 +12,7 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half">
                     <p class="govuk-body-l govuk-!-margin-bottom-2 ">
-                        <span class="govuk-body govuk-!-font-size-36 govuk-!-font-weight-bold govuk-!-padding-right-2">3,341,881</span>
+                        <span class="govuk-body govuk-!-font-size-36 govuk-!-font-weight-bold govuk-!-padding-right-2">{{ count | formatNumberWithCommas }}</span>
                         companies
                     </p>
                 </div>
@@ -195,9 +196,11 @@
                             </li>
                         {% endif %}
                     {% endfor %}
-                    <li class="app-pagination-list-item">
-                        <a href="{{ pagination.next }}" class="app-pagination-link">Next</a>
-                    </li>
+                    {% if pagination.currentPage < pagination.totalPages %}
+                        <li class="app-pagination-list-item">
+                            <a href="{{ pagination.next }}" class="app-pagination-link">Next</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>

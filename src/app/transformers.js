@@ -1,4 +1,6 @@
-const { castArray, isFunction, map, toLower, toNumber, startCase } = require('lodash')
+const { castArray, isFunction, map, toLower, toNumber, startCase, trimStart } = require('lodash')
+
+const config = require('./config')
 
 function selectCheckboxFilter (query, filter) {
   return map(filter, (item) => {
@@ -26,11 +28,23 @@ function sanitizeKeyValuePair (key, value = '', utility = {}) {
   }
 }
 
+function transformPageToOffset (page) {
+  if (page === 1) {
+    return 0
+  } else {
+    return (page * config.paginationOffset) - config.paginationOffset
+  }
+}
+
 function transformQueryToTurnoverFilter (key, min = '', max = '') {
   return ((min.length && max.length) && { [key]: {
     'min': toNumber(min),
     'max': toNumber(max),
   } })
+}
+
+function transformToLowerTrimStart (value) {
+  return trimStart(toLower(value))
 }
 
 function transformQueryToEvidenceFilter (key, min, max) {
@@ -40,7 +54,7 @@ function transformQueryToEvidenceFilter (key, min, max) {
   } })
 }
 
-function tranformQueryToDoubleFilter (key, value = '') {
+function transformQueryToDoubleFilter (key, value = '') {
   return (value.length && { [key]: {
     'code_match': value,
   } })
@@ -56,8 +70,10 @@ function transformStringToOption (string) {
 module.exports = {
   selectCheckboxFilter,
   sanitizeKeyValuePair,
-  tranformQueryToDoubleFilter,
+  transformPageToOffset,
+  transformQueryToDoubleFilter,
   transformQueryToEvidenceFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
+  transformToLowerTrimStart,
 }

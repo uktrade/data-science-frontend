@@ -61,6 +61,7 @@ let config = {
     workers: number('SERVER_WORKERS', number('WEB_CONCURRENCY', cpus)),
   },
   paginationMaxResults: 10000,
+  paginationOffset: 20,
   redis: {
     host: env('REDIS_HOST'),
     port: number('REDIS_PORT'),
