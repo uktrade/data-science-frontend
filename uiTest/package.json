@@ -1,0 +1,19 @@
+{
+  "name": "prospect-ui-functional-tests",
+  "version": "1.0.0",
+  "description": "Functional test suite for prospect frontend",
+  "scripts": {
+    "test": "./node_modules/.bin/cypress run",
+    "watch": "./node_modules/.bin/cypress open",
+    "lint": "eslint --cache ."
+  },
+  "author": "DIT",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "cypress": "^3.1.0",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.2.0"
+  }
+}
