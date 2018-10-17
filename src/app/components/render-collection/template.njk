@@ -16,29 +16,68 @@
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-half">
-                    <a class="govuk-link app-pull-right govuk-!-margin-top-3  " href="/acs/">Remove all filters</a>
+                    <a class="govuk-link app-pull-right govuk-!-margin-top-3" href="/acs/">Remove all filters</a>
+                </div>
+                     
+                <div class="govuk-grid-column-full">
+                    {% for key, value in filters %}
+                        {% if value %}
+                            {% if value|isString %}
+                                <span style="background-color: orange" class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ value }}</span>
+                            {% endif %}
+
+                            {% if key == 'turnover' %}
+                                <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">Turnover: min {{ value.min }}, max: {{ value.max }}</span>
+                                <span class="govuk-!-font-size-16 govuk-!-font-weight-bold"></span>
+                            {% endif %}
+
+                            {% for item in value %}
+                                {% if item.checked %}
+                                    <span style="color: red" class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ item.text }}</span>
+                                {% endif %}
+                            {% endfor %}
+
+                        {% endif %}
+                    {% endfor %}
+                
+                <span class="app-filters-tags-title-value"> 
+                <span class="app-filters-tags-title"> Sector: </span>
+                <span class="app-filters-tags-value"> food </span>
+                </span>
+
+                <span class="app-filters-tags-title-value"> 
+                <span class="app-filters-tags-title"> Turnover: </span>
+                <span class="app-filters-tags-value"> £100,000  </span>
+                </span>
+
+                <span class="app-filters-tags-title-value"> 
+                <span class="app-filters-tags-title"> Market of interest: </span>
+                <span class="app-filters-tags-value"> Afghanistan, Bermuda, United Kingdom, Brazil, Antigua, blah, blah, blah  </span>
+                </span>
+
+                <span class="app-filters-tags-title-value"> 
+                <span class="app-filters-tags-title"> Turnover: </span>
+                <span class="app-filters-tags-value"> £100,000  </span>
+                </span>
+
+                <span class="app-filters-tags-title-value"> 
+                <span class="app-filters-tags-title"> Turnover: </span>
+                <span class="app-filters-tags-value"> £100,000  </span>
+                </span>
+
+                <span class="app-filters-tags-title-value"> 
+                <span class="app-filters-tags-title"> Turnover: </span>
+                <span class="app-filters-tags-value"> £100,000  </span>
+                </span>
+
+                <span class="app-filters-tags-title-value"> 
+                <span class="app-filters-tags-title"> Turnover: </span>
+                <span class="app-filters-tags-value"> £100,000  </span>
+                </span>
+
+
                 </div>
 
-
-                {% for key, value in filters %}
-                    {% if value %}
-                        {% if value|isString %}
-                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ value }}</span>
-                        {% endif %}
-
-                        {% if key == 'turnover' %}
-                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">Turnover: min {{ value.min }}, max: {{ value.max }}</span>
-                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold"></span>
-                        {% endif %}
-
-                        {% for item in value %}
-                            {% if item.checked %}
-                                <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ item.text }}</span>
-                            {% endif %}
-                        {% endfor %}
-
-                    {% endif %}
-                {% endfor %}
 
             </div>
             <hr class="govuk-section-break govuk-section-break--visible app-large-section-break">
