@@ -81,10 +81,11 @@
   display: inline-block;
   position: relative;
   margin-right: 8px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  padding: 0 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 6px;
   background: #f8f8f8;
+  font-family: "nta", Arial, sans-serif;
 }
 
 .app-filters-tags-title {
@@ -96,7 +97,6 @@
 .app-filters-tags-value {
   position: relative;
   font-weight: bold;
-
 }
 
 .govuk-details__summary-text {
@@ -105,7 +105,6 @@
   margin-bottom: 5px;
   padding-left: 0px;
   color: #005ea5;
-
 }
 
 .app-collection-heading-link {

@@ -3622,6 +3622,9 @@
   display: block;
   margin-bottom: 10px; }
 
+.app-button-submit {
+  width: 100%; }
+
 .app-filter-group-heading {
   background-color: #dee0e2;
   padding: 10px; }
@@ -3690,10 +3693,11 @@
   display: inline-block;
   position: relative;
   margin-right: 8px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  padding: 0 8px;
-  background: #f8f8f8; }
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 6px;
+  background: #f8f8f8;
+  font-family: "nta", Arial, sans-serif; }
 
 .app-filters-tags-title {
   position: relative;

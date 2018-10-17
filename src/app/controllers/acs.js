@@ -104,15 +104,23 @@ async function renderIndex (req, res) {
     result: data,
     filters: {
       companyName: req.query['company-name'],
-      exportPotential: selectCheckboxFilter(req.query['export-potential'], map(exportPotential.body.result, transformStringToOption)),
+      exportPotential: selectCheckboxFilter(
+        req.query['export-potential'],
+        map(exportPotential.body.result, transformStringToOption)),
       commodityCode: req.query['commodity-code'],
       latestExport,
       sicCodes: req.query['sic-codes'],
       turnover: res.locals.query.filters.turnover,
-      marketOfInterest: selectCheckboxFilter(req.query['market-of-interest'], map(marketOfInterestList.body.result, transformStringToOption)),
-      marketExportedTo: selectCheckboxFilter(req.query['market-exported-to'], map(marketExportedTo.body.result, transformStringToOption)),
-      serviceUsed: selectCheckboxFilter(req.query['service-used'], map(serviceUsed.body.result, transformStringToOption)),
-      ukRegions: selectCheckboxFilter(req.query['uk-regions'], map(ukRegions.body.result, transformStringToOption)),
+      marketOfInterest: selectCheckboxFilter(
+        req.query['market-of-interest'],
+        map(marketOfInterestList.body.result, transformStringToOption)),
+      marketExportedTo: selectCheckboxFilter(
+        req.query['market-exported-to'],
+        map(marketExportedTo.body.result, transformStringToOption)),
+      serviceUsed: selectCheckboxFilter(req.query['service-used'],
+        map(serviceUsed.body.result, transformStringToOption)),
+      ukRegions: selectCheckboxFilter(req.query['uk-regions'],
+        map(ukRegions.body.result, transformStringToOption)),
     },
   })
 }
