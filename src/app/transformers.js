@@ -1,4 +1,6 @@
-const { castArray, isFunction, lowerCase, map, toNumber, startCase } = require('lodash')
+const { castArray, isFunction, map, toLower, toNumber, startCase, trimStart } = require('lodash')
+
+const config = require('./config')
 
 function selectCheckboxFilter (query, filter) {
   return map(filter, (item) => {
@@ -18,39 +20,60 @@ function selectCheckboxFilter (query, filter) {
  * @param utility = utility function e.g. for transforming string to array,
  */
 
-function sanitizeKeyValuePair (key, value, utility = {}) {
+function sanitizeKeyValuePair (key, value = '', utility = {}) {
   if (isFunction(utility)) {
-    return ((value && value.length) && { [key]: utility(value) })
+    return (value.length && { [key]: utility(value) })
   } else {
-    return ((value && value.length) && { [key]: value })
+    return (value.length && { [key]: value })
   }
 }
 
-function transformQueryToTurnoverFilter (key, min, max) {
-  return (((min && min.length) && (max && max.length)) && { [key]: {
+function transformPageToOffset (page) {
+  if (page === 1) {
+    return 0
+  } else {
+    return (page * config.paginationOffset) - config.paginationOffset
+  }
+}
+
+function transformQueryToTurnoverFilter (key, min = '', max = '') {
+  return ((min.length && max.length) && { [key]: {
     'min': toNumber(min),
     'max': toNumber(max),
   } })
 }
 
-function tranformQueryToDoubleFilter (key, value) {
-  return ((value && value.length) && { [key]: {
-    'code_match': ['48000000', '48116000'],
-    'keyword_search': 'fabric',
+function transformToLowerTrimStart (value) {
+  return trimStart(toLower(value))
+}
+
+function transformQueryToEvidenceFilter (key, min, max) {
+  return (((min && min.length) && (max && max.length)) && { [key]: {
+    'min': new Date(min),
+    'max': new Date(max),
+  } })
+}
+
+function transformQueryToDoubleFilter (key, value = '') {
+  return (value.length && { [key]: {
+    'code_match': value,
   } })
 }
 
 function transformStringToOption (string) {
   return {
     value: string,
-    text: startCase(lowerCase(string)),
+    text: startCase(toLower(string)),
   }
 }
 
 module.exports = {
   selectCheckboxFilter,
   sanitizeKeyValuePair,
-  tranformQueryToDoubleFilter,
+  transformPageToOffset,
+  transformQueryToDoubleFilter,
+  transformQueryToEvidenceFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
+  transformToLowerTrimStart,
 }

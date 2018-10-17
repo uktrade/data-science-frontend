@@ -26,9 +26,9 @@
             <form action="/acs/">
                 {{ filterCompanyName(filters) }}
                 {{ filterExportPotential(filters) }}
-                {{ filterCommodityCode({}) }}
-                {{ filterLatestExportEvidence({}) }}
-                {{ filterSicCodes({}) }}
+                {{ filterCommodityCode(filters) }}
+                {{ filterLatestExportEvidence(filters) }}
+                {{ filterSicCodes(filters) }}
                 {{ filterTurnover(filters) }}
                 {{ filterMarketOfInterest(filters) }}
                 {{ filterMarketExportedTo(filters) }}
@@ -39,8 +39,11 @@
         </div>
 
         <div class="govuk-grid-column-two-thirds">
-
-            {{ renderCollection({data: result, filters: filters}) }}
+            {{ renderCollection({
+                count: count,
+                data: result,
+                filters: filters
+            }) }}
         </div>
     </div>
 {% endblock %}
