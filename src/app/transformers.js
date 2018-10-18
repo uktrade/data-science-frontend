@@ -56,7 +56,7 @@ function transformQueryToEvidenceFilter (key, min = '', max = '') {
 
 function getCappedDate (element, cap) {
   if (element.length) {
-    return new Date(element)
+    return element
   } else if (cap === 'startDate') {
     return new Date(0)
   } else if (cap === 'endDate') {
