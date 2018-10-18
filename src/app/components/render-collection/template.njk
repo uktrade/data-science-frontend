@@ -31,11 +31,20 @@
                                 </div>
                             {% endif %}
 
-                            {% if key == 'turnover' %}
+                            {% if key == 'turnover' and (value.min or value.max)%}
                                 <div class="app-filters-tags-title-value">
-                                    <span class="app-filters-tags-title">Turnover:</span>
-                                    <span class="app-filters-tags-value">min {{ value.min }}, max: {{ value.max }}</span>
+                                    <span class="app-filters-tags-title">Turnover - </span>
+                                    {% if value.min %}
+                                        <span class="app-filters-tags-title">min: </span>
+                                        <span class="app-filters-tags-value">{{ value.min }}</span>
+                                    {% endif %}
+                                    {% if value.min and value.max %},{% endif %}
+                                    {% if value.max %}
+                                        <span class="app-filters-tags-title">max:</span>
+                                        <span class="app-filters-tags-value">{{ value.max }}</span>
+                                    {% endif %}
                                 </div>
+
                             {% endif %}
 
                             {% if key == 'latestExport' and (value.startDate or value.endDate) %}

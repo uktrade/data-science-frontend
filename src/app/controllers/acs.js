@@ -100,7 +100,10 @@ async function renderIndex (req, res) {
   const companyName = req.query['company-name']
   const commodityCode = req.query['commodity-code']
   const sicCodes = req.query['sic-codes']
-  const turnover = res.locals.query.filters.turnover
+  const turnover = {
+    min: req.query['turnover-minimum'],
+    max: req.query['turnover-maximum'],
+  }
   const latestExport = {
     startDate: req.query['export-evidence-start-date'],
     endDate: req.query['export-evidence-end-date'],

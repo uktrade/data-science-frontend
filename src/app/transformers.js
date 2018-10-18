@@ -37,9 +37,9 @@ function transformPageToOffset (page) {
 }
 
 function transformQueryToTurnoverFilter (key, min = '', max = '') {
-  return ((min.length && max.length) && { [key]: {
-    'min': toNumber(min),
-    'max': toNumber(max),
+  return ((min.length || max.length) && { [key]: {
+    'min': getNumber(min),
+    'max': getNumber(max),
   } })
 }
 
@@ -49,18 +49,24 @@ function transformToLowerTrimStart (value) {
 
 function transformQueryToEvidenceFilter (key, min = '', max = '') {
   return ((min.length || max.length) && { [key]: {
-    'min': getDate(min, 'startDate'),
-    'max': getDate(max, 'endDate'),
+    'min': getCappedDate(min, 'startDate'),
+    'max': getCappedDate(max, 'endDate'),
   } })
 }
 
-function getDate (element, cap) {
+function getCappedDate (element, cap) {
   if (element.length) {
     return new Date(element)
   } else if (cap === 'startDate') {
     return new Date(0)
   } else if (cap === 'endDate') {
     return new Date()
+  }
+}
+
+function getNumber (element) {
+  if (element.length) {
+    return toNumber(element)
   }
 }
 
