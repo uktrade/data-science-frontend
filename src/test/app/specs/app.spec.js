@@ -68,7 +68,7 @@ describe( 'App', function(){
 				supertest( app ).get( '/' ).end( ( err, res ) => {
 
 					checkResponse( res, 200 );
-					expect( getTitle( res ) ).toEqual( 'DS - Prospects' );
+					expect( getTitle( res ) ).toEqual( 'DS - Find Exporters' );
 					done();
 				} );
 			} );

@@ -17,72 +17,51 @@
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-half">
-                    <a class="govuk-link app-pull-right govuk-!-margin-top-3  " href="/acs/">Remove all filters</a>
+                    <a class="govuk-link app-pull-right govuk-!-margin-top-3" href="/acs/">Remove all filters</a>
                 </div>
-                {% for key, value in filters %}
-                    {% if value %}
-                        {% if value|isString %}
-                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ key | lowerCase | startCase}}: {{ value }}</span>
-                        {% endif %}
 
-                        {% if key == 'turnover' %}
-                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">Turnover: min {{ value.min }}, max: {{ value.max }}</span>
-                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold"></span>
-                        {% endif %}
-
-                        {% if key == 'latestExport' %}
-                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">Latest export evidence - Start date: {{ value.startDate }}, End date: {{ value.endDate }}</span>
-                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold"></span>
-                        {% endif %}
-
-                        {% for item in value %}
-                            {% if item.checked %}
-                                <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ key | lowerCase | startCase}}:</span>
-                                <span class="govuk-!-font-size-16 govuk-!-font-weight-bold">{{ item.text }},</span>
+                     
+                <div class="govuk-grid-column-full">
+                    {% for key, value in filters %}
+                        {% if value %}
+                            {% if value|isString %}
+                                <div class="app-filters-tags-title-value">
+                                    <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
+                                    <span class="app-filters-tags-value">{{ value }}</span>
+                                </div>
                             {% endif %}
-                        {% endfor %}
 
-                    {% endif %}
-                {% endfor %}
+                            {% if key == 'turnover' %}
+                                <div class="app-filters-tags-title-value">
+                                    <span class="app-filters-tags-title">Turnover:</span>
+                                    <span class="app-filters-tags-value">min {{ value.min }}, max: {{ value.max }}</span>
+                                </div>
+                            {% endif %}
+
+                            {% if key == 'latestExport' %}
+                                <div class="app-filters-tags-title-value">
+                                    <span class="app-filters-tags-title">Latest export evidence - Start date: {{ value.startDate }}, End date: {{ value.endDate }}</span>
+                                    <span class="app-filters-tags-value"></span>
+                                </div>
+                            {% endif %}
+
+                            {% for item in value %}
+                                {% if item.checked %}
+                                    <div class="app-filters-tags-title-value">
+                                        <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
+                                        <span class="app-filters-tags-value">{{ item.text }},</span>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
             <hr class="govuk-section-break govuk-section-break--visible app-large-section-break">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half">
-                    <span class="govuk-caption-m govuk-!-margin-top-5">Page {{ pagination.currentPage }} of {{ pagination.totalPages }}</span>
-                </div>
-                <div class="govuk-grid-column-one-half govuk-!-margin-top-3 govuk-!-margin-bottom-3">
-                    <form method="" action="">
-                        <div class="app-form-group-no-margin app-pull-right">
-                            {{ govukSelect({
-                                id: "sort",
-                                name: "sort",
-                                classes: 'govuk-!-display-inline app-sort-select',
-                                label: {
-                                    text: "Sort by",
-                                    classes: 'govuk-!-display-inline govuk-!-margin-right-2'
-                                },
-                                items: [
-                                    {
-                                        value: "published",
-                                        text: "Recently published"
-                                    },
-                                    {
-                                        value: "updated",
-                                        text: "Recently updated",
-                                        selected: true
-                                    },
-                                    {
-                                        value: "views",
-                                        text: "Most views"
-                                    },
-                                    {
-                                        value: "comments",
-                                        text: "Most comments"
-                                    }
-                                ]
-                            }) }}
-                        </div>
-                    </form>
+                    <span class="govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">Page {{ pagination.currentPage }} of {{ pagination.totalPages }}</span>
                 </div>
             </div>
             <hr class="govuk-section-break govuk-section-break--visible">

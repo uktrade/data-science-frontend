@@ -3617,6 +3617,14 @@
   font-size: 16px;
   padding-top: 11px; }
 
+.app-filter-external-link {
+  font-size: 16px;
+  display: block;
+  margin-bottom: 10px; }
+
+.app-button-submit {
+  width: 100%; }
+
 .app-filter-group-heading {
   background-color: #dee0e2;
   padding: 10px; }
@@ -3680,6 +3688,31 @@
 
 .app-aligned-center {
   text-align: center; }
+
+.app-filters-tags-title-value {
+  display: inline-block;
+  position: relative;
+  margin-right: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 6px;
+  background: #f8f8f8;
+  font-family: "nta", Arial, sans-serif; }
+
+.app-filters-tags-title {
+  position: relative;
+  color: #6f777b; }
+
+.app-filters-tags-value {
+  position: relative;
+  font-weight: bold; }
+
+.govuk-details__summary-text {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 5px;
+  padding-left: 0px;
+  color: #005ea5; }
 
 .app-collection-heading-link {
   display: inline-block;
