@@ -1,8 +1,4 @@
-# Data Hub Labs
-
-Experimental features for Data Hub
-
-Currently showing some Data Science magic
+# Data Hub - Find Exporters Front-End
 
 ## Setup
 
@@ -54,7 +50,7 @@ The above needs to be changed according to the backend environment you want to p
 
 ## Coding standards
 
-Standard will run as part of the build, ensure you run the command below before committing:
+[StandardJS](https://standardjs.com/) will run as part of the build, ensure you run the command below before committing:
 
 `$ npm run lint`
 
