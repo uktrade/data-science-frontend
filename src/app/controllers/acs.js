@@ -67,24 +67,14 @@ async function internalCompanyIdEvents (req, res) {
   res.json(data.body)
 }
 
-function getLatestExportFilter (startDate = '', endDate = '') {
-  if (startDate.length || endDate.length) {
-    return {
-      latestExport: {
-        startDate,
-        endDate,
-      },
-    }
-  }
+async function getCheckboxFilter (req, apiParam, queryParam) {
+  const list = await backendService.getDataByType(apiParam)
+
+  return selectCheckboxFilter(req.query[queryParam], map(list.body.result, transformStringToOption))
 }
 
-async function renderIndex (req, res) {
-  const marketOfInterestList = await backendService.getDataByType('market_of_interest')
-  const serviceUsed = await backendService.getDataByType('service_usage')
-  const marketExportedTo = await backendService.getDataByType('market_exported')
-  const ukRegions = await backendService.getDataByType('region')
-  const exportPotential = await backendService.getDataByType('export_propensity')
-  const data = await getData(req, res, req.body).then((response) => {
+function getIndexData (req, res) {
+  return getData(req, res, req.body).then((response) => {
     const result = response.body.result || {}
     const count = response.body.count || 0
 
@@ -97,30 +87,38 @@ async function renderIndex (req, res) {
       pagination: buildPagination(req.query, { count, page: 1, result }),
     }
   })
+}
 
-  const latestExport = getLatestExportFilter(req.query['export-evidence-start-date'], req.query['export-evidence-end-date'])
+async function renderIndex (req, res) {
+  const data = await getIndexData(req, res)
+  const ukRegions = await getCheckboxFilter(req, 'region', 'uk-regions')
+  const exportPotential = await getCheckboxFilter(req, 'export_propensity', 'export-potential')
+  const marketOfInterest = await getCheckboxFilter(req, 'market_of_interest', 'market-of-interest')
+  const serviceUsed = await getCheckboxFilter(req, 'service_usage', 'service-used')
+  const marketExportedTo = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
+
+  const companyName = req.query['company-name']
+  const commodityCode = req.query['commodity-code']
+  const sicCodes = req.query['sic-codes']
+  const turnover = res.locals.query.filters.turnover
+  const latestExport = {
+    startDate: req.query['export-evidence-start-date'],
+    endDate: req.query['export-evidence-end-date'],
+  }
 
   return res.render('acs/index', {
     result: data,
     filters: {
-      companyName: req.query['company-name'],
-      exportPotential: selectCheckboxFilter(
-        req.query['export-potential'],
-        map(exportPotential.body.result, transformStringToOption)),
-      commodityCode: req.query['commodity-code'],
+      companyName,
+      exportPotential,
+      commodityCode,
       latestExport,
-      sicCodes: req.query['sic-codes'],
-      turnover: res.locals.query.filters.turnover,
-      marketOfInterest: selectCheckboxFilter(
-        req.query['market-of-interest'],
-        map(marketOfInterestList.body.result, transformStringToOption)),
-      marketExportedTo: selectCheckboxFilter(
-        req.query['market-exported-to'],
-        map(marketExportedTo.body.result, transformStringToOption)),
-      serviceUsed: selectCheckboxFilter(req.query['service-used'],
-        map(serviceUsed.body.result, transformStringToOption)),
-      ukRegions: selectCheckboxFilter(req.query['uk-regions'],
-        map(ukRegions.body.result, transformStringToOption)),
+      sicCodes,
+      turnover,
+      marketOfInterest,
+      marketExportedTo,
+      serviceUsed,
+      ukRegions,
     },
   })
 }

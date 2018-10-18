@@ -2,6 +2,9 @@
 
 <div class="govuk-form-group app-filter-group-heading">
     <h4 class="govuk-heading-s app-filter-heading">Latest export evidence</h4>
+    {% set start = params.latestExport.start %}
+    {% set end = params.latestExport.end %}
+
     {{ govukInput({
         label: {
             classes: "app-filter-label",

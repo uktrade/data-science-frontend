@@ -47,11 +47,21 @@ function transformToLowerTrimStart (value) {
   return trimStart(toLower(value))
 }
 
-function transformQueryToEvidenceFilter (key, min, max) {
-  return (((min && min.length) && (max && max.length)) && { [key]: {
-    'min': new Date(min),
-    'max': new Date(max),
+function transformQueryToEvidenceFilter (key, min = '', max = '') {
+  return ((min.length || max.length) && { [key]: {
+    'min': getDate(min, 'startDate'),
+    'max': getDate(max, 'endDate'),
   } })
+}
+
+function getDate (element, cap) {
+  if (element.length) {
+    return new Date(element)
+  } else if (cap === 'startDate') {
+    return new Date(0)
+  } else if (cap === 'endDate') {
+    return new Date()
+  }
 }
 
 function transformQueryToDoubleFilter (key, value = '') {

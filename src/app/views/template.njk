@@ -38,7 +38,11 @@
 {% endblock %}
 
 {% block header %}
-    {{ govukHeader({}) }}
+    {{ govukHeader({
+        homepageUrl: 'https://www.datahub.trade.gov.uk',
+        serviceName: "Find Exporters",
+        serviceUrl: "https://www.datahub.trade.gov.uk/"
+    }) }}
 {% endblock %}
 
 {% block main %}

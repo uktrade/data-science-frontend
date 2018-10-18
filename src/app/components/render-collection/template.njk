@@ -38,10 +38,18 @@
                                 </div>
                             {% endif %}
 
-                            {% if key == 'latestExport' %}
+                            {% if key == 'latestExport' and (value.startDate or value.endDate) %}
                                 <div class="app-filters-tags-title-value">
-                                    <span class="app-filters-tags-title">Latest export evidence - Start date: {{ value.startDate }}, End date: {{ value.endDate }}</span>
-                                    <span class="app-filters-tags-value"></span>
+                                    <span class="app-filters-tags-title">Latest export evidence - </span>
+                                    {% if value.startDate %}
+                                        <span class="app-filters-tags-title">Start date: </span>
+                                        <span class="app-filters-tags-value">{{ value.startDate }}</span>
+                                    {% endif %}
+                                    {% if value.startDate and value.endDate %},{% endif %}
+                                    {% if value.endDate %}
+                                        <span class="app-filters-tags-title">End date:</span>
+                                        <span class="app-filters-tags-value">{{ value.endDate }}</span>
+                                    {% endif %}
                                 </div>
                             {% endif %}
 
@@ -49,7 +57,8 @@
                                 {% if item.checked %}
                                     <div class="app-filters-tags-title-value">
                                         <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
-                                        <span class="app-filters-tags-value">{{ item.text }},</span>
+                                        <span class="app-filters-tags-value">{{ item.text }}</span>
+                                        {% if loop.loop.last %}<h1>Lup</h1>{% endif %}
                                     </div>
                                 {% endif %}
                             {% endfor %}
