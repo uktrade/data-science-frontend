@@ -85,6 +85,13 @@
                                    target="_blank"
                                    href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}"
                                 >View Data Hub profile</a>
+                            {% else %}
+                                <a class="gov-link"
+                                 target="_blank"
+                                 href="https://www.google.co.uk/search?q={{ item.company_name | urlencode }}+{{item.postcode}}"
+                                 
+                                 > View company in Google search </a>  
+                           
                             {% endif %}
 
                             {% if item.export_propensity  %}
