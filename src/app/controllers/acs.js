@@ -22,7 +22,7 @@ async function buildFilters (req, res, next) {
     filters: {
       ...sanitizeKeyValuePair('company_name', req.query['company-name'], transformToLowerTrimStart),
       ...sanitizeKeyValuePair('export_propensity', req.query['export-potential'], castArray),
-      ...transformQueryToDoubleFilter('export_codes', req.query['commodity-code']),
+      ...transformQueryToDoubleFilter('export_codes', req.query['export-codes']),
       ...transformQueryToEvidenceFilter('last_export_evidence', req.query['export-evidence-start-date'], req.query['export-evidence-end-date']),
       ...transformQueryToDoubleFilter('sic_codes', req.query['sic-codes']),
       ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
@@ -98,7 +98,7 @@ async function renderIndex (req, res) {
   const marketExportedTo = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
 
   const companyName = req.query['company-name']
-  const commodityCode = req.query['commodity-code']
+  const commodityCode = req.query['export-codes']
   const sicCodes = req.query['sic-codes']
   const turnover = {
     min: req.query['turnover-minimum'],
@@ -109,7 +109,7 @@ async function renderIndex (req, res) {
     endDate: req.query['export-evidence-end-date'],
   }
 
-  return res.render('acs/index', {
+  return res.render('index', {
     result: data,
     filters: {
       companyName,
