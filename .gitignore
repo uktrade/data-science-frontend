@@ -53,3 +53,4 @@ dist
 
 # webstorm cluster debugger config
 /server-debug.js
+/dump.rdb
