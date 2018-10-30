@@ -3,7 +3,6 @@ const ssoController = require('./controllers/sso')
 const {
   buildFilters,
   renderIndex,
-  renderError,
 } = require('./controllers/acs')
 
 module.exports = function (express, app) {
