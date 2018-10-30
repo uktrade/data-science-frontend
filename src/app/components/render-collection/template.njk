@@ -6,6 +6,7 @@
 {% set count = params.data.count %}
 {% set filters = params.filters %}
 
+
 <article class="column-two-thirds" id="xhr-outlet">
     <article class="c-collection">
         <header>
@@ -85,6 +86,7 @@
             <hr class="govuk-section-break govuk-section-break--visible">
         </header>
         <ol class="govuk-list govuk-body app-collection-list">
+        {% if result.length %}
             {% for item in result %}
                 <li class="app-collection-item">
                 <div class="app-collection-heading">
@@ -174,6 +176,10 @@
                 <hr class="govuk-section-break govuk-section-break--visible">
             </li>
             {% endfor %}
+        {% else %}
+            <h1> Error </h1>
+            <h1> There are no results for your search, please check your parameters and try again <h1>
+        {% endif %}
         </ol>
         <nav class="app-pagination" aria-label="pagination: total {{ pagination.totalPages }} pages">
             <div class="app-aligned-center">
@@ -200,7 +206,7 @@
                     {% endfor %}
                     {% if pagination.currentPage < pagination.totalPages %}
                         <li class="app-pagination-list-item">
-                            <a href="{{ pagination.next }}" class="app-pagination-link">Next</a>
+                            <a href="{{ pagination.next }}" class="app-pagination-link">Next</a> 
                         </li>
                     {% endif %}
                 </ul>

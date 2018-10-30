@@ -89,10 +89,6 @@ function getIndexData (req, res) {
   })
 }
 
-  function renderError (req, res) {
-    return res.render('error.njk')
-  }
-
 async function renderIndex (req, res) {
   const data = await getIndexData(req, res)
   const ukRegions = await getCheckboxFilter(req, 'region', 'uk-regions')

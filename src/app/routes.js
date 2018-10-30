@@ -8,8 +8,7 @@ const {
 
 module.exports = function (express, app) {
   app.get('/login/', ssoController.authRedirect)
-  app.get('/login/callback/', ssoController.callback)
-  app.get('/error/', 
+  app.get('/login/callback/', ssoController.callback) 
   renderError
 )
   app.get('/',
