@@ -5,7 +5,7 @@ const morganLogger = require('morgan')
 const compression = require('compression')
 
 const routes = require('./routes')
-const config = require('./config')
+const config = require('../../config')
 
 const reporter = require('./lib/reporter')
 const staticGlobals = require('./lib/static-globals')

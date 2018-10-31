@@ -54,7 +54,7 @@ describe( 'App', function(){
 
 		beforeEach( function(){
 
-			stubs[ './config' ] = {
+			stubs[ '../../../../config' ] = {
 				isDev: true,
 				sso: { bypass: true }
 			};
@@ -176,7 +176,7 @@ describe( 'App', function(){
 			it( 'Should setup the app in dev mode', function(){
 
 				const app = proxyquire( modulePath, {
-					'./config': { isDev: true },
+					'../../../../config': { isDev: true },
 					'morgan': morgan,
 					'compression': compression,
 					'express': express
@@ -195,7 +195,7 @@ describe( 'App', function(){
 			it( 'Should setup the app in prod mode', function(){
 
 				const app = proxyquire( modulePath, {
-					'./config': { isDev: false },
+					'../../../../config': { isDev: false },
 					'morgan': morgan,
 					'compression': compression,
 					'express': express

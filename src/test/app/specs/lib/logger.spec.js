@@ -18,7 +18,7 @@ function createLogger(){
 				Console: consoleStub
 			}
 		},
-		'../config': {
+		'.../../../../config': {
 			logLevel
 		}
 	};

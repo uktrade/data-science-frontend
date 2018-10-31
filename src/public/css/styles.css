@@ -3625,6 +3625,9 @@
 .app-button-submit {
   width: 100%; }
 
+.js-enabled .app-js-hidden {
+  display: none; }
+
 .app-filter-group-heading {
   background-color: #dee0e2;
   padding: 10px; }

@@ -1,8 +1,12 @@
 /* eslint no-console:0 */
+const path = require('path')
+
 const os = require('os')
-const vcap = require('./lib/vcap-services')
+const vcap = require('../src/app/lib/vcap-services')
 const requiredEnvs = []
 require('dotenv').config()
+
+const root = path.normalize(`${__dirname}/..`)
 
 function env (name, defaultValue) {
   const exists = (typeof process.env[ name ] !== 'undefined')
@@ -51,6 +55,7 @@ let config = {
   sentryDsn: env('SENTRY_DSN'),
   analyticsId: env('ANALYTICS_ID'),
   datahubDomain: env('DATA_HUB_DOMAIN', 'https://www.datahub.trade.gov.uk'),
+  buildDir: path.join(root, '.build'),
   views: {
     cache: bool('CACHE_VIEWS', true),
   },

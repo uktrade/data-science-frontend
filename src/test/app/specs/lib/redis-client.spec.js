@@ -11,7 +11,7 @@ function createClient( redisConfig ){
 
 	client = proxyquire( modulePath, {
 		'redis': redis,
-		'../config': {
+		'.../../../../config': {
 			redis: redisConfig || {}
 		}
 	} ).get();

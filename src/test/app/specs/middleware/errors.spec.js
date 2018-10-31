@@ -28,7 +28,7 @@ describe( 'errors middleware', function(){
 		};
 
 		middleware = proxyquire( '../../../../app/middleware/errors', {
-			'../config': config,
+			'.../../../../config': config,
 			'../lib/logger': logger
 		} );
 	} );

@@ -25,4 +25,12 @@
   width: 100%;
 }
 
+.app-js-hidden {
+  .js-enabled & {
+    display: none;
+  }
+}
 
+body {
+  background: purple;
+}
