@@ -22,10 +22,8 @@
     "heroku-postbuild": "npm run build:dist",
     "lint": "eslint src/app",
     "dev": "webpack --mode development",
-
     "prod": "webpack --mode production",
     "develop": "run-p watch:js:*",
-
     "watch:js:client": "webpack --watch --progress --mode development",
     "watch:js:server": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'"
   },
@@ -85,6 +83,7 @@
     "babel-preset-env": "^1.7.0",
     "compression": "1.7.2",
     "connect-redis": "3.3.3",
+    "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^1.0.1",
     "date-fns": "^1.29.0",
     "dateformat": "3.0.3",
@@ -107,6 +106,7 @@
     "request": "^2.88.0",
     "resolve-url-loader": "^3.0.0",
     "style-loader": "^0.23.1",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "uuid": "^3.3.2",
     "webpack": "^4.23.1",
     "webpack-assets-manifest": "^3.1.0",

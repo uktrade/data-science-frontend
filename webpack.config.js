@@ -8,14 +8,17 @@ const config = require('./config')
 const common = {
   devtool: 'source-map',
   entry: {
-    styles: './src/public/scss/styles.scss',
+    // styles: './src/public/scss/styles.scss',
     app: [
       './src/public/js/app.js',
     ],
   },
   output: {
-    path: config.buildDir,
-    publicPath: '/',
+    // path: config.buildDir,
+    path: path.resolve(__dirname, 'public'),
+    // publicPath: '/',
+    filename: '[name].js',
+    sourceMapFilename: '[name].js.map',
   },
   module: {
     rules: [
@@ -49,6 +52,8 @@ const common = {
             {
               loader: 'css-loader',
               options: {
+                import: false,
+                url: false,
                 sourceMap: config.isDev,
                 minimize: config.isProd,
               },
@@ -68,8 +73,7 @@ const common = {
               options: {
                 sourceMap: true, // required for resolve-url-loader
                 includePaths: [
-                  path.resolve(__dirname, 'node_modules'),
-                  // path.resolve(__dirname, 'node_modules/vue-multiselect/dist'),
+                  path.resolve(__dirname, 'libs'),
                 ],
               },
             },
@@ -103,7 +107,5 @@ const webpackEnv = process.env.WEBPACK_ENV || (config.isProd ? 'prod' : 'develop
 
 const envConfig = require(`./webpack.config.${webpackEnv}`)
 const webpackConfig = merge.smart(common, envConfig)
-
-console.log('>>>>>>>>>>>>>>>>> ', config.buildDir)
 
 module.exports = webpackConfig

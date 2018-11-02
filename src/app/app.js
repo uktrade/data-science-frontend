@@ -14,6 +14,7 @@ const nunjucksFilters = require('./lib/nunjucks-filters')
 const ping = require('./middleware/ping')
 const forceHttps = require('./middleware/force-https')
 const headers = require('./middleware/headers')
+const locals = require('./middleware/locals')
 const errors = require('./middleware/errors')
 const sessionStore = require('./middleware/session-store')
 const auth = require('./middleware/auth')
@@ -49,9 +50,16 @@ module.exports = {
 
     if (!isDev) { app.use(compression()) }
     app.use(forceHttps(isDev))
+
     app.use('/public', express.static(pathToPublic, { maxAge: staticMaxAge }))
     app.use('/assets', express.static(path.join(__dirname, '../node_modules/govuk-frontend/assets')))
+
+    app.use('/js', express.static(path.join(config.buildDir, 'js')))
+    app.use('/css', express.static(path.join(config.buildDir, 'css')))
+    app.use('/assets', express.static(path.join(config.buildDir, 'assets')))
+
     app.use(morganLogger((isDev ? 'dev' : 'combined')))
+    app.use(locals)
     app.use(headers(isDev))
     app.use(ping)
 

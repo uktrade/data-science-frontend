@@ -6,9 +6,9 @@
 
 {% block head %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <!--[if !IE 8]><!-->
     <!-- build:css(src) /public/css/styles.min.css -->
+        <base href="/">
         <link rel="stylesheet" href="/public/css/styles.css">
     <!-- endbuild -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css">
@@ -27,7 +27,7 @@
 {% block bodyEnd %}
     <!-- build:js(src) /public/js/all.min.js -->
         <script src="/public/js/lib/govuk-design-system-all.js"></script>
-        <script src="/public/js/app.js"></script>
+        <script src="{{ getAssetPath('app.js') }}"></script>
     <!-- endbuild -->
 
     <script>window.GOVUKFrontend.initAll()</script>

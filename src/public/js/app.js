@@ -1,3 +1,3 @@
-// const AutoSubmit = require('./modules/auto-submit')
-//
-// AutoSubmit.init()
+const AutoSubmit = require('./modules/auto-submit')
+
+AutoSubmit.init()

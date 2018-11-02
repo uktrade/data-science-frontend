@@ -3628,6 +3628,9 @@
 .js-enabled .app-js-hidden {
   display: none; }
 
+body {
+  background: purple; }
+
 .app-filter-group-heading {
   background-color: #dee0e2;
   padding: 10px; }
