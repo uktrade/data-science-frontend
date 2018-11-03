@@ -3628,9 +3628,23 @@
 .js-enabled .app-js-hidden {
   display: none; }
 
-body {
-  background: purple; }
+.u-loading::before {
+  animation: growRight 3s;
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+  border-top: 2px solid #2b8cc4; }
 
+@keyframes growRight {
+  0% {
+    right: 100%; }
+  20% {
+    right: 60%; }
+  100% {
+    right: 0; } }
 .app-filter-group-heading {
   background-color: #dee0e2;
   padding: 10px; }

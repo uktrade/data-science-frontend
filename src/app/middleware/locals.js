@@ -13,6 +13,8 @@ module.exports = function locals (req, res, next) {
   const baseUrl = `${(req.encrypted ? 'https' : req.protocol)}://${req.get('host')}`
 
   res.locals = Object.assign({}, res.locals, {
+    IS_XHR: req.xhr,
+
     getAssetPath (asset) {
       const assetsUrl = config.assetsHost || baseUrl
       const webpackAssetPath = webpackManifest[asset]

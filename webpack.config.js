@@ -8,15 +8,13 @@ const config = require('./config')
 const common = {
   devtool: 'source-map',
   entry: {
-    // styles: './src/public/scss/styles.scss',
+    styles: './src/public/scss/styles.scss',
     app: [
       './src/public/js/app.js',
     ],
   },
   output: {
-    // path: config.buildDir,
-    path: path.resolve(__dirname, 'public'),
-    // publicPath: '/',
+    path: path.resolve(__dirname, 'src/public/dist/'),
     filename: '[name].js',
     sourceMapFilename: '[name].js.map',
   },
@@ -61,19 +59,27 @@ const common = {
             {
               loader: 'postcss-loader',
               options: {
+                url: false,
                 plugins: (loader) => [
                   require('autoprefixer')(),
                 ],
                 sourceMap: config.isDev,
               },
             },
-            'resolve-url-loader',
+            {
+              loader: 'resolve-url-loader',
+              options: {
+                debug: true,
+              },
+            },
             {
               loader: 'fast-sass-loader',
               options: {
                 sourceMap: true, // required for resolve-url-loader
                 includePaths: [
-                  path.resolve(__dirname, 'libs'),
+                  path.resolve(__dirname, 'node_modules'),
+                  path.resolve(__dirname, 'node_modules/govuk_frontend_toolkit/stylesheets'),
+                  path.resolve(__dirname, 'node_modules/vue-multiselect/dist'),
                 ],
               },
             },

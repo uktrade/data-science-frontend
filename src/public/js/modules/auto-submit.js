@@ -7,7 +7,6 @@ const AutoSubmit = {
   isSubmitting: false,
 
   init () {
-    console.log('bazzinga!')
     this.bindEvents()
   },
 

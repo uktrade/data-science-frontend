@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
   devtool: false,
   output: {
-    filename: 'js/[name].[chunkhash:8].js',
+    filename: 'js/[name].js',
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -22,6 +22,6 @@ module.exports = {
       sourceMap: true,
       dead_code: true,
     }),
-    new ExtractTextPlugin('css/[name].[contenthash:8].css'),
+    new ExtractTextPlugin('css/[name].css'),
   ],
 }

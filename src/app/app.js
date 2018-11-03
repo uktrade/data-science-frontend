@@ -29,7 +29,7 @@ module.exports = {
     const pathToPublic = path.resolve(__dirname, '../public')
     const staticMaxAge = (isDev ? 0 : '2y')
     const nunjucksEnv = nunjucks.configure([
-      path.resolve(__dirname, (isDev ? '../' : '') + '../node_modules/govuk-frontend/components'),
+      path.resolve(__dirname, (isDev ? '../../' : '../../../deps/0') + '/node_modules/govuk-frontend/components'),
       `${__dirname}/views`,
       `${__dirname}/components`,
     ],

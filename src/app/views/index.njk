@@ -10,13 +10,13 @@
 {% from "filter-latest-export-evidence/macro.njk" import filterLatestExportEvidence %}
 {% from "render-collection/macro.njk" import renderCollection %}
 
-{% extends "layout.njk" %}
+{% extends "_generic.njk" %}
 
 {% block content %}
     <h1 class="govuk-heading-l">Find Exporters</h1>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
-            <form action="/" class="js-auto-submit">
+            <form action="/" class="js-AutoSubmit">
                 {{ filterCompanyName(filters) }}
                 {{ filterExportPotential(filters) }}
                 {{ filterCommodityCode(filters) }}
@@ -30,13 +30,16 @@
                 <button class="govuk-button app-button-submit app-js-hidden" type="submit">Refresh results</button>
             </form>
         </div>
-
         <div class="govuk-grid-column-two-thirds">
-            {{ renderCollection({
-                count: count,
-                data: result,
-                filters: filters
-            }) }}
+            {% block xhr_content %}
+                <article class="column-two-thirds" id="xhr-outlet">
+                    {{ renderCollection({
+                        count: count,
+                        data: result,
+                        filters: filters
+                    }) }}
+                </article>
+            {% endblock %}
         </div>
     </div>
 {% endblock %}

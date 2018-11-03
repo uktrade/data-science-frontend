@@ -6,7 +6,7 @@ const CHILD_EXIT_THRESHOLD = 60000 // 1 minute
 const childProcess = require('child_process')
 const pkg = require('./package.json')
 
-let clusterFile = '/app/cluster.js'
+let clusterFile = '/src/app/cluster.js'
 
 const childExits = []
 let child

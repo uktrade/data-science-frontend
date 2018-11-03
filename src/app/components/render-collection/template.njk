@@ -6,211 +6,210 @@
 {% set count = params.data.count %}
 {% set filters = params.filters %}
 
-
-<article class="column-two-thirds" id="xhr-outlet">
-    <article class="c-collection">
-        <header>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half">
-                    <p class="govuk-body-l govuk-!-margin-bottom-2 ">
-                        <span class="govuk-body govuk-!-font-size-36 govuk-!-font-weight-bold govuk-!-padding-right-2">{{ count | formatNumberWithCommas }}</span>
-                        companies
-                    </p>
-                </div>
-                <div class="govuk-grid-column-one-half">
-                    <a class="govuk-link app-pull-right govuk-!-margin-top-3" href="/">Remove all filters</a>
-                </div>
-
-                     
-                <div class="govuk-grid-column-full">
-                    {% for key, value in filters %}
-                        {% if value %}
-                            {% if value|isString %}
-                                <div class="app-filters-tags-title-value">
-                                    <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
-                                    <span class="app-filters-tags-value">{{ value }}</span>
-                                </div>
-                            {% endif %}
-
-                            {% if key == 'turnover' and (value.min or value.max)%}
-                                <div class="app-filters-tags-title-value">
-                                    <span class="app-filters-tags-title">Turnover - </span>
-                                    {% if value.min %}
-                                        <span class="app-filters-tags-title">min: </span>
-                                        <span class="app-filters-tags-value">{{ value.min }}</span>
-                                    {% endif %}
-                                    {% if value.min and value.max %},{% endif %}
-                                    {% if value.max %}
-                                        <span class="app-filters-tags-title">max:</span>
-                                        <span class="app-filters-tags-value">{{ value.max }}</span>
-                                    {% endif %}
-                                </div>
-
-                            {% endif %}
-
-                            {% if key == 'latestExport' and (value.startDate or value.endDate) %}
-                                <div class="app-filters-tags-title-value">
-                                    <span class="app-filters-tags-title">Latest export evidence - </span>
-                                    {% if value.startDate %}
-                                        <span class="app-filters-tags-title">Start date: </span>
-                                        <span class="app-filters-tags-value">{{ value.startDate }}</span>
-                                    {% endif %}
-                                    {% if value.startDate and value.endDate %},{% endif %}
-                                    {% if value.endDate %}
-                                        <span class="app-filters-tags-title">End date:</span>
-                                        <span class="app-filters-tags-value">{{ value.endDate }}</span>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-
-                            {% for item in value %}
-                                {% if item.checked %}
-                                    <div class="app-filters-tags-title-value">
-                                        <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
-                                        <span class="app-filters-tags-value">{{ item.text }}</span>
-                                        {% if loop.loop.last %}<h1>Lup</h1>{% endif %}
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-
-                        {% endif %}
-                    {% endfor %}
-                </div>
+<article class="c-collection">
+    <header>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <p class="govuk-body-l govuk-!-margin-bottom-2 ">
+                    <span class="govuk-body govuk-!-font-size-36 govuk-!-font-weight-bold govuk-!-padding-right-2">{{ count | formatNumberWithCommas }}</span>
+                    companies
+                </p>
             </div>
-            <hr class="govuk-section-break govuk-section-break--visible app-large-section-break">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-half">
-                    <span class="govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">Page {{ pagination.currentPage }} of {{ pagination.totalPages }}</span>
-                </div>
+            <div class="govuk-grid-column-one-half">
+                <a class="govuk-link app-pull-right govuk-!-margin-top-3" href="/">Remove all filters</a>
             </div>
-            <hr class="govuk-section-break govuk-section-break--visible">
-        </header>
-        <ol class="govuk-list govuk-body app-collection-list">
-        {% if result.length %}
-            {% for item in result %}
-                <li class="app-collection-item">
-                <div class="app-collection-heading">
-                    <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-two-thirds">
-                            <h3 class="govuk-heading-m govuk-!-margin-top-4">{{ item.company_name | title }}</h3>
-                        </div>
-                        {% if item.region %}
-                            <div class="govuk-grid-column-one-third">
-                                <span class="govuk-!-font-size-16 govuk-!-font-weight-bold app-badge">{{ item.region }}</span>
+
+
+            <div class="govuk-grid-column-full">
+                {% for key, value in filters %}
+                    {% if value %}
+                        {% if value|isString %}
+                            <div class="app-filters-tags-title-value">
+                                <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
+                                <span class="app-filters-tags-value">{{ value }}</span>
                             </div>
                         {% endif %}
-                        <div class="govuk-grid-column-full">
-                            {% if item.datahub_company_id %}
-                                <a class="govuk-link app-collection-link"
-                                   target="_blank"
-                                   href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}"
-                                >View Data Hub profile</a>
-                            {% else %}
-                                <a class="gov-link app-collection-link"
-                                   target="_blank"
-                                   href="https://www.google.co.uk/search?q={{ item.company_name | urlencode }}+{{item.postcode}}"
-                                > View company in Google search </a>
-                            {% endif %}
 
-                            {% if item.export_propensity  %}
-                                <span class="app-metric-potential-title">Export potential:</span>
-                                <span class="app-metric-potential-data">{{ item.export_propensity }}</span>
+                        {% if key == 'turnover' and (value.min or value.max)%}
+                            <div class="app-filters-tags-title-value">
+                                <span class="app-filters-tags-title">Turnover - </span>
+                                {% if value.min %}
+                                    <span class="app-filters-tags-title">min: </span>
+                                    <span class="app-filters-tags-value">{{ value.min }}</span>
+                                {% endif %}
+                                {% if value.min and value.max %},{% endif %}
+                                {% if value.max %}
+                                    <span class="app-filters-tags-title">max:</span>
+                                    <span class="app-filters-tags-value">{{ value.max }}</span>
+                                {% endif %}
+                            </div>
+
+                        {% endif %}
+
+                        {% if key == 'latestExport' and (value.startDate or value.endDate) %}
+                            <div class="app-filters-tags-title-value">
+                                <span class="app-filters-tags-title">Latest export evidence - </span>
+                                {% if value.startDate %}
+                                    <span class="app-filters-tags-title">Start date: </span>
+                                    <span class="app-filters-tags-value">{{ value.startDate }}</span>
+                                {% endif %}
+                                {% if value.startDate and value.endDate %},{% endif %}
+                                {% if value.endDate %}
+                                    <span class="app-filters-tags-title">End date:</span>
+                                    <span class="app-filters-tags-value">{{ value.endDate }}</span>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        {% for item in value %}
+                            {% if item.checked %}
+                                <div class="app-filters-tags-title-value">
+                                    <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
+                                    <span class="app-filters-tags-value">{{ item.text }}</span>
+                                    {% if loop.loop.last %}<h1>Lup</h1>{% endif %}
+                                </div>
                             {% endif %}
+                        {% endfor %}
+
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--visible app-large-section-break">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <span class="govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">Page {{ pagination.currentPage }} of {{ pagination.totalPages }}</span>
+            </div>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--visible">
+    </header>
+    <ol class="govuk-list govuk-body app-collection-list">
+    {% if result.length %}
+        {% for item in result %}
+            <li class="app-collection-item">
+            <div class="app-collection-heading">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-m govuk-!-margin-top-4">{{ item.company_name | title }}</h3>
+                    </div>
+                    {% if item.region %}
+                        <div class="govuk-grid-column-one-third">
+                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold app-badge">{{ item.region }}</span>
                         </div>
+                    {% endif %}
+                    <div class="govuk-grid-column-full">
+                        {% if item.datahub_company_id %}
+                            <a class="govuk-link app-collection-link"
+                               target="_blank"
+                               href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}"
+                            >View Data Hub profile</a>
+                        {% else %}
+                            <a class="gov-link app-collection-link"
+                               target="_blank"
+                               href="https://www.google.co.uk/search?q={{ item.company_name | urlencode }}+{{item.postcode}}"
+                            > View company in Google search </a>
+                        {% endif %}
+
+                        {% if item.export_propensity  %}
+                            <span class="app-metric-potential-title">Export potential:</span>
+                            <span class="app-metric-potential-data">{{ item.export_propensity }}</span>
+                        {% endif %}
                     </div>
                 </div>
-                <div class="govuk-grid-row">
-                    <ul class="govuk-grid-column-one-half govuk-list">
-                        {% if item.last_export_evidence %}
-                            <li>
-                                <span class="app-metric-header govuk-!-display-inline">Last export evidence:</span>
-                                <span class="app-metric-value govuk-!-display-inline">{{ item.last_export_evidence | formatDate }}</span>
-                            </li>
-                        {% endif %}
-                        {% if item.num_export_wins %}
-                            <li>
-                                <span class="app-metric-header govuk-!-display-inline">DIT export wins:</span>
-                                <span class="app-metric-value govuk-!-display-inline">{{ item.num_export_wins }}</span>
-                            </li>
-                        {% endif %}
-                        {% if item.num_export_opp_enquiries %}
-                            <li>
-                                <span class="app-metric-header govuk-!-display-inline">DIT export opportunities:</span>
-                                <span class="app-metric-value govuk-!-display-inline">{{ item.num_export_opp_enquiries }}</span>
-                            </li>
-                        {% endif %}
-                        {% if item.cash_bank_in_hand %}
-                            <li>
-                                <span class="app-metric-header govuk-!-display-inline">Cash in the bank:</span>
-                                <span class="app-metric-value govuk-!-display-inline">&pound;{{ item.cash_bank_in_hand | round | formatNumberWithCommas}}</span>
-                            </li>
-                        {% endif %}
-                    </ul>
-                    <ul class="govuk-grid-column-one-half govuk-list">
-                        {% if item.num_hmrc_export_goods_outside_eu %}
-                            <li>
-                                <span class="app-metric-header govuk-!-display-inline">HMRC export of goods:</span>
-                                <span class="app-metric-value govuk-!-display-inline">{{ item.num_hmrc_export_goods_outside_eu }}</span>
-                            </li>
-                        {% endif %}
-                        {% if item.num_hmrc_import_goods_outside_eu %}
-                            <li>
-                                <span class="app-metric-header govuk-!-display-inline">HMRC import of goods:</span>
-                                <span class="app-metric-value govuk-!-display-inline">{{ item.num_hmrc_import_goods_outside_eu }}</span>
-                            </li>
-                        {% endif %}
-                        {% if item.employee_range %}
-                            <li>
-                                <span class="app-metric-header govuk-!-display-inline">Employee range:</span>
-                                <span class="app-metric-value govuk-!-display-inline">{{ item.employee_range }}</span>
-                            </li>
-                        {% endif %}
-                        {% if item.turnover %}
-                            <li>
-                                <span class="app-metric-header govuk-!-display-inline">Turnover:</span>
-                                <span class="app-metric-value govuk-!-display-inline">&pound;{{ item.turnover | round | formatNumberWithCommas }}</span>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </div>
-                <hr class="govuk-section-break govuk-section-break--visible">
-            </li>
-            {% endfor %}
-        {% else %}
-            <h1> Error </h1>
-            <p> There are no results for your search, please check your parameters and try again </p>
-        {% endif %}
-        </ol>
-        <nav class="app-pagination" aria-label="pagination: total {{ pagination.totalPages }} pages">
-            <div class="app-aligned-center">
-                <ul class="app-pagination-list">
-                    {% if pagination.currentPage > 1 %}
-                        <li class="app-pagination-list-item">
-                            <a href="{{ pagination.prev }}" class="app-pagination-link">Prev</a>
+            </div>
+            <div class="govuk-grid-row">
+                <ul class="govuk-grid-column-one-half govuk-list">
+                    {% if item.last_export_evidence %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">Last export evidence:</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.last_export_evidence | formatDate }}</span>
                         </li>
                     {% endif %}
-                    {% for page in pagination.pages %}
-                        {% if pagination.currentPage == page.label %}
-                            <li class="app-pagination-list-item  is-current">
-                                <a href="{{ page.url }}" class="app-pagination-link">{{ page.label }}</a>
-                            </li>
-                        {% elseif page.label == '?' %}
-                            <li class="app-pagination-list-item is-truncated">
-                                <p>...</p>
-                            </li>
-                        {% else %}
-                            <li class="app-pagination-list-item">
-                                <a href="{{ page.url }}" class="app-pagination-link">{{ page.label }}</a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                    {% if pagination.currentPage < pagination.totalPages %}
-                        <li class="app-pagination-list-item">
-                            <a href="{{ pagination.next }}" class="app-pagination-link">Next</a> 
+                    {% if item.num_export_wins %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">DIT export wins:</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.num_export_wins }}</span>
+                        </li>
+                    {% endif %}
+                    {% if item.num_export_opp_enquiries %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">DIT export opportunities:</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.num_export_opp_enquiries }}</span>
+                        </li>
+                    {% endif %}
+                    {% if item.cash_bank_in_hand %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">Cash in the bank:</span>
+                            <span class="app-metric-value govuk-!-display-inline">&pound;{{ item.cash_bank_in_hand | round | formatNumberWithCommas}}</span>
+                        </li>
+                    {% endif %}
+                </ul>
+                <ul class="govuk-grid-column-one-half govuk-list">
+                    {% if item.num_hmrc_export_goods_outside_eu %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">HMRC export of goods:</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.num_hmrc_export_goods_outside_eu }}</span>
+                        </li>
+                    {% endif %}
+                    {% if item.num_hmrc_import_goods_outside_eu %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">HMRC import of goods:</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.num_hmrc_import_goods_outside_eu }}</span>
+                        </li>
+                    {% endif %}
+                    {% if item.employee_range %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">Employee range:</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.employee_range }}</span>
+                        </li>
+                    {% endif %}
+                    {% if item.turnover %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">Turnover:</span>
+                            <span class="app-metric-value govuk-!-display-inline">&pound;{{ item.turnover | round | formatNumberWithCommas }}</span>
                         </li>
                     {% endif %}
                 </ul>
             </div>
-        </nav>
-    </article>
+            <hr class="govuk-section-break govuk-section-break--visible">
+        </li>
+        {% endfor %}
+    {% else %}
+        <h2>Oh no, there are no results for your search</h2>
+        <p> Please check your filters and try again </p>
+    {% endif %}
+    </ol>
+    <nav class="app-pagination" aria-label="pagination: total {{ pagination.totalPages }} pages">
+        <div class="app-aligned-center">
+            <ul class="app-pagination-list">
+                {% if pagination.currentPage > 1 %}
+                    <li class="app-pagination-list-item">
+                        <a href="{{ pagination.prev }}" class="app-pagination-link">Prev</a>
+                    </li>
+                {% endif %}
+                {% for page in pagination.pages %}
+                    {% if pagination.currentPage == page.label %}
+                        <li class="app-pagination-list-item  is-current">
+                            <a href="{{ page.url }}" class="app-pagination-link">{{ page.label }}</a>
+                        </li>
+                    {% elseif page.label == '?' %}
+                        <li class="app-pagination-list-item is-truncated">
+                            <p>...</p>
+                        </li>
+                    {% else %}
+                        <li class="app-pagination-list-item">
+                            <a href="{{ page.url }}" class="app-pagination-link">{{ page.label }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if pagination.currentPage < pagination.totalPages %}
+                    <li class="app-pagination-list-item">
+                        <a href="{{ pagination.next }}" class="app-pagination-link">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 </article>
+
+

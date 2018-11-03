@@ -1,25 +1,25 @@
 {
   "name": "prospects-fe",
-  "version": "1.4.0",
-  "description": "Front end for Data Hub lab features",
+  "version": "1.0.0",
+  "description": "Data Hub Find Exporters",
   "main": "server.js",
   "engines": {
     "node": "8.11.1",
     "npm": "5.6.0"
   },
   "scripts": {
+    "clean": "del src/app/public/dist",
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
     "tag-master": "git tag v${npm_package_version}-master && git push --tags",
     "test": "NODE_ENV=development; LOG_LEVEL=error; SSO_BYPASS=true; JASMINE_CONFIG_PATH=src/test/app/jasmine.json jasmine",
     "test:unit": "jest",
-    "start": "NODE_ENV=production node --use-strict dist/server.js",
+    "start": "NODE_ENV=production node --use-strict server.js",
     "watch": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'",
     "grunt": "grunt dist",
-    "build:dist": "grunt dist && npm run dist-install",
-    "dist-install": "cd dist && npm install --production",
+    "build": "npm run clean && npm run prod",
     "dist": "npm run build:dist && npm run start",
-    "heroku-postbuild": "npm run build:dist",
+    "heroku-postbuild": "npm run build",
     "lint": "eslint src/app",
     "dev": "webpack --mode development",
     "prod": "webpack --mode production",
@@ -29,14 +29,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/uktrade/data-hub-lab-frontend.git"
+    "url": "git+https://github.com/uktrade/data-science-frontend.git"
   },
-  "author": "Graham Veal",
+  "contributors": [
+    "John Fieldman <hello@johnfieldman.com> (https://github.com/yozzo)",
+    "Ryan Holmes (https://github.com/RyanHolmesDIT)",
+    "Graham Veal"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/uktrade/data-hub-lab-frontend/issues"
+    "url": "https://github.com/uktrade/data-science-frontend/issues"
   },
-  "homepage": "https://github.com/uktrade/data-hub-lab-frontend#readme",
+  "homepage": "https://github.com/uktrade/data-science-frontend#readme",
   "devDependencies": {
     "browser-sync-webpack-plugin": "^2.2.2",
     "dotenv": "^6.0.0",
@@ -87,6 +91,7 @@
     "css-loader": "^1.0.1",
     "date-fns": "^1.29.0",
     "dateformat": "3.0.3",
+    "del-cli": "^1.1.0",
     "express": "4.16.3",
     "express-session": "1.15.6",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
