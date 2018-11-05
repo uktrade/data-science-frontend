@@ -80,7 +80,13 @@
             <hr class="govuk-section-break govuk-section-break--visible app-large-section-break">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half">
-                    <span class="govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">Page {{ pagination.currentPage }} of {{ pagination.totalPages }}</span>
+                    <span class="govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">
+                        {% if not pagination and result.length%}
+                            Page 1 of 1
+                        {% elif pagination.currentPage <= pagination.totalPages  %}
+                            Page {{pagination.currentPage}} of {{pagination.totalPages}}
+                        {% endif %}
+                    </span>
                 </div>
             </div>
             <hr class="govuk-section-break govuk-section-break--visible">
@@ -214,6 +220,9 @@
         </nav>
     </article>
 </article>
+
+
+
 
 
 
