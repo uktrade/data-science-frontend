@@ -151,7 +151,6 @@ module.exports = {
   buildFilters,
   dataByType,
   internalCompanyIdEvents,
-  renderError,
   renderIndex,
   search,
   searchBySicCode,
