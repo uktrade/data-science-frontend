@@ -64,13 +64,12 @@ describe( 'App', function(){
 		describe( 'index page', function(){
 
 			it( 'Should render the index page', function( done ){
-
 				supertest( app ).get( '/' ).end( ( err, res ) => {
 
 					checkResponse( res, 200 );
 					expect( getTitle( res ) ).toEqual( 'DS - Find Exporters' );
-					done();
 				} );
+				done();
 			} );
 		} );
 

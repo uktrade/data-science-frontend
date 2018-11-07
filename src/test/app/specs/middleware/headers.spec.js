@@ -66,7 +66,7 @@ describe( 'headers middleware', function(){
 
 				expect( res.setHeader.calls.count() ).toEqual( 7 );
 				checkHeadersForEveryRequest();
-				expect( lastArgs ).toEqual( [ 'Strict-Transport-Security', 'max-age=31536000; includeSubDomains' ] );
+				expect( lastArgs ).toEqual( [ 'Strict-Transport-Security', 'max-age=31536000 includeSubDomains' ] );
 			} );
 		} );
 	} );
