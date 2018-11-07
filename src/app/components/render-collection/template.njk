@@ -87,7 +87,9 @@
                 </span>
             </div>
         </div>
-        <hr class="govuk-section-break govuk-section-break--visible">
+        {% if result.length%}
+            <hr class="govuk-section-break govuk-section-break--visible">
+        {% endif %}
     </header>
     <ol class="govuk-list govuk-body app-collection-list">
     {% if result.length %}
