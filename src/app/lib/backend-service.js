@@ -70,13 +70,13 @@ module.exports = {
   },
 
   searchBySicCode: async (code) => {
-    const responseData = await backendRequest('/api/v1/company/search/sic_code/?codes=' + encodeURIComponent(code)+ '/', { cache: true })
+    const responseData = await backendRequest('/api/v1/company/search/sic_code/?codes=' + encodeURIComponent(code))
 
     return responseData
   },
 
   searchByExportCode: async (code) => {
-    const responseData = await backendRequest('/api/v1/company/search/commodity_code/?codes=' + encodeURIComponent(code) + '/', { cache: true })
+    const responseData = await backendRequest('/api/v1/company/search/commodity_code/?codes=' + encodeURIComponent(code))
 
     return responseData
   },
@@ -90,7 +90,6 @@ module.exports = {
   searchForCompanies: async (offset, limit, data) => {
     const responseData = await backendRequest(`/api/v1/company/search/?offset=${offset}&limit=${limit}`, {
       method: 'POST',
-      cache: true,
       data,
     })
 
