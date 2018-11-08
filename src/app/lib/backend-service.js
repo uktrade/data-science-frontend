@@ -90,6 +90,7 @@ module.exports = {
   searchForCompanies: async (offset, limit, data) => {
     const responseData = await backendRequest(`/api/v1/company/search/?offset=${offset}&limit=${limit}`, {
       method: 'POST',
+      cache: true,
       data,
     })
 
