@@ -3,9 +3,10 @@ const winston = require( 'winston' );
 
 const logger = require( '../../../app/lib/logger' );
 const app = require('../../../app/app');
-const config = require('../../../app/config');
+const config = require('../../../../config');
 
 jest.mock('../../../app/middleware/sso-bypass', () => { return ( req, res, next ) => next()});
+jest.mock('../../../app/lib/redis-client');
 
 function getTitle( res ){
 	const text = res.text;

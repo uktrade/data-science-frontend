@@ -1,5 +1,5 @@
 const app = require('../../../app/app');
-const config = require('../../../app/config');
+const config = require('../../../../config');
 
 jest.mock('../../../app/lib/redis-client')
 jest.mock('morgan')
