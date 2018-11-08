@@ -1,6 +1,6 @@
 const { castArray, isFunction, map, toLower, toNumber, startCase, trimStart } = require('lodash')
 
-const config = require('./config')
+const config = require('../../config')
 
 function selectCheckboxFilter (query, filter) {
   return map(filter, (item) => {

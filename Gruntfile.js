@@ -1,4 +1,4 @@
-const config = require('./src/app/config')
+const config = require('./config')
 
 module.exports = (grunt) => {
   require('load-grunt-tasks')(grunt)

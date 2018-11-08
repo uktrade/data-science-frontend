@@ -25,4 +25,35 @@
   width: 100%;
 }
 
+.app-js-hidden {
+  .js-enabled & {
+    display: none;
+  }
+}
+
+.u-loading {
+  &::before {
+    animation: growRight 3s;
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    border-top: 2px solid  $govuk-link-hover-colour;
+  }
+}
+
+@keyframes growRight {
+  0% {
+    right: 100%;
+  }
+  20% {
+    right: 60%;
+  }
+  100% {
+    right: 0;
+  }
+}
+
 

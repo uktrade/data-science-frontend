@@ -1,6 +1,6 @@
 const session = require( 'express-session' );
 const connectRedis = require( 'connect-redis' );
-const config = require( '../config' );
+const config = require( '../../../config' );
 const redisClient = require( '../lib/redis-client' );
 
 module.exports = {

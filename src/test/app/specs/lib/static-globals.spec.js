@@ -11,7 +11,7 @@ describe( 'Static globals', function(){
 	beforeEach( function(){
 
 		const stubs = {
-			'../config': {
+			'.../../../../config': {
 				analyticsId,
 				datahubDomain
 			}

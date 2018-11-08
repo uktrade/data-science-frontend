@@ -1,6 +1,6 @@
 const { isEmpty, map, castArray } = require('lodash')
 
-const config = require('../config')
+const config = require('../../../config')
 const backendService = require('../lib/backend-service')
 const getCacheTime = require('../lib/get-cache-time')
 const logger = require('../lib/logger')

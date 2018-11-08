@@ -3,7 +3,7 @@ const request = require( 'request' );
 const crypto = require( 'crypto' );
 const reporter =require( '../lib/reporter' );
 const redisClient = require( '../lib/redis-client' );
-const config = require( '../config' );
+const config = require( '../../../config' );
 const logger = require( './logger' );
 const getCacheTime = require( '../lib/get-cache-time' );
 
