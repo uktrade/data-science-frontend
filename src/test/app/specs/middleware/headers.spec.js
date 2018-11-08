@@ -12,14 +12,14 @@ describe( 'headers middleware', () => {
 
 		req = {};
 		res = {
-			setHeader: jasmine.createSpy( 'res.setHeader' )
+			setHeader: jest.fn()
 		};
-		next = jasmine.createSpy( 'next' );
+		next = jest.fn();
 	});
 
 	function checkHeadersForEveryRequest(){
 
-		const args = res.setHeader.calls.allArgs();
+		const args = res.setHeader.mock.calls;
 
 		expect( args[ 0 ] ).toEqual( [ 'X-Download-Options', 'noopen' ] );
 		expect( args[ 1 ] ).toEqual( [ 'X-XSS-Protection', '1; mode=block' ] );
@@ -43,7 +43,7 @@ describe( 'headers middleware', () => {
 
 				middleware( req, res, next );
 
-				expect( res.setHeader.calls.count() ).toEqual( 6 );
+				expect( res.setHeader.mock.calls.length ).toEqual( 6 );
 				checkHeadersForEveryRequest();
 			});
 		} );
@@ -62,9 +62,9 @@ describe( 'headers middleware', () => {
 
 				middleware( req, res, next );
 
-				const lastArgs = res.setHeader.calls.argsFor( 6 );
+				const lastArgs = res.setHeader.mock.calls[6];
 
-				expect( res.setHeader.calls.count() ).toEqual( 7 );
+				expect( res.setHeader.mock.calls.length ).toEqual( 7 );
 				checkHeadersForEveryRequest();
 				expect( lastArgs ).toEqual( [ 'Strict-Transport-Security', 'max-age=31536000 includeSubDomains' ] );
 			});

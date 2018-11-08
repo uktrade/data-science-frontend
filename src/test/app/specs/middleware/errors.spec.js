@@ -1,5 +1,6 @@
-jest.mock('../config', () => config);
-jest.mock('../lib/logger', () => logger);
+jest.mock('../../../../../config', () => { return { showErrors: false } });
+jest.mock('../../../../app/lib/logger', () => { return { error: jest.fn() } });
+const logger = require('../../../../app/lib/logger');
 
 describe( 'errors middleware', () => {
 
@@ -7,26 +8,17 @@ describe( 'errors middleware', () => {
 	let req;
 	let res;
 	let next;
-	let config;
 	let middleware;
-	let logger;
 
 	beforeEach(() => {
 
 		req = {};
 		res = {
-			status: jasmine.createSpy( 'res.status' ),
-			render: jasmine.createSpy( 'res.render' ),
-			sendStatus: jasmine.createSpy( 'res.sendStatus' )
+			status: jest.fn(),
+			render: jest.fn(),
+			sendStatus: jest.fn()
 		};
-		next = jasmine.createSpy( 'next' );
-
-		config = {
-			showErrors: false
-		};
-		logger = {
-			error: jasmine.createSpy( 'logger.error' )
-		};
+		next = jest.fn();
 
 		middleware = require('../../../../app/middleware/errors');
 	});
@@ -66,7 +58,7 @@ describe( 'errors middleware', () => {
                             middleware.catchAll( err, req, res, next );
 
                             expect( res.status ).toHaveBeenCalledWith( 500 );
-                            expect( res.render ).toHaveBeenCalledWith( 'error/default', { showErrors: config.showErrors, error: err } );
+                            expect( res.render ).toHaveBeenCalledWith( 'error/default', { showErrors: false, error: err } );
                             expect( logger.error ).toHaveBeenCalled();
                             expect( next ).not.toHaveBeenCalled();
                         }

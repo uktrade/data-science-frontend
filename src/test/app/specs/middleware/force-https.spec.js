@@ -14,10 +14,10 @@ describe( 'force-https middleware', () => {
 
 	beforeEach(() => {
 
-		redirect = jasmine.createSpy( 'res.redirect' );
-		get = jasmine.createSpy( 'req.get' ).and.callFake( () => 'test.com' );
+		redirect = jest.fn();
+		get = jest.fn(() => { return 'test.com' });
 		url = '/test/';
-		next = jasmine.createSpy( 'next' );
+		next = jest.fn();
 
 		req = {
 			headers: {},
