@@ -1,12 +1,13 @@
 const supertest = require( 'supertest' );
-const proxyquire = require( 'proxyquire' );
 const winston = require( 'winston' );
 
 const logger = require( '../../../app/lib/logger' );
-const modulePath = '../../../app/app';
+const app = require('../../../app/app');
+const config = require('../../../app/config');
+
+jest.mock('../../../app/middleware/sso-bypass', () => { return ( req, res, next ) => next()});
 
 function getTitle( res ){
-
 	const text = res.text;
 	const openTag = '<title>';
 	const openTagIndex = text.indexOf( openTag );
@@ -17,9 +18,7 @@ function getTitle( res ){
 }
 
 function checkResponse( res, statusCode ){
-
 	const headers = res.headers;
-
 	expect( res.statusCode ).toEqual( statusCode );
 	expect( headers[ 'x-download-options' ] ).toBeDefined();
 	expect( headers[ 'x-xss-protection' ] ).toBeDefined();
@@ -29,184 +28,86 @@ function checkResponse( res, statusCode ){
 }
 
 describe( 'App', function(){
-
-	let app;
 	let oldTimeout;
-	let stubs;
 
 	beforeEach( function(){
-
-		stubs = {
-			'morgan': function(){ return function ( req, res, next ){ next(); }; }
-		};
-
-		logger.remove( winston.transports.Console );
+		logger.remove(winston.transports.Console);
 		oldTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-		jasmine.DEFAULT_TIMEOUT_INTERVAL = 500;
+		jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000;
 	} );
 
 	afterEach( function(){
-		logger.add( winston.transports.Console );
+		logger.add(winston.transports.Console);
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = oldTimeout;
 	} );
 
 	describe( 'With SSO bypass enabled', function(){
+		let testApp;
 
 		beforeEach( function(){
+			testApp = app.create(undefined, config);
+			config.isDev = true;
+			config.sso = { bypass: true };
+		});
 
-			stubs[ './config' ] = {
-				isDev: true,
-				sso: { bypass: true }
-			};
-			app = proxyquire( modulePath, stubs ).create();
-		} );
+		afterEach(() => {
+			
+			jest.clearAllMocks()
+		})
 
 		describe( 'index page', function(){
-
 			it( 'Should render the index page', function( done ){
-				supertest( app ).get( '/' ).end( ( err, res ) => {
-
-					checkResponse( res, 200 );
-					expect( getTitle( res ) ).toEqual( 'DS - Find Exporters' );
-				} );
+				supertest(testApp).get('/').end((err, res) => {
+					checkResponse(res, 200);
+					expect( getTitle(res)).toEqual('DS - Find Exporters');
+				});
 				done();
-			} );
-		} );
-
-		xdescribe( '404 page', function(){
-
-			it( 'Should render the 404 page', function( done ){
-
-				supertest( app ).get( '/abc123' ).end( ( err, res ) => {
-
-					checkResponse( res, 404 );
-					expect( getTitle( res ) ).toEqual( 'DS - Not found' );
-					done();
-				} );
-			} );
-		} );
+			});
+		});
 
 		describe( 'Ping', function(){
-
-			it( 'Should return a status of 200', function( done ){
-
-				supertest( app ).get( '/ping/' ).end( ( err, res ) => {
-
-					checkResponse( res, 200 );
-					done();
-				} );
-			} );
-		} );
-	} );
+			it( 'Should return a status of 200', function(done){
+				supertest(testApp).get('/ping/').end((err, res) => {
+					checkResponse(res, 200);
+				});
+				done();
+			});
+		});
+	});
 
 	describe( 'With SSO bypass disabled', function(){
-
+		let testApp;
 		beforeEach( function(){
-
-			stubs[ './middleware/sso-bypass' ] = ( req, res, next ) => next();
-			app = proxyquire( modulePath, stubs ).create();
+			testApp = app.create(undefined, config);
 		} );
 
 		describe( 'Pages requiring auth', function(){
-
 			const pages = [
-				[ '/', 'Index' ]
+				['/', 'Index']
 			];
-
-			for( let [ path, page ] of pages ){
-
+			for(let [path, page] of pages){
 				it( `Should redirect the ${ page } page to the login page`, function( done ){
-
-					supertest( app ).get( path ).end( ( err, res ) => {
-
-						checkResponse( res, 302 );
-						expect( res.headers.location ).toEqual( '/login/' );
-						done();
-					} );
-				} );
+					supertest(testApp).get(path).end(( err, res ) => {
+						checkResponse(res, 302);
+						expect(res.headers.location).toEqual('/login/');
+					});
+					done();
+				});
 			}
-		} );
+		});
 
 		describe( 'Pages not requiring auth', function(){
-
 			const pages = [
-				[ '/ping/', 'Healthcheck' ]
+				['/ping/', 'Healthcheck']
 			];
-
-			for( let [ path, page ] of pages ){
-
+			for(let [ path, page ] of pages ){
 				it( `Should render the ${ page } page`, function( done ){
-
-					supertest( app ).get( path ).end( ( err, res ) => {
-
-						checkResponse( res, 200 );
-						done();
-					} );
-				} );
+					supertest(testApp).get(path).end(( err, res ) => {
+						checkResponse(res, 200);
+					});
+					done();
+				});
 			}
-		} );
-	} );
-
-	describe( 'Environments', function(){
-
-		let morgan;
-		let disable;
-		let compression;
-		let express;
-
-		beforeEach( function(){
-
-			morgan = jasmine.createSpy( 'morgan' );
-			disable = jasmine.createSpy( 'app.disable' );
-			compression = jasmine.createSpy( 'compression' );
-
-			express = function(){
-				return {
-					disable,
-					use: jasmine.createSpy( 'app.use' ),
-					set: jasmine.createSpy( 'app.set' ),
-					get: jasmine.createSpy( 'app.get' ),
-					post: jasmine.createSpy( 'app.post' ),
-				};
-			};
-		} );
-
-		describe( 'Dev mode', function(){
-
-			it( 'Should setup the app in dev mode', function(){
-
-				const app = proxyquire( modulePath, {
-					'./config': { isDev: true },
-					'morgan': morgan,
-					'compression': compression,
-					'express': express
-				} );
-
-				app.create();
-
-				expect( morgan ).toHaveBeenCalledWith( 'dev' );
-				expect( compression ).not.toHaveBeenCalled();
-				expect( disable ).toHaveBeenCalledWith( 'x-powered-by' );
-			} );
-		} );
-
-		describe( 'Prod mode', function(){
-
-			it( 'Should setup the app in prod mode', function(){
-
-				const app = proxyquire( modulePath, {
-					'./config': { isDev: false },
-					'morgan': morgan,
-					'compression': compression,
-					'express': express
-				} );
-
-				app.create();
-
-				expect( morgan ).toHaveBeenCalledWith( 'combined' );
-				expect( compression ).toHaveBeenCalled();
-				expect( disable ).toHaveBeenCalledWith( 'x-powered-by' );
-			} );
-		} );
-	} );
-} );
+		});
+	});
+});

@@ -1,21 +1,21 @@
 
 const createMiddleware = require( '../../../../app/middleware/headers' );
 
-describe( 'headers middleware', function(){
+describe( 'headers middleware', () => {
 
 	let req;
 	let res;
 	let next;
 	let middleware;
 
-	beforeEach( function(){
+	beforeEach(() => {
 
 		req = {};
 		res = {
 			setHeader: jasmine.createSpy( 'res.setHeader' )
 		};
 		next = jasmine.createSpy( 'next' );
-	} );
+	});
 
 	function checkHeadersForEveryRequest(){
 
@@ -30,35 +30,35 @@ describe( 'headers middleware', function(){
 	}
 
 
-	describe( 'Dev mode', function(){
+	describe( 'Dev mode', () => {
 
-		beforeEach( function(){
+		beforeEach(() => {
 
 			middleware = createMiddleware( true );
-		} );
+		});
 
-		describe( 'All headers', function(){
+		describe( 'All headers', () => {
 
-			it( 'Should add the correct headers for all requests', function(){
+			test('Should add the correct headers for all requests', () => {
 
 				middleware( req, res, next );
 
 				expect( res.setHeader.calls.count() ).toEqual( 6 );
 				checkHeadersForEveryRequest();
-			} );
+			});
 		} );
 	} );
 
-	describe( 'Not in dev mode', function(){
+	describe( 'Not in dev mode', () => {
 
-		beforeEach( function(){
+		beforeEach(() => {
 
 			middleware = createMiddleware( false );
-		} );
+		});
 
-		describe( 'All headers', function(){
+		describe( 'All headers', () => {
 
-			it( 'Should add the correct headers for all requests', function(){
+			test('Should add the correct headers for all requests', () => {
 
 				middleware( req, res, next );
 
@@ -67,7 +67,7 @@ describe( 'headers middleware', function(){
 				expect( res.setHeader.calls.count() ).toEqual( 7 );
 				checkHeadersForEveryRequest();
 				expect( lastArgs ).toEqual( [ 'Strict-Transport-Security', 'max-age=31536000 includeSubDomains' ] );
-			} );
+			});
 		} );
 	} );
 } );
