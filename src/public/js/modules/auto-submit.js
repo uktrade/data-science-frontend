@@ -29,9 +29,6 @@ const AutoSubmit = {
   },
 
   submitForm (form) {
-    if (this.isSubmitting) { return }
-    this.isSubmitting = true
-
     const query = pickBy(getFormData(form))
 
     XHR.request(form.action, query)
