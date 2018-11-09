@@ -4,7 +4,6 @@ const XHR = require('../lib/xhr')
 
 const AutoSubmit = {
   selector: '.js-AutoSubmit',
-  isSubmitting: false,
 
   init () {
     this.bindEvents()
@@ -32,7 +31,6 @@ const AutoSubmit = {
     const query = pickBy(getFormData(form))
 
     XHR.request(form.action, query)
-      .then(() => { this.isSubmitting = false })
   },
 }
 
