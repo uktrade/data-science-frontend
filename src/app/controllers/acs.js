@@ -67,6 +67,22 @@ async function internalCompanyIdEvents (req, res) {
   res.json(data.body)
 }
 
+async function getMarketExportedMetadata (req, res) {
+  const data = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
+
+  console.log(data)
+
+  res.send(JSON.stringify(data))
+}
+
+async function getMarketOfInterestMetadata (req, res) {
+  const data = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
+
+  console.log(data)
+
+  res.send(JSON.stringify(data))
+}
+
 async function getCheckboxFilter (req, apiParam, queryParam) {
   const list = await backendService.getDataByType(apiParam)
 
@@ -150,6 +166,8 @@ async function searchByExportCode (req, res) {
 module.exports = {
   buildFilters,
   dataByType,
+  getMarketExportedMetadata,
+  getMarketOfInterestMetadata,
   internalCompanyIdEvents,
   renderIndex,
   search,

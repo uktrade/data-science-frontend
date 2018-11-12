@@ -3,15 +3,19 @@ const { castArray, isFunction, map, toLower, toNumber, startCase, trimStart } = 
 const config = require('../../config')
 
 function selectCheckboxFilter (query, filter) {
-  return map(filter, (item) => {
+  const data = map(filter, (item) => {
     map(castArray(query), (element) => {
       if (element === item.value) {
         item.checked = true
       }
     })
-
+    if (item.checked) {
+      console.log('>>> !!! >>>>> ', item)
+    }
     return item
   })
+  console.log('>>>>>>>>>>> ', data)
+  return data
 }
 
 /**

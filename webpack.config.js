@@ -3,6 +3,8 @@ const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const WebpackAssetsManifest = require('webpack-assets-manifest')
 
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 const config = require('./config')
 
 const common = {
@@ -11,12 +13,11 @@ const common = {
     styles: './src/public/scss/styles.scss',
     app: [
       './src/public/js/app.js',
+      './src/public/js/app-vue.js',
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'src/public/dist/'),
-    filename: '[name].js',
-    sourceMapFilename: '[name].js.map',
+    path: config.buildDir,
   },
   module: {
     rules: [
@@ -78,8 +79,7 @@ const common = {
                 sourceMap: true, // required for resolve-url-loader
                 includePaths: [
                   path.resolve(__dirname, 'node_modules'),
-                  path.resolve(__dirname, 'node_modules/govuk_frontend_toolkit/stylesheets'),
-                  path.resolve(__dirname, 'node_modules/vue-multiselect/dist'),
+                  path.resolve(__dirname, 'node_modules/govuk_frontend'),
                 ],
               },
             },
@@ -100,6 +100,7 @@ const common = {
   },
   plugins: [
     new WebpackAssetsManifest(),
+    new VueLoaderPlugin(),
   ],
   node: {
     fs: 'empty',
