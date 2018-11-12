@@ -97,6 +97,7 @@
   },
   "dependencies": {
     "autoprefixer": "^9.3.1",
+    "axios": "^0.18.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
@@ -128,6 +129,10 @@
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "uuid": "^3.3.2",
+    "vue": "^2.5.17",
+    "vue-loader": "^15.4.2",
+    "vue-template-compiler": "^2.5.17",
+    "vue-typeahead": "^2.3.2",
     "webpack": "^4.23.1",
     "webpack-assets-manifest": "^3.1.0",
     "webpack-merge": "^4.1.4",

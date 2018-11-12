@@ -1,17 +1,17 @@
-const { castArray, isFunction, map, toLower, toNumber, startCase, trimStart } = require('lodash')
+const { castArray, isFunction, map, toLower, toNumber, split, startCase, trimStart } = require('lodash')
 
 const config = require('../../config')
 
 function selectCheckboxFilter (query, filter) {
-  return map(filter, (item) => {
+  const data = map(filter, (item) => {
     map(castArray(query), (element) => {
       if (element === item.value) {
         item.checked = true
       }
     })
-
     return item
   })
+  return data
 }
 
 /**
@@ -43,6 +43,10 @@ function transformQueryToTurnoverFilter (key, min = '', max = '') {
       'max': getNumber(max),
     },
   })
+}
+
+function transformStringToArray (value) {
+  return split(value, ',')
 }
 
 function transformToLowerTrimStart (value) {
@@ -97,5 +101,6 @@ module.exports = {
   transformQueryToEvidenceFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
+  transformStringToArray,
   transformToLowerTrimStart,
 }

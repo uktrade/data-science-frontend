@@ -1,4 +1,4 @@
-const { isEmpty, map, castArray } = require('lodash')
+const { castArray, isEmpty, map } = require('lodash')
 
 const config = require('../../../config')
 const backendService = require('../lib/backend-service')
@@ -13,6 +13,7 @@ const {
   transformQueryToEvidenceFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
+  transformStringToArray,
   transformToLowerTrimStart,
 } = require('../transformers')
 const { buildPagination } = require('../lib/pagination')
@@ -26,8 +27,8 @@ async function buildFilters (req, res, next) {
       ...transformQueryToEvidenceFilter('last_export_evidence', req.query['export-evidence-start-date'], req.query['export-evidence-end-date']),
       ...transformQueryToDoubleFilter('sic_codes', req.query['sic-codes']),
       ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
-      ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], castArray),
-      ...sanitizeKeyValuePair('market_exported', req.query['market-exported-to'], castArray),
+      ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], transformStringToArray),
+      ...sanitizeKeyValuePair('market_exported', req.query['market-exported-to'], transformStringToArray),
       ...sanitizeKeyValuePair('service_usage', req.query['service-used'], castArray),
       ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
     },
@@ -65,6 +66,18 @@ async function internalCompanyIdEvents (req, res) {
   const data = await backendService.getEventsByInternalCompanyId(req.params.id)
 
   res.json(data.body)
+}
+
+async function getMarketExportedMetadata (req, res) {
+  const data = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
+
+  res.send(JSON.stringify(data))
+}
+
+async function getMarketOfInterestMetadata (req, res) {
+  const data = await getCheckboxFilter(req, 'market_of_interest', 'market-of-interest')
+
+  res.send(JSON.stringify(data))
 }
 
 async function getCheckboxFilter (req, apiParam, queryParam) {
@@ -150,6 +163,8 @@ async function searchByExportCode (req, res) {
 module.exports = {
   buildFilters,
   dataByType,
+  getMarketExportedMetadata,
+  getMarketOfInterestMetadata,
   internalCompanyIdEvents,
   renderIndex,
   search,

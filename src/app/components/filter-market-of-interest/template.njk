@@ -2,26 +2,32 @@
 {% from "label/macro.njk" import govukLabel %}
 {% from "input/macro.njk" import govukInput %}
 
-<div class="govuk-form-group">
-    <div class=" app-filter-group-heading">
-        {{ govukLabel({
-            text: "Market of interest",
-            classes: "govuk-!-font-weight-bold app-filter-label"
-        }) }}
+<checkbox-typeahead
+        filter-name="{{'market-of-interest'}}"
+        filter-title="{{'Market of interest'}}"
+        id="{{'market-of-interest'}}"
+></checkbox-typeahead>
+<noscript>
+    <div class="govuk-form-group">
+        <div class=" app-filter-group-heading">
+            {{ govukLabel({
+                text: "Market of interest",
+                classes: "govuk-!-font-weight-bold app-filter-label"
+            }) }}
 
-       
 
+
+        </div>
+        <div class="app-filter-group-list ">
+            {{ govukCheckboxes({
+                idPrefix: "market-of-interest",
+                name: "market-of-interest",
+                classes: "app-filter-checkboxes-group",
+                items: params.marketOfInterest
+            }) }}
+        </div>
     </div>
-    <div class="app-filter-group-list ">
-        {{ govukCheckboxes({
-            idPrefix: "market-of-interest",
-            name: "market-of-interest",
-            classes: "app-filter-checkboxes-group",
-            items: params.marketOfInterest
-        }) }}
-    </div>
-</div>
-
+</noscript>
 
 
 
