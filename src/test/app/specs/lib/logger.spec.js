@@ -1,80 +1,57 @@
-const proxyquire = require( 'proxyquire' ).noPreserveCache();
-
-const originalEnv = process.env.NODE_ENV;
-let consoleStub;
-let loggerStub;
-let logLevel;
-
-function createLogger(){
-
-	logLevel = 'debug';
-	loggerStub = jasmine.createSpy( 'winston.Logger' ).and.callFake( () => function(){} );
-	consoleStub = jasmine.createSpy( 'winston.transports.Console' ).and.callFake( () => function(){} );
-
-	const stubs = {
-		'winston': {
-			Logger: loggerStub,
-			transports: {
-				Console: consoleStub
-			}
-		},
-		'.../../../../config': {
-			logLevel
+jest.mock('winston', () => { 
+	return {
+		Logger: jest.fn(() => () => {}),
+		transports: {
+			Console: jest.fn(() => () => {})
 		}
-	};
+	}
+});
 
-	return proxyquire( '../../../../app/lib/logger', stubs );
-}
+describe('logger', () => {
+	const OLD_ENV = process.env;
+	let winston;
 
-describe( 'logger', function(){
+	beforeEach(() => {
+		jest.resetModules();
+		process.env = { ...OLD_ENV };
+		delete process.env.NODE_ENV;
+		winston = require('winston');
+	});
 
-	beforeEach( function(){
+	afterEach(() => {
+		process.env = OLD_ENV;
+	});
 
-		process.env.NODE_ENV = '';
-	} );
-
-	afterEach( function(){
-
-		process.env.NODE_ENV = originalEnv;
-	} );
-
-	it( 'Creates a logger with the correct log level', function(){
-
+	it('Creates a logger with the correct log level', () => {		
+		process.env.NODE_ENV = 'development';
+		const createLogger = require('../../../../app/lib/logger');
 		createLogger();
 
-		expect( loggerStub ).toHaveBeenCalled();
-		expect( loggerStub.calls.argsFor( 0 )[ 0 ].level ).toEqual( logLevel );
-	} );
+		expect(winston.Logger).toHaveBeenCalled();
+		expect(winston.Logger.mock.calls[0][0].level).toEqual('debug');
+	});
 
-	describe( 'In production', function(){
+	it('Should set colorize to false in production', () => {
+		process.env.NODE_ENV = 'production';
+		const createLogger = require('../../../../app/lib/logger');
+		createLogger();
 
-		it( 'Should set colorize to false', function(){
+		expect(winston.transports.Console).toHaveBeenCalledWith({ colorize: false });
+	});
 
-			process.env.NODE_ENV = 'production';
-			createLogger();
+	it('Should set colorize to true in development', () => {
+		process.env.NODE_ENV = 'development';
+		const createLogger = require('../../../../app/lib/logger');
+		createLogger();
 
-			expect( consoleStub ).toHaveBeenCalledWith( { colorize: false } );
-		} );
-	} );
+		expect(winston.transports.Console).toHaveBeenCalledWith({ colorize: true });
+	});
 
-	describe( 'In development', function(){
+	it('Should set colorize to true when the NODE_ENV is not set', () => {
+		process.env.NODE_ENV = '';
+		const createLogger = require('../../../../app/lib/logger');
+		createLogger();
 
-		it( 'Should set colorize to true', function(){
-
-			process.env.NODE_ENV = 'development';
-			createLogger();
-
-			expect( consoleStub ).toHaveBeenCalledWith( { colorize: true } );
-		} );
-	} );
-
-	describe( 'When the NODE_ENV is not set', function(){
-
-		it( 'Should set colorize to true', function(){
-
-			createLogger();
-
-			expect( consoleStub ).toHaveBeenCalledWith( { colorize: true } );
-		} );
-	} );
-} );
+		expect(winston.transports.Console).toHaveBeenCalledWith({ colorize: true });
+	});
+});
