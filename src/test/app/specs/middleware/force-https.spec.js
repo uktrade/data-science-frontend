@@ -4,7 +4,6 @@ const forceHttps = require( '../../../../app/middleware/force-https' );
 const forwardHeader = 'x-forwarded-proto';
 
 describe( 'force-https middleware', () => {
-
 	let req;
 	let res;
 	let next;
@@ -13,7 +12,6 @@ describe( 'force-https middleware', () => {
 	let url;
 
 	beforeEach(() => {
-
 		redirect = jest.fn();
 		get = jest.fn(() => { return 'test.com' });
 		url = '/test/';
@@ -30,52 +28,42 @@ describe( 'force-https middleware', () => {
 		};
 	});
 
-	describe( 'In dev mode', () => {
-
-		test('Should call next', () => {
-
+	describe('In dev mode', () => {
+		it('Should call next', () => {
 			const middleware = forceHttps( true );
 			middleware( req, res, next );
 
 			expect( next ).toHaveBeenCalled();
 		});
-	} );
+	});
 
-	describe( 'Not in dev mode', () => {
-
-		describe( 'When the header is defined', () => {
-
+	describe('Not in dev mode', () => {
+		describe('When the header is defined', () => {
 			describe( 'When the header is http', () => {
-
-				test('Should redirect to https', () => {
-
-					const middleware = forceHttps( false );
-					req.headers[ forwardHeader ] = 'http';
-					middleware( req, res, next );
-					expect( res.redirect ).toHaveBeenCalledWith( 'https://test.com/test/' );
+				it('Should redirect to https', () => {
+					const middleware = forceHttps(false);
+					req.headers[forwardHeader] = 'http';
+					middleware(req, res, next);
+					expect(res.redirect).toHaveBeenCalledWith('https://test.com/test/');
 				});
-			} );
+			});
 
-			describe( 'When the header is https', () => {
-
-				test('Should call next', () => {
-
+			describe('When the header is https', () => {
+				it('Should call next', () => {
 					const middleware = forceHttps( false );
 					req.headers[ forwardHeader ] = 'https';
 					middleware( req, res, next );
 					expect( next ).toHaveBeenCalled();
 				});
-			} );
-		} );
+			});
+		});
 
-		describe( 'When the header is not defined', () => {
-
-			test('Should call next', () => {
-
+		describe('When the header is not defined', () => {
+			it('Should call next', () => {
 				const middleware = forceHttps( false );
 				middleware( req, res, next );
 				expect( next ).toHaveBeenCalled();
 			});
-		} );
-	} );
-} );
+		});
+	});
+});

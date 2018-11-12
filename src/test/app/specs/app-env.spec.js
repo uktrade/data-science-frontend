@@ -27,33 +27,32 @@ jest.mock('express', () => {
     }
 });
 
-describe( 'App', function(){
-
-	describe( 'Environments', function(){
+describe('App', () => {
+	describe('Environments', () => {
 		const morgan = require('morgan');
 		const compression = require('compression');
 
 		afterEach(() => {
 			jest.clearAllMocks()
-		})
+		});
 
-		describe( 'Dev mode', function(){
+		describe('Dev mode', () => {
 			it('Should setup the app in dev mode', () => {
 				config.isDev = true
 				app.create(dummyApp, config)
-				expect( morgan ).toHaveBeenCalledWith( 'dev' );
-				expect( compression ).not.toHaveBeenCalled();
-				expect( disable ).toHaveBeenCalledWith( 'x-powered-by' );
+				expect(morgan).toHaveBeenCalledWith('dev');
+				expect(compression).not.toHaveBeenCalled();
+				expect(disable).toHaveBeenCalledWith('x-powered-by');
 			});
 		});
 
-		describe( 'Prod mode', function(){
-			it( 'Should setup the app in prod mode', function(){
+		describe('Prod mode', () => {
+			it('Should setup the app in prod mode', () => {
 				config.isDev = false
 				app.create(dummyApp, config)
-				expect( morgan ).toHaveBeenCalledWith( 'combined' );
+				expect( morgan ).toHaveBeenCalledWith('combined');
 				expect( compression ).toHaveBeenCalled();
-				expect( disable ).toHaveBeenCalledWith( 'x-powered-by' );
+				expect( disable ).toHaveBeenCalledWith('x-powered-by');
 			});
 		});
 	});
