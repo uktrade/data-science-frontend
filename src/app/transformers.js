@@ -22,7 +22,6 @@ function selectCheckboxFilter (query, filter) {
 
 function sanitizeKeyValuePair (key, value = '', utility = {}) {
   if (isFunction(utility)) {
-    console.log({ [key]: utility(value) })
     return (value.length && { [key]: utility(value) })
   } else {
     return (value.length && { [key]: value })

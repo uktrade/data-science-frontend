@@ -101,7 +101,6 @@
         map(this.list, (country) => {
           if(country.value === value) {
             country.checked = !country.checked
-            console.log(country.value, country.checked)
           }
         })
 
