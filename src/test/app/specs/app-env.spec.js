@@ -2,6 +2,12 @@ const app = require('../../../app/app');
 const config = require('../../../../config');
 
 jest.mock('../../../app/lib/redis-client');
+jest.mock('../../../app/lib/redis-client');
+jest.mock('readdirp');
+jest.mock('chokidar');
+jest.mock('nunjucks');
+jest.mock('../../../app/lib/static-globals');
+jest.mock('../../../app/lib/nunjucks-filters');
 jest.mock('morgan');
 jest.mock('compression');
 
