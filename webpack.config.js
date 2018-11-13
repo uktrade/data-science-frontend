@@ -17,7 +17,7 @@ const common = {
     ],
   },
   output: {
-    path: config.buildDir,
+    path: path.resolve(__dirname, 'src/public/dist/'),
   },
   module: {
     rules: [
