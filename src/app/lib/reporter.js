@@ -1,56 +1,43 @@
-const config = require( '../../../config' );
-const raven = require( 'raven' );
-const logger = require( './logger' );
+const config = require('../../../config');
+const raven = require('raven');
+const logger = require('./logger');
 
 const useSentry = !!config.sentryDsn;
 
-if( useSentry ){
-
-	raven.config( config.sentryDsn, { release: config.version } ).install();
+if (useSentry) {
+  raven.config(config.sentryDsn, { release: config.version }).install();
 }
 
 module.exports = {
 
-	setup: function( app ){
+  setup: function (app) {
+    if (useSentry) {
+      app.use(raven.requestHandler());
+    }
+  },
 
-		if( useSentry ){
+  handleErrors: function (app) {
+    if (useSentry) {
+      app.use(raven.errorHandler());
+    }
+  },
 
-			app.use( raven.requestHandler() );
-		}
-	},
+  message: function (level, msg, extra) {
+    if (useSentry) {
+      raven.captureMessage(msg, {
+        level,
+        extra,
+      });
+    } else {
+      logger.warn(msg, JSON.stringify(extra));
+    }
+  },
 
-	handleErrors: function( app ){
-
-		if( useSentry ){
-
-			app.use( raven.errorHandler() );
-		}
-	},
-
-	message: function( level, msg, extra ){
-
-		if( useSentry ){
-
-			raven.captureMessage( msg, {
-				level,
-				extra
-			} );
-
-		} else {
-
-			logger.warn( msg, JSON.stringify( extra ) );
-		}
-	},
-
-	captureException: function( err ){
-
-		if( useSentry ){
-
-			raven.captureException( err );
-
-		} else {
-
-			logger.error( err );
-		}
-	}
+  captureException: function (err) {
+    if (useSentry) {
+      raven.captureException(err);
+    } else {
+      logger.error(err);
+    }
+  },
 };

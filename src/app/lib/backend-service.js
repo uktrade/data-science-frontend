@@ -1,4 +1,4 @@
-const backendRequest = require('./backend-request')
+const backendRequest = require('./backend-request');
 
 const sources = {
   'citrix.webinars.attendees': 'Citrix (DIT Webinars)',
@@ -36,63 +36,63 @@ const sources = {
   'zendesk.tickets.contact_dit_form': 'Zendesk (Tickets)',
   'zendesk.tickets.iigb': 'Zendesk (Tickets)',
   'zendesk.tickets.soo': 'Zendesk (Tickets)',
-}
+};
 
 function transformEvents (responseData) {
   if (responseData.response.statusCode === 200 && responseData.body && responseData.body.events) {
     responseData.body.events = responseData.body.events.map((event) => {
-      event.source = sources[ event.data_source ] || event.data_source
-      return event
-    })
+      event.source = sources[ event.data_source ] || event.data_source;
+      return event;
+    });
   }
 
-  return responseData
+  return responseData;
 }
 
 module.exports = {
 
   getEventsByCompanyName: async (name) => {
-    const responseData = await backendRequest('/api/v1/company/events/?company_name=' + encodeURIComponent(name).replace(/%20/g, '+').toLowerCase())
+    const responseData = await backendRequest('/api/v1/company/events/?company_name=' + encodeURIComponent(name).replace(/%20/g, '+').toLowerCase());
 
-    return transformEvents(responseData)
+    return transformEvents(responseData);
   },
 
   getEventsByCompanyId: async (id) => {
-    const responseData = await backendRequest('/api/v1/company/events/?companies_house_id=' + parseInt(id, 10))
+    const responseData = await backendRequest('/api/v1/company/events/?companies_house_id=' + parseInt(id, 10));
 
-    return transformEvents(responseData)
+    return transformEvents(responseData);
   },
 
   getEventsByInternalCompanyId: async function (id) {
-    const responseData = await backendRequest('/api/v1/company/events/?company_id=' + parseInt(id, 10))
+    const responseData = await backendRequest('/api/v1/company/events/?company_id=' + parseInt(id, 10));
 
-    return transformEvents(responseData)
+    return transformEvents(responseData);
   },
 
   searchBySicCode: async (code) => {
-    const responseData = await backendRequest('/api/v1/company/search/sic_code/?codes=' + encodeURIComponent(code))
+    const responseData = await backendRequest('/api/v1/company/search/sic_code/?codes=' + encodeURIComponent(code));
 
-    return responseData
+    return responseData;
   },
 
   searchByExportCode: async (code) => {
-    const responseData = await backendRequest('/api/v1/company/search/commodity_code/?codes=' + encodeURIComponent(code))
+    const responseData = await backendRequest('/api/v1/company/search/commodity_code/?codes=' + encodeURIComponent(code));
 
-    return responseData
+    return responseData;
   },
 
   getDataByType: async (type) => {
-    const responseData = await backendRequest('/api/v1/company/search/' + encodeURIComponent(type) + '/')
+    const responseData = await backendRequest('/api/v1/company/search/' + encodeURIComponent(type) + '/');
 
-    return responseData
+    return responseData;
   },
 
   searchForCompanies: async (offset, limit, data) => {
     const responseData = await backendRequest(`/api/v1/company/search/?offset=${offset}&limit=${limit}`, {
       method: 'POST',
       data,
-    })
+    });
 
-    return responseData
+    return responseData;
   },
-}
+};

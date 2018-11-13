@@ -1,7 +1,11 @@
 {
+  "env": {
+    "jest": true
+  },
   "extends": "standard",
 
   "rules": {
+    "semi": [1, "always"],
     "comma-dangle": [
       "error",
       {
@@ -12,7 +16,6 @@
         "functions": "ignore"
       }
     ],
-    "object-curly-spacing": ["error", "always"],
     "dot-notation": "error"
   }
 }
