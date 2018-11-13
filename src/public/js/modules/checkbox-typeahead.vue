@@ -1,7 +1,5 @@
 <template>
-    <div class="govuk-form-group js-prevent-submit"
-         v-model="selectedOptions"
-    >
+    <div class="govuk-form-group js-prevent-submit">
         <div class=" app-filter-group-heading">
             <label class="govuk-label govuk-!-font-weight-bold app-filter-label">
                 {{ filterTitle }}
@@ -18,27 +16,25 @@
         <div class="app-filter-group-list">
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes app-filter-checkboxes-group">
-                    <div v-for="item, index in list" class="govuk-checkboxes__item">
-                        <input :id="'market-exported-to-' + item" name="market-exported-to"
-                               type="checkbox"
+                    <div v-for="item in list" class="govuk-checkboxes__item">
+                        <input type="checkbox"
                                :value="item.value"
                                :checked="item.checked"
                                class="govuk-checkboxes__input"
-                               v-model="selectedOptions"
+                               v-model="selectedItems"
                                v-on:click.prevent="asyncFilter">
-                        <label :for="'market-exported-to-' + item"
+                        <label
                                class="govuk-label govuk-checkboxes__label"
                         >{{item.text}}</label>
                     </div>
                 </div>
             </div>
         </div>
-        <input class="" :value="selectedOptions">
+        <input type="hidden" :id="id" :name="filterName" class="app-hidden-filter" :value="selectedItems">
     </div>
 </template>
 <script>
-  import VueTypeahead from 'vue-typeahead'
-  import { filter, map, pickBy } from 'lodash'
+  import { debounce, each, filter, flatten, isArray, map, pickBy, split, uniq} from 'lodash'
 
   const XHR = require('../lib/xhr')
   const getFormData = require('get-form-data').default
@@ -54,15 +50,13 @@
   }
 
   export default {
-
-    extends: VueTypeahead,
     name: 'checkbox-typeahead',
 
     created() {
       this.$http.get(`/${this.filterName}${window.location.search}`).then(function(response){
         this.initialList = response.data
         this.list = this.initialList
-        this.selectedOptions = map(filter(this.list, (item) => item.checked), (item) => item.value)
+        this.selectedItems = map(filter(this.list, (item) => item.checked), (item) => item.value)
       }.bind(this))
     },
 
@@ -74,43 +68,25 @@
       filterTitle: {
         type: String,
         required: true,
-      }
+      },
+      id: {
+        type: String,
+        required: true,
+      },
     },
 
     data : function() {
       return {
-        selectedOptions: [],
+        selectedItems: [],
+        selectedList: [],
         list: this.intialList,
         query: ''
       }
     },
 
-    watch: {
-
-    },
-
     methods: {
-      // selectedOptionsZ: function (newOptions) {
-      //   if (!this.autoSubmit || this.isSubmitting) { return }
-      //   this.isSubmitting = true
-      //
-      //   const form = this.formSelector ? document.querySelector(this.formSelector) : this.$el.closest('form')
-      //   if (!form) { return }
-      //
-      //   const query = pickBy(getFormData(form))
-      //   delete query[this.id]
-      //   query[this.name] = newOptions.map(option => option.value)
-      //
-      //   XHR.request(form.action, query)
-      //     .then(() => {
-      //       this.isSubmitting = false
-      //     })
-      // },
-
       getQuery(item) {
         const query = item.target.value
-
-        console.log(this.filterName)
 
         if (query.length >= 3) {
           this.list = filterCountries(query, this.initialList)
@@ -119,8 +95,8 @@
         }
       },
 
-      asyncFilter(item) {
-        const value = item.target.value
+      asyncFilter(event) {
+        const value = event.target.value
 
         map(this.list, (country) => {
           if(country.value === value) {
@@ -129,20 +105,26 @@
           }
         })
 
-        if (this.selectedOptions.indexOf(value) === -1) {
-          this.selectedOptions.push(value)
+        if (this.selectedItems.indexOf(value) === -1) {
+          this.selectedItems.push(value)
         } else {
-          this.selectedOptions.pop(value)
+          this.selectedItems.splice(this.selectedItems.indexOf(value))
         }
 
         const form = this.formSelector ? document.querySelector(this.formSelector) : this.$el.closest('form')
         if (!form) { return }
 
         const query = pickBy(getFormData(form))
-        delete query[this.id]
-        // query[this.name] = item.map(option => option.value)
+        query[this.filterName] = this.selectedItems
 
-        console.log('>>>>>> query >>>>>>', query)
+        // TODO(jf): Make this more abstract
+        if (this.filterName === 'market-of-interest') {
+          query['market-exported-to'] = split(query['market-exported-to'], ',')
+
+        } else if (this.filterName === 'market-exported-to') {
+          query['market-of-interest'] = split(query['market-of-interest'], ',')
+        }
+
         XHR.request(form.action, query)
           .then(() => {
             this.isSubmitting = false

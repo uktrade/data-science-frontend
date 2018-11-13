@@ -19,7 +19,7 @@ module.exports = function (express, app) {
     getMarketOfInterestMetadata,
   )
 
-  app.get('/market-exported',
+  app.get('/market-exported-to',
     getMarketExportedMetadata,
   )
 }

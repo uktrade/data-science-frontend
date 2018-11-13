@@ -3,8 +3,9 @@
 {% from "input/macro.njk" import govukInput %}
 
 <checkbox-typeahead
-        filter-name="{{'market-exported'}}"
+        filter-name="{{'market-exported-to'}}"
         filter-title="{{'Market exported to'}}"
+        id="{{'market-exported-to'}}"
 ></checkbox-typeahead>
 <noscript>
     <div class="govuk-form-group ">
@@ -12,16 +13,6 @@
             {{ govukLabel({
                 text: "Market exported to",
                 classes: "govuk-!-font-weight-bold app-filter-label"
-            }) }}
-
-            {{ govukInput({
-                label: {
-                    text: "Search for country",
-                    classes: "app-filter-subheading"
-                },
-                id: "search-for-country",
-                name: "search-for-country"
-
             }) }}
         </div>
         <div class="app-filter-group-list">
