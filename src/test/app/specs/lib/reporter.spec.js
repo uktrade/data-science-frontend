@@ -1,13 +1,14 @@
 jest.mock('raven', () => {
 	let install = jest.fn();
 	return {
-	captureMessage: jest.fn(),
-	config: jest.fn(() => {return { install }}),
-	install,
-	requestHandler: jest.fn(),
-	errorHandler: jest.fn(),
-	captureException: jest.fn(),
-}});
+		captureMessage: jest.fn(),
+		config: jest.fn(() => {return { install }}),
+		install,
+		requestHandler: jest.fn(),
+		errorHandler: jest.fn(),
+		captureException: jest.fn(),
+	}
+});
 
 jest.mock('../../../../app/lib/logger', () => ({
 	warn: jest.fn(),
