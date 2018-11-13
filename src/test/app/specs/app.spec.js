@@ -1,12 +1,18 @@
 const supertest = require( 'supertest' );
 const winston = require( 'winston' );
 
-const logger = require( '../../../app/lib/logger' );
+const logger = require('../../../app/lib/logger');
 const app = require('../../../app/app');
 const config = require('../../../../config');
 
 jest.mock('../../../app/middleware/sso-bypass', () => { return (req, res, next) => next() });
 jest.mock('../../../app/lib/redis-client');
+jest.mock('readdirp');
+jest.mock('chokidar');
+jest.mock('nunjucks');
+jest.mock('../../../app/lib/static-globals');
+jest.mock('../../../app/lib/nunjucks-filters');
+
 
 function getTitle(res){
 	const text = res.text;
@@ -52,7 +58,8 @@ describe( 'App', () => {
 		});
 
 		afterEach(() => {
-			jest.clearAllMocks()
+			jest.restoreAllMocks();
+			jest.resetModules();
 		});
 
 		describe('index page', () => {

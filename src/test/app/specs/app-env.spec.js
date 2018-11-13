@@ -33,7 +33,8 @@ describe('App', () => {
 		const compression = require('compression');
 
 		afterEach(() => {
-			jest.clearAllMocks()
+			jest.restoreAllMocks();
+			jest.resetModules();
 		});
 
 		describe('Dev mode', () => {
