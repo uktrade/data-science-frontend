@@ -9,6 +9,7 @@
 {% from "filter-market-exported-to/macro.njk" import filterMarketExportedTo %}
 {% from "filter-latest-export-evidence/macro.njk" import filterLatestExportEvidence %}
 {% from "render-collection/macro.njk" import renderCollection %}
+{% from "input/macro.njk" import govukInput %}
 
 {% extends "_generic.njk" %}
 
@@ -17,6 +18,7 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
             <form action="/" class="js-AutoSubmit js-vue-wrapper">
+                <input name="sort" type="hidden" value="{{ sort.sort }}">
                 {{ filterCompanyName(filters) }}
                 {{ filterExportPotential(filters) }}
                 {{ filterCommodityCode(filters) }}
@@ -36,7 +38,8 @@
                     {{ renderCollection({
                         count: count,
                         data: result,
-                        filters: filters
+                        filters: filters,
+                        sort: sort
                     }) }}
                 </article>
             {% endblock %}

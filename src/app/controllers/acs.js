@@ -19,6 +19,8 @@ const {
 const { buildPagination } = require('../lib/pagination')
 
 async function buildFilters (req, res, next) {
+
+  console.log(req.query)
   res.locals.query = {
     filters: {
       ...sanitizeKeyValuePair('company_name', req.query['company-name'], transformToLowerTrimStart),
@@ -32,6 +34,7 @@ async function buildFilters (req, res, next) {
       ...sanitizeKeyValuePair('service_usage', req.query['service-used'], castArray),
       ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
     },
+    sort: req.query.sort || 'export_potential',
   }
 
   next()
@@ -54,7 +57,7 @@ async function getData (req, res, query = {}) {
   try {
     const page = req.query.page || 1
     const offset = transformPageToOffset(page)
-    const query = isEmpty(res.locals.query.filters) ? {} : res.locals.query
+    const query = isEmpty(res.locals.query.filters) && isEmpty(res.locals.query.sort) ? {} : res.locals.query
 
     return await backendService.searchForCompanies(offset, config.paginationOffset, query)
   } catch (err) {
@@ -122,6 +125,8 @@ async function renderIndex (req, res) {
     endDate: req.query['export-evidence-end-date'],
   }
 
+  const sort = req.query.sort || 'export_potential'
+
   return res.render('index', {
     result: data,
     filters: {
@@ -135,6 +140,9 @@ async function renderIndex (req, res) {
       marketExportedTo,
       serviceUsed,
       ukRegions,
+    },
+    sort: {
+      sort,
     },
   })
 }

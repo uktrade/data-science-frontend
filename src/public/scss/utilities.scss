@@ -31,6 +31,10 @@
   }
 }
 
+.app-hidden {
+  display: none !important;
+}
+
 .u-loading {
   &::before {
     animation: growRight 3s;
@@ -59,5 +63,7 @@
 input:read-only {
   cursor: not-allowed;
 }
+
+
 
 

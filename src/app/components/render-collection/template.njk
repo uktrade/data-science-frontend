@@ -1,10 +1,10 @@
-{% from "input/macro.njk" import govukInput %}
 {% from "select/macro.njk" import govukSelect %}
 
 {% set pagination = params.data.pagination %}
 {% set result = params.data.result %}
 {% set count = params.data.count %}
 {% set filters = params.filters %}
+{% set sort = params.sort.sort %}
 
 <article class="c-collection">
     <header>
@@ -78,13 +78,46 @@
         <hr class="govuk-section-break govuk-section-break--visible app-large-section-break">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
-                <span class="govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">
+                <span class="govuk-caption-m govuk-!-margin-top-5 govuk-!-margin-bottom-5">
                     {% if not pagination and result.length%}
                         Page 1 of 1
                     {% elif pagination.currentPage <= pagination.totalPages  %}
                         Page {{pagination.currentPage}} of {{pagination.totalPages}}
                     {% endif %}
                 </span>
+            </div>
+            <div class="govuk-grid-column-one-half govuk-!-margin-top-3 govuk-!-margin-bottom-3">
+                <form method="get" action="/" class="js-AutoSubmit">
+                    <div class="app-form-group-no-margin app-pull-right">
+                        {{ govukSelect({
+                            id: "sort",
+                            name: "sort",
+                            classes: 'govuk-!-display-inline app-sort-select',
+                            label: {
+                                text: "Sort by",
+                                classes: 'govuk-!-display-inline govuk-!-margin-right-2'
+                            },
+                            items: [
+                                {
+                                    value: "export_propensity",
+                                    text: "Export potential",
+                                    selected: sort == 'export_propensity'
+                                },
+                                {
+                                    value: "last_export_evidence",
+                                    text: "Last export evidence",
+                                    selected: sort == 'last_export_evidence'
+
+                                },
+                                {
+                                    value: "company_name",
+                                    text: "Company Name A-Z",
+                                    selected: sort == 'company_name'
+                                }
+                            ]
+                        }) }}
+                    </div>
+                </form>
             </div>
         </div>
         {% if result.length%}
