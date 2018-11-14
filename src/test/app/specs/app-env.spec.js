@@ -2,7 +2,6 @@ const app = require('../../../app/app');
 const config = require('../../../../config');
 
 jest.mock('../../../app/lib/redis-client');
-jest.mock('../../../app/lib/redis-client');
 jest.mock('readdirp');
 jest.mock('chokidar');
 jest.mock('nunjucks');
@@ -24,12 +23,7 @@ const dummyApp = {
 
 jest.mock('express', () => {
   return {
-    static: jest.fn(),
-    disable: jest.fn(),
-    use: jest.fn(),
-    set: jest.fn(),
-    get: jest.fn(),
-    post: jest.fn(),
+    static: jest.fn()
   };
 });
 
