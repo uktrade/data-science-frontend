@@ -13,7 +13,6 @@ const {
   transformQueryToEvidenceFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
-  transformStringToArray,
   transformToLowerTrimStart,
 } = require('../transformers')
 const { buildPagination } = require('../lib/pagination')
@@ -27,8 +26,8 @@ async function buildFilters (req, res, next) {
       ...transformQueryToEvidenceFilter('last_export_evidence', req.query['export-evidence-start-date'], req.query['export-evidence-end-date']),
       ...transformQueryToDoubleFilter('sic_codes', req.query['sic-codes']),
       ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
-      ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], transformStringToArray),
-      ...sanitizeKeyValuePair('market_exported', req.query['market-exported-to'], transformStringToArray),
+      ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], castArray),
+      ...sanitizeKeyValuePair('market_exported', req.query['market-exported-to'], castArray),
       ...sanitizeKeyValuePair('service_usage', req.query['service-used'], castArray),
       ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
     },

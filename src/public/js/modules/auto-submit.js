@@ -3,7 +3,10 @@ const pickBy = require('lodash/pickBy')
 const XHR = require('../lib/xhr')
 
 const AutoSubmit = {
-  selector: '.js-AutoSubmit',
+  classes: {
+    autoSubmit: 'js-auto-submit',
+    preventSubmit: 'js-prevent-auto-submit',
+  },
 
   init () {
     this.bindEvents()
@@ -12,9 +15,10 @@ const AutoSubmit = {
   handleFormSubmit (evt) {
     const targetForm = evt.target.closest('form')
 
-    if (!targetForm) { return }
+    if (!targetForm ||
+       evt.target.classList.contains(this.classes.preventSubmit)) { return }
 
-    const shouldSubmit = targetForm.classList.contains(this.selector.substring(1))
+    const shouldSubmit = targetForm.classList.contains(this.classes.autoSubmit)
 
     if (shouldSubmit) {
       evt.preventDefault()

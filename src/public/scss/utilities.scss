@@ -56,8 +56,12 @@
   }
 }
 
-input:read-only {
-  cursor: not-allowed;
+.app-checkbox-typeahead {
+  display: none;
+
+  .js-enabled & {
+    display: block;
+  }
 }
 
 
