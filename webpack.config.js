@@ -3,8 +3,6 @@ const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const WebpackAssetsManifest = require('webpack-assets-manifest')
 
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-
 const config = require('./config')
 
 const common = {
@@ -13,7 +11,6 @@ const common = {
     styles: './src/public/scss/styles.scss',
     app: [
       './src/public/js/app.js',
-      './src/public/js/app-vue.js',
     ],
   },
   output: {
@@ -27,10 +24,6 @@ const common = {
         options: {
           cacheDirectory: './babel_cache',
         },
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
       },
       {
         test: /\.(eot|ttf|woff|woff2)$/,
@@ -93,14 +86,10 @@ const common = {
       'node_modules',
       path.resolve(__dirname, 'src'),
     ],
-    alias: {
-      'vue$': 'vue/dist/vue.common.js',
-    },
-    extensions: ['*', '.js', '.vue', '.json'],
+    extensions: ['*', '.js', '.json'],
   },
   plugins: [
     new WebpackAssetsManifest(),
-    new VueLoaderPlugin(),
   ],
   node: {
     fs: 'empty',
