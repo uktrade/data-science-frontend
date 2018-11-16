@@ -67,7 +67,7 @@ const CheckboxTypeahead = {
       const valuesToShow = this.filterResults(target.value, this.list)
       this.applyTypeahead(boxes, valuesToShow)
     } else {
-      this.clearfilter(boxes)
+      this.clearTypeahead(boxes)
     }
   },
 
