@@ -8,13 +8,14 @@
             text: "Market of interest",
             classes: "govuk-!-font-weight-bold app-filter-label"
         }) }}
-
-        {{ govukInput({
-            label: {
-                text: "Search for country"
-            },
-            classes: "js-checkbox-typeahead-input js-prevent-auto-submit"
-        }) }}
+        <div class="app-checkbox-typeahead">
+            {{ govukInput({
+                label: {
+                    text: "Search for country"
+                },
+                classes: "js-checkbox-typeahead-input js-prevent-auto-submit"
+            }) }}
+        </div>
     </div>
     <div class="app-filter-group-list ">
         {{ govukCheckboxes({

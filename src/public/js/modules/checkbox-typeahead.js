@@ -1,5 +1,7 @@
 const axios = require('axios')
 
+const { closest } = require('../lib/helpers')
+
 const CheckboxTypeahead = {
   selectors: {
     box: '.govuk-checkboxes__input',
@@ -61,7 +63,7 @@ const CheckboxTypeahead = {
 
     if (!target.classList.contains(this.classes.checkbox)) { return }
 
-    const boxes = target.parentElement.parentElement.parentElement.querySelectorAll(this.selectors.box)
+    const boxes = closest(target, this.root).querySelectorAll(this.selectors.box)
 
     if (target.value.length >= 3) {
       const valuesToShow = this.filterResults(target.value, this.list)

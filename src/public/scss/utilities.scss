@@ -56,4 +56,12 @@
   }
 }
 
+.app-checkbox-typeahead {
+  display: none;
+
+  .js-enabled & {
+    display: block;
+  }
+}
+
 
