@@ -7,12 +7,18 @@
     "node": "8.11.1",
     "npm": "5.6.0"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    }
+  },
   "scripts": {
     "clean": "del src/app/public/dist",
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
     "tag-master": "git tag v${npm_package_version}-master && git push --tags",
-    "test": "NODE_ENV=development; LOG_LEVEL=error; SSO_BYPASS=true; JASMINE_CONFIG_PATH=src/test/app/jasmine.json jasmine",
+    "test": "NODE_ENV=development; SSO_BYPASS=true; jest",
     "test:unit": "jest",
     "start": "NODE_ENV=production node --use-strict server.js",
     "watch": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'",
@@ -34,6 +40,7 @@
   "contributors": [
     "John Fieldman <hello@johnfieldman.com> (https://github.com/yozzo)",
     "Ryan Holmes (https://github.com/RyanHolmesDIT)",
+    "Felippo Raimondi <filipporai@gmail.com> (https://github.com/PippoRaimondi)",
     "Graham Veal"
   ],
   "license": "MIT",

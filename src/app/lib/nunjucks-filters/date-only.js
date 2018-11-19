@@ -1,18 +1,14 @@
-const dateFormat = require( 'dateformat' );
+const dateFormat = require('dateformat');
 
-module.exports = function( datestr ){
+module.exports = function (datestr) {
+  let date;
 
-	let date;
+  if (datestr) {
+    date = new Date(datestr);
+  } else {
+    date = new Date();
+  }
 
-	if( datestr ){
-
-		date = new Date( datestr );
-
-	} else {
-
-		date = new Date();
-	}
-
-	//return date.getMonth() date.getFullYear();
-	return dateFormat( date, 'UTC:d mmmm yyyy' );
+  // return date.getMonth() date.getFullYear();
+  return dateFormat(date, 'UTC:d mmmm yyyy');
 };

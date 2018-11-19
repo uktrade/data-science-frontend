@@ -1,0 +1,45 @@
+version: 2
+aliases:
+  - &node_version node:8.11.3
+
+  # Common steps
+  - &restore_npm_cache
+    restore_cache:
+      name: Restore npm dependencies cache
+      key: npm-dependency-{{ checksum "package.json" }}
+
+jobs:
+  dependencies:
+    docker:
+      - image: *node_version
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *restore_yarn_cache
+      - run: npm install
+      - save_cache:
+          name: Save npm dependencies cache
+          key: npm-dependency-{{ checksum "package.json" }}
+          paths:
+            - ~/data-science-frontend/node_modules
+
+  lint_test:
+    docker:
+      - image: *node_version
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *restore_npm_cache
+      - run:
+          name: Lint code
+          command: npm run lint
+          when: always
+
+workflows:
+  version: 2
+  datasciencefe:
+    jobs:
+      - dependencies
+      - lint_test:
+          requires:
+            - dependencies

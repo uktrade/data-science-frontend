@@ -1,9 +1,9 @@
-const { isEmpty, map, castArray } = require('lodash')
+const { isEmpty, map, castArray } = require('lodash');
 
-const config = require('../../../config')
-const backendService = require('../lib/backend-service')
-const getCacheTime = require('../lib/get-cache-time')
-const logger = require('../lib/logger')
+const config = require('../../../config');
+const backendService = require('../lib/backend-service');
+const getCacheTime = require('../lib/get-cache-time');
+const logger = require('../lib/logger');
 
 const {
   selectCheckboxFilter,
@@ -14,8 +14,8 @@ const {
   transformQueryToTurnoverFilter,
   transformStringToOption,
   transformToLowerTrimStart,
-} = require('../transformers')
-const { buildPagination } = require('../lib/pagination')
+} = require('../transformers');
+const { buildPagination } = require('../lib/pagination');
 
 async function buildFilters (req, res, next) {
   res.locals.query = {
@@ -31,52 +31,52 @@ async function buildFilters (req, res, next) {
       ...sanitizeKeyValuePair('service_usage', req.query['service-used'], castArray),
       ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
     },
-  }
+  };
 
-  next()
+  next();
 }
 
 async function dataByType (req, res) {
-  const data = await backendService.getDataByType(req.params.type)
+  const data = await backendService.getDataByType(req.params.type);
 
   if (!config.isDev) {
-    const cacheTime = getCacheTime()
+    const cacheTime = getCacheTime();
 
-    res.setHeader('Cache-Control', 'public, max-age=' + cacheTime.seconds)
-    res.setHeader('Expires', cacheTime.utc)
+    res.setHeader('Cache-Control', 'public, max-age=' + cacheTime.seconds);
+    res.setHeader('Expires', cacheTime.utc);
   }
 
-  res.json(data.body)
+  res.json(data.body);
 }
 
 async function getData (req, res, query = {}) {
   try {
-    const page = req.query.page || 1
-    const offset = transformPageToOffset(page)
-    const query = isEmpty(res.locals.query.filters) ? {} : res.locals.query
+    const page = req.query.page || 1;
+    const offset = transformPageToOffset(page);
+    const query = isEmpty(res.locals.query.filters) ? {} : res.locals.query;
 
-    return await backendService.searchForCompanies(offset, config.paginationOffset, query)
+    return await backendService.searchForCompanies(offset, config.paginationOffset, query);
   } catch (err) {
-    logger.error(err)
+    logger.error(err);
   }
 }
 
 async function internalCompanyIdEvents (req, res) {
-  const data = await backendService.getEventsByInternalCompanyId(req.params.id)
+  const data = await backendService.getEventsByInternalCompanyId(req.params.id);
 
-  res.json(data.body)
+  res.json(data.body);
 }
 
 async function getCheckboxFilter (req, apiParam, queryParam) {
-  const list = await backendService.getDataByType(apiParam)
+  const list = await backendService.getDataByType(apiParam);
 
-  return selectCheckboxFilter(req.query[queryParam], map(list.body.result, transformStringToOption))
+  return selectCheckboxFilter(req.query[queryParam], map(list.body.result, transformStringToOption));
 }
 
 function getIndexData (req, res) {
   return getData(req, res, req.body).then((response) => {
-    const result = response.body.result || {}
-    const count = response.body.count || 0
+    const result = response.body.result || {};
+    const count = response.body.count || 0;
 
     return {
       ...response,
@@ -85,29 +85,29 @@ function getIndexData (req, res) {
       page: 1,
       limit: 20,
       pagination: buildPagination(req.query, { count, page: 1, result }),
-    }
-  })
+    };
+  });
 }
 
 async function renderIndex (req, res) {
-  const data = await getIndexData(req, res)
-  const ukRegions = await getCheckboxFilter(req, 'region', 'uk-regions')
-  const exportPotential = await getCheckboxFilter(req, 'export_propensity', 'export-potential')
-  const marketOfInterest = await getCheckboxFilter(req, 'market_of_interest', 'market-of-interest')
-  const serviceUsed = await getCheckboxFilter(req, 'service_usage', 'service-used')
-  const marketExportedTo = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
+  const data = await getIndexData(req, res);
+  const ukRegions = await getCheckboxFilter(req, 'region', 'uk-regions');
+  const exportPotential = await getCheckboxFilter(req, 'export_propensity', 'export-potential');
+  const marketOfInterest = await getCheckboxFilter(req, 'market_of_interest', 'market-of-interest');
+  const serviceUsed = await getCheckboxFilter(req, 'service_usage', 'service-used');
+  const marketExportedTo = await getCheckboxFilter(req, 'market_exported', 'market-exported-to');
 
-  const companyName = req.query['company-name']
-  const commodityCode = req.query['export-codes']
-  const sicCodes = req.query['sic-codes']
+  const companyName = req.query['company-name'];
+  const commodityCode = req.query['export-codes'];
+  const sicCodes = req.query['sic-codes'];
   const turnover = {
     min: req.query['turnover-minimum'],
     max: req.query['turnover-maximum'],
-  }
+  };
   const latestExport = {
     startDate: req.query['export-evidence-start-date'],
     endDate: req.query['export-evidence-end-date'],
-  }
+  };
 
   return res.render('index', {
     result: data,
@@ -123,28 +123,28 @@ async function renderIndex (req, res) {
       serviceUsed,
       ukRegions,
     },
-  })
+  });
 }
 
 async function search (req, res) {
-  const offset = req.query.offset
-  const limit = req.query.limit
-  const postData = req.body
-  const data = await backendService.searchForCompanies(offset, limit, postData)
+  const offset = req.query.offset;
+  const limit = req.query.limit;
+  const postData = req.body;
+  const data = await backendService.searchForCompanies(offset, limit, postData);
 
-  res.json(data.body)
+  res.json(data.body);
 }
 
 async function searchBySicCode (req, res) {
-  const data = await backendService.searchBySicCode(req.params.code)
+  const data = await backendService.searchBySicCode(req.params.code);
 
-  res.json(data.body)
+  res.json(data.body);
 }
 
 async function searchByExportCode (req, res) {
-  const data = await backendService.searchByExportCode(req.params.code)
+  const data = await backendService.searchByExportCode(req.params.code);
 
-  res.json(data.body)
+  res.json(data.body);
 }
 
 module.exports = {
@@ -155,4 +155,4 @@ module.exports = {
   search,
   searchBySicCode,
   searchByExportCode,
-}
+};

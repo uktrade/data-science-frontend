@@ -1,193 +1,159 @@
-const proxyquire = require( 'proxyquire' );
+jest.mock('raven', () => {
+  let install = jest.fn();
+  return {
+    captureMessage: jest.fn(),
+    config: jest.fn(() => { return { install }; }),
+    install,
+    requestHandler: jest.fn(),
+    errorHandler: jest.fn(),
+    captureException: jest.fn(),
+  };
+});
 
-const version = 'v1.0.0';
+jest.mock('../../../../app/lib/logger', () => ({
+  warn: jest.fn(),
+  error: jest.fn(),
+  debug: jest.fn(),
+}));
 
-let reporter;
-let logger;
-let raven;
+jest.mock('.../../../../config', () => ({ sentryDsn: 'test1234', version: 'v1.0.0' }));
 
-describe( 'Error reporter', function(){
+describe('Error reporter', () => {
+  let reporter;
+  let logger;
+  let raven;
 
-	function createReporter( opts = {} ){
+  beforeEach(() => {
+    raven = require('raven');
+  });
 
-		raven = {
-			captureMessage: jasmine.createSpy( 'raven.captureMessage' ),
-			config: jasmine.createSpy( 'raven.config' ).and.callFake( function(){ return { install: raven.install }; } ),
-			install: jasmine.createSpy( 'raven.install' ),
-			requestHandler: jasmine.createSpy( 'raven.requestHandler' ),
-			errorHandler: jasmine.createSpy( 'raven.errorHandler' ),
-			captureException: jasmine.createSpy( 'raven.captureException' )
-		};
+  afterEach(() => {
+    jest.restoreAllMocks();
+    jest.resetModules();
+  });
 
-		logger = {
-			warn: jasmine.createSpy( 'logger.warn' ),
-			error: jasmine.createSpy( 'logger.error' ),
-			debug: jasmine.createSpy( 'logger.debug' )
-		};
+  describe('When a Sentry DSN is configured', () => {
+    beforeEach(() => {
+      reporter = require('../../../../app/lib/reporter');
+      logger = require('../../../../app/lib/logger');
+    });
 
-		reporter = proxyquire( '../../../../app/lib/reporter', {
-			'raven': opts.raven || raven,
-			'./logger': opts.logger || logger,
-			'.../../../../config':  opts.config || { version }
-		} );
-	}
+    describe('On load of module', () => {
+      it('Should setup and install raven', () => {
+        expect(raven.config).toHaveBeenCalledWith('test1234', { release: 'v1.0.0' });
+        expect(raven.install).toHaveBeenCalled();
+      });
+    });
 
-	describe( 'When a Sentry DSN is configured', function(){
+    describe('Setup', () => {
+      it('Should invoke the responseHandler', () => {
+        const appStub = {
+          use: jest.fn(),
+        };
+        reporter.setup(appStub);
 
-		const dsn = 'test1234';
+        expect(appStub.use).toHaveBeenCalled();
+        expect(raven.requestHandler).toHaveBeenCalled();
+      });
+    });
 
-		beforeEach( function(){
+    describe('handleErrors', () => {
+      it('Should invoke the errorHandler', () => {
+        const appStub = {
+          use: jest.fn(),
+        };
+        reporter.handleErrors(appStub);
 
-			createReporter( { config: { sentryDsn: dsn, version } } );
-		} );
+        expect(appStub.use).toHaveBeenCalled();
+        expect(raven.errorHandler).toHaveBeenCalled();
+      });
+    });
 
-		describe( 'On load of module', function(){
+    describe('A message', () => {
+      it('Should send the message to sentry', () => {
+        const msg = 'Test';
+        const level = 'test';
+        const extra = {
+          blah: 'test',
+          foo: 'test',
+        };
+        reporter.message(level, msg, extra);
 
-			it( 'Should setup and install raven', function(){
+        expect(raven.captureMessage).toHaveBeenCalledWith(msg, { level, extra });
+      });
+    });
 
-				expect( raven.config ).toHaveBeenCalledWith( dsn, { release: version } );
-				expect( raven.install ).toHaveBeenCalled();
-			} );
-		} );
+    describe('captureException', () => {
+      it('captureException should raise an exception', () => {
+        const err = new Error('test exception');
+        reporter.captureException(err);
 
-		describe( 'Setup', function(){
+        expect(raven.captureException).toHaveBeenCalledWith(err);
+      });
+    });
+  });
 
-			it( 'Should invoke the responseHandler', function(){
+  describe('When a DSN is not configured', () => {
+    beforeEach(() => {
+      jest.doMock('.../../../../config', () => ({ version: 'v1.0.0' }));
+      reporter = require('../../../../app/lib/reporter');
+      logger = require('../../../../app/lib/logger');
+    });
 
-				const appStub = {
-					use: jasmine.createSpy( 'app.use' )
-				};
+    describe('On load of the module', () => {
+      it('Should not setup or install raven', () => {
+        expect(raven.config).not.toHaveBeenCalled();
+        expect(raven.install).not.toHaveBeenCalled();
+      });
+    });
 
-				reporter.setup( appStub );
+    describe('Setup', () => {
+      it('Should not invoke the responseHandler', () => {
+        const appStub = {
+          use: jest.fn(),
+        };
+        reporter.setup(appStub);
 
-				expect( appStub.use ).toHaveBeenCalled();
-				expect( raven.requestHandler ).toHaveBeenCalled();
-			} );
-		} );
+        expect(appStub.use).not.toHaveBeenCalled();
+        expect(raven.requestHandler).not.toHaveBeenCalled();
+      });
+    });
 
-		describe( 'handleErrors', function(){
+    describe('handleErrors', () => {
+      it('Should not invoke the errorHandler', () => {
+        const appStub = {
+          use: jest.fn(),
+        };
+        reporter.handleErrors(appStub);
 
-			it( 'Should invoke the errorHandler', function(){
+        expect(appStub.use).not.toHaveBeenCalled();
+        expect(raven.errorHandler).not.toHaveBeenCalled();
+      });
+    });
 
-				const appStub = {
-					use: jasmine.createSpy( 'app.use' )
-				};
+    describe('A message', () => {
+      it('Should log the error to the logger', () => {
+        const msg = 'Test logger';
+        const level = 'test';
+        const extra = {
+          blah: 'test',
+          foo: 'test',
+        };
+        reporter.message(level, msg, extra);
 
-				reporter.handleErrors( appStub );
+        expect(raven.captureMessage).not.toHaveBeenCalled();
+        expect(logger.warn).toHaveBeenCalledWith(msg, JSON.stringify(extra));
+      });
+    });
 
-				expect( appStub.use ).toHaveBeenCalled();
-				expect( raven.errorHandler ).toHaveBeenCalled();
-			} );
-		} );
+    describe('captureException', () => {
+      it('Should log the error with the logger', () => {
+        const err = new Error('Test exception');
+        reporter.captureException(err);
 
-		describe( 'A message', function(){
-
-			it( 'It should send the message to sentry', function(){
-
-				const msg = 'Test';
-				const level = 'test';
-				const extra = {
-					blah: 'test',
-					foo: 'test'
-				};
-
-				reporter.message( level, msg, extra );
-
-				expect( raven.captureMessage ).toHaveBeenCalledWith( msg, {
-					level,
-					extra
-				} );
-			} );
-		} );
-
-		describe( 'captureException', function(){
-
-			it( 'Should raise an exception', function(){
-
-				const err = new Error( 'test exception' );
-
-				reporter.captureException( err );
-
-				expect( raven.captureException ).toHaveBeenCalledWith( err );
-			} );
-		} );
-	} );
-
-	describe( 'When a DSN is not configured', function(){
-
-		beforeEach( function(){
-
-			createReporter();
-		} );
-
-		describe( 'On load of the module', function(){
-
-			it( 'Should not setup or install raven', function(){
-
-				expect( raven.config ).not.toHaveBeenCalled();
-				expect( raven.install ).not.toHaveBeenCalled();
-			} );
-		} );
-
-		describe( 'Setup', function(){
-
-			it( 'Should not invoke the responseHandler', function(){
-
-				const appStub = {
-					use: jasmine.createSpy( 'app.use' )
-				};
-
-				reporter.setup( appStub );
-
-				expect( appStub.use ).not.toHaveBeenCalled();
-				expect( raven.requestHandler ).not.toHaveBeenCalled();
-			} );
-		} );
-
-		describe( 'handleErrors', function(){
-
-			it( 'Should not invoke the errorHandler', function(){
-
-				const appStub = {
-					use: jasmine.createSpy( 'app.use' )
-				};
-
-				reporter.handleErrors( appStub );
-
-				expect( appStub.use ).not.toHaveBeenCalled();
-				expect( raven.errorHandler ).not.toHaveBeenCalled();
-			} );
-		} );
-
-		describe( 'A message', function(){
-
-			it( 'Should log the error to the logger', function(){
-
-				const msg = 'Test logger';
-				const level = 'test';
-				const extra = {
-					blah: 'test',
-					foo: 'test'
-				};
-
-				reporter.message( level, msg, extra );
-
-				expect( raven.captureMessage ).not.toHaveBeenCalled();
-				expect( logger.warn ).toHaveBeenCalledWith( msg, JSON.stringify( extra ) );
-			} );
-		} );
-
-		describe( 'captureException', function(){
-
-			it( 'Should log the error with the logger', function(){
-
-				const err = new Error( 'Test exception' );
-
-				reporter.captureException( err );
-
-				expect( logger.error ).toHaveBeenCalledWith( err );
-				expect( raven.captureException ).not.toHaveBeenCalled();
-			} );
-		} );
-	} );
-} );
+        expect(logger.error).toHaveBeenCalledWith(err);
+        expect(raven.captureException).not.toHaveBeenCalled();
+      });
+    });
+  });
+});
