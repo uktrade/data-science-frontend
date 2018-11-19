@@ -1,24 +1,24 @@
-const config = require('../../../config');
-const raven = require('raven');
-const logger = require('./logger');
+const config = require('../../../config')
+const raven = require('raven')
+const logger = require('./logger')
 
-const useSentry = !!config.sentryDsn;
+const useSentry = !!config.sentryDsn
 
 if (useSentry) {
-  raven.config(config.sentryDsn, { release: config.version }).install();
+  raven.config(config.sentryDsn, { release: config.version }).install()
 }
 
 module.exports = {
 
   setup: function (app) {
     if (useSentry) {
-      app.use(raven.requestHandler());
+      app.use(raven.requestHandler())
     }
   },
 
   handleErrors: function (app) {
     if (useSentry) {
-      app.use(raven.errorHandler());
+      app.use(raven.errorHandler())
     }
   },
 
@@ -27,17 +27,17 @@ module.exports = {
       raven.captureMessage(msg, {
         level,
         extra,
-      });
+      })
     } else {
-      logger.warn(msg, JSON.stringify(extra));
+      logger.warn(msg, JSON.stringify(extra))
     }
   },
 
   captureException: function (err) {
     if (useSentry) {
-      raven.captureException(err);
+      raven.captureException(err)
     } else {
-      logger.error(err);
+      logger.error(err)
     }
   },
-};
+}

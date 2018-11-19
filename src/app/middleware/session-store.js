@@ -1,11 +1,11 @@
-const session = require('express-session');
-const connectRedis = require('connect-redis');
-const config = require('../../../config');
-const redisClient = require('../lib/redis-client');
+const session = require('express-session')
+const connectRedis = require('connect-redis')
+const config = require('../../../config')
+const redisClient = require('../lib/redis-client')
 
 module.exports = {
   create: () => {
-    const RedisStore = connectRedis(session);
+    const RedisStore = connectRedis(session)
 
     return session({
       store: new RedisStore({
@@ -24,6 +24,6 @@ module.exports = {
       resave: true,
       saveUninitialized: false,
       unset: 'destroy',
-    });
+    })
   },
-};
+}

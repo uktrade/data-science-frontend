@@ -1,16 +1,16 @@
-const app = require('../../../app/app');
-const config = require('../../../../config');
+const app = require('../../../app/app')
+const config = require('../../../../config')
 
-jest.mock('../../../app/lib/redis-client');
-jest.mock('readdirp');
-jest.mock('chokidar');
-jest.mock('nunjucks');
-jest.mock('../../../app/lib/static-globals');
-jest.mock('../../../app/lib/nunjucks-filters');
-jest.mock('morgan');
-jest.mock('compression');
+jest.mock('../../../app/lib/redis-client')
+jest.mock('readdirp')
+jest.mock('chokidar')
+jest.mock('nunjucks')
+jest.mock('../../../app/lib/static-globals')
+jest.mock('../../../app/lib/nunjucks-filters')
+jest.mock('morgan')
+jest.mock('compression')
 
-const disable = jest.fn();
+const disable = jest.fn()
 const dummyApp = {
   disable,
   use: jest.fn(),
@@ -19,42 +19,42 @@ const dummyApp = {
   post: jest.fn(),
   address: jest.fn(),
   listen: jest.fn(),
-};
+}
 
 jest.mock('express', () => {
   return {
-    static: jest.fn()
-  };
-});
+    static: jest.fn(),
+  }
+})
 
 describe('App', () => {
   describe('Environments', () => {
-    const morgan = require('morgan');
-    const compression = require('compression');
+    const morgan = require('morgan')
+    const compression = require('compression')
 
     afterEach(() => {
-      jest.restoreAllMocks();
-      jest.resetModules();
-    });
+      jest.restoreAllMocks()
+      jest.resetModules()
+    })
 
     describe('Dev mode', () => {
       it('Should setup the app in dev mode', () => {
-        config.isDev = true;
-        app.create(dummyApp, config);
-        expect(morgan).toHaveBeenCalledWith('dev');
-        expect(compression).not.toHaveBeenCalled();
-        expect(disable).toHaveBeenCalledWith('x-powered-by');
-      });
-    });
+        config.isDev = true
+        app.create(dummyApp, config)
+        expect(morgan).toHaveBeenCalledWith('dev')
+        expect(compression).not.toHaveBeenCalled()
+        expect(disable).toHaveBeenCalledWith('x-powered-by')
+      })
+    })
 
     describe('Prod mode', () => {
       it('Should setup the app in prod mode', () => {
-        config.isDev = false;
-        app.create(dummyApp, config);
-        expect(morgan).toHaveBeenCalledWith('combined');
-        expect(compression).toHaveBeenCalled();
-        expect(disable).toHaveBeenCalledWith('x-powered-by');
-      });
-    });
-  });
-});
+        config.isDev = false
+        app.create(dummyApp, config)
+        expect(morgan).toHaveBeenCalledWith('combined')
+        expect(compression).toHaveBeenCalled()
+        expect(disable).toHaveBeenCalledWith('x-powered-by')
+      })
+    })
+  })
+})

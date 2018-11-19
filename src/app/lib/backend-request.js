@@ -76,7 +76,6 @@ function makeRequest (resolve, reject, uri, method, opts, key) {
   const { requestOptions, clientHeader } = createRequestOptions(uri, method, opts)
   // Send authenticated request
   request(requestOptions, function (err, response, body) {
-
     if (err) {
       reject(err)
     } else {
@@ -106,7 +105,6 @@ function makeRequest (resolve, reject, uri, method, opts, key) {
 
         if (opts.cache && key) {
           redis.set(key, JSON.stringify(responseData), 'EX', getCacheTime().seconds, (err) => {
-
             if (err) {
               reporter.captureException(err)
             }
