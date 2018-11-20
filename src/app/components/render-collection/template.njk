@@ -4,7 +4,7 @@
 {% set result = params.data.result %}
 {% set count = params.data.count %}
 {% set filters = params.filters %}
-{% set sort = params.sort.sort %}
+{% set sort = params.sort %}
 
 <article class="c-collection">
     <header>
@@ -66,7 +66,6 @@
                                 <div class="app-filters-tags-title-value">
                                     <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
                                     <span class="app-filters-tags-value">{{ item.text }}</span>
-                                    {% if loop.loop.last %}<h1>Lup</h1>{% endif %}
                                 </div>
                             {% endif %}
                         {% endfor %}
@@ -87,15 +86,19 @@
                 </span>
             </div>
             <div class="govuk-grid-column-one-half govuk-!-margin-top-3 govuk-!-margin-bottom-3">
-                <form method="get" action="/" class="js-AutoSubmit">
+                <form method="get" action="/" class="js-auto-submit">
                     <div class="app-form-group-no-margin app-pull-right">
                         {{ govukSelect({
                             id: "sort",
                             name: "sort",
-                            classes: 'govuk-!-display-inline app-sort-select',
+                            classes: 'govuk-!-display-inline app-sort-select js-mirror-value',
+                            attributes: {
+                                'data-target-selector': '.app-form-filters input[name="sort"]'
+                            },
                             label: {
                                 text: "Sort by",
                                 classes: 'govuk-!-display-inline govuk-!-margin-right-2'
+
                             },
                             items: [
                                 {

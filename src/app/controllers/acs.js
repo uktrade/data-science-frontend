@@ -13,14 +13,11 @@ const {
   transformQueryToEvidenceFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
-  transformStringToArray,
   transformToLowerTrimStart,
 } = require('../transformers')
 const { buildPagination } = require('../lib/pagination')
 
 async function buildFilters (req, res, next) {
-
-  console.log(req.query)
   res.locals.query = {
     filters: {
       ...sanitizeKeyValuePair('company_name', req.query['company-name'], transformToLowerTrimStart),
@@ -29,12 +26,15 @@ async function buildFilters (req, res, next) {
       ...transformQueryToEvidenceFilter('last_export_evidence', req.query['export-evidence-start-date'], req.query['export-evidence-end-date']),
       ...transformQueryToDoubleFilter('sic_codes', req.query['sic-codes']),
       ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
-      ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], transformStringToArray),
-      ...sanitizeKeyValuePair('market_exported', req.query['market-exported-to'], transformStringToArray),
+      ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], castArray),
+      ...sanitizeKeyValuePair('market_exported', req.query['market-exported-to'], castArray),
       ...sanitizeKeyValuePair('service_usage', req.query['service-used'], castArray),
       ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
     },
-    sort: req.query.sort || 'export_potential',
+    sort: {
+      field: req.query.sort || 'export_propensity',
+      ascending: true,
+    },
   }
 
   next()
@@ -57,7 +57,9 @@ async function getData (req, res, query = {}) {
   try {
     const page = req.query.page || 1
     const offset = transformPageToOffset(page)
-    const query = isEmpty(res.locals.query.filters) && isEmpty(res.locals.query.sort) ? {} : res.locals.query
+    const query = isEmpty(res.locals.query.filters) ? { sort: res.locals.query.sort } : res.locals.query
+
+    console.log('>>>>>> ', query)
 
     return await backendService.searchForCompanies(offset, config.paginationOffset, query)
   } catch (err) {
@@ -141,9 +143,7 @@ async function renderIndex (req, res) {
       serviceUsed,
       ukRegions,
     },
-    sort: {
-      sort,
-    },
+    sort: sort,
   })
 }
 
