@@ -1,88 +1,59 @@
-const proxyquire = require( 'proxyquire' );
+jest.mock('redis', () => ({
+  createClient: jest.fn((arg) => ({
+    arg,
+    on: jest.fn(),
+  })),
+}))
 
-const modulePath = '../../../../app/lib/redis-client';
+jest.mock('../../../../../config', () => ({
+  redis: { url: 'redis://redistogo:44e', port: '4444' },
+}))
 
-let redis;
-let redisClient;
+describe('Redis Client', () => {
+  let redis
 
-let client;
+  beforeEach(() => {
+    jest.restoreAllMocks()
+    jest.resetModules()
+    redis = require('redis')
+  })
 
-function createClient( redisConfig ){
+  it('Should listen for the events', () => {
+    const client = require('../../../../app/lib/redis-client').get()
+    const calls = client.on.mock.calls
 
-	client = proxyquire( modulePath, {
-		'redis': redis,
-		'.../../../../config': {
-			redis: redisConfig || {}
-		}
-	} ).get();
-}
+    expect(calls.length).toEqual(4)
 
-describe( 'Redis Client', function(){
+    expect(calls[0][0]).toEqual('error')
+    expect(calls[1][0]).toEqual('connect')
+    expect(calls[2][0]).toEqual('ready')
+    expect(calls[3][0]).toEqual('close')
+  })
 
-	beforeEach( function(){
+  it('Should return the client', function () {
+    const client = require('../../../../app/lib/redis-client').get()
+    const redisClient = redis.createClient({ url: 'redis://redistogo:44e', port: '4444' })
+    expect(client.arg.url).toEqual(redisClient.arg.url)
+    expect(client.arg.port).toEqual(redisClient.arg.port)
+    expect(client.on()).toEqual(redisClient.on())
+  })
 
-		redisClient = {
-			on: jasmine.createSpy( 'redis.client.on' )
-		};
+  it('Should pass redis config as an option', () => {
+    require('../../../../app/lib/redis-client').get()
 
-		redis = {
-			createClient: jasmine.createSpy( 'redis.createClient' ).and.callFake( () => redisClient )
-		};
-	} );
+    expect(redis.createClient).toHaveBeenCalledWith({ url: 'redis://redistogo:44e', port: '4444' })
+  })
 
-	it( 'Should listen for the events', function(){
+  it('Should set redis tls as an option if not undefined', () => {
+    jest.doMock('../../../../../config', () => ({
+      redis: { url: 'redis://redistogo:44e', port: '4444', tls: true },
+    }))
+    require('../../../../app/lib/redis-client').get()
 
-		const calls = redisClient.on.calls;
-
-		createClient();
-
-		expect( calls.count() ).toEqual( 4 );
-
-		expect( calls.argsFor( 0 )[ 0 ] ).toEqual( 'error' );
-		expect( calls.argsFor( 1 )[ 0 ] ).toEqual( 'connect' );
-		expect( calls.argsFor( 2 )[ 0 ] ).toEqual( 'ready' );
-		expect( calls.argsFor( 3 )[ 0 ] ).toEqual( 'close' );
-	} );
-
-	it( 'Should return the client', function(){
-
-		createClient();
-		expect( client ).toEqual( redisClient );
-	} );
-
-	describe( 'With redis.host specified in the config', function(){
-
-		it( 'Should pass it as an option ', function(){
-
-			createClient( {	host: 'beep' } );
-			expect( redis.createClient ).toHaveBeenCalledWith( { host: 'beep' } );
-		} );
-	} );
-
-	describe( 'With redis.port specified in the config', function(){
-
-		it( 'Should pass it as an option ', function(){
-
-			createClient( {	port: 'boop' } );
-			expect( redis.createClient ).toHaveBeenCalledWith( { port: 'boop' } );
-		} );
-	} );
-
-	describe( 'With redis.password specified in the config', function(){
-
-		it( 'Should pass it as an option ', function(){
-
-			createClient( {	password: 'beep' } );
-			expect( redis.createClient ).toHaveBeenCalledWith( { password: 'beep' } );
-		} );
-	} );
-
-	describe( 'With redis.url specified in the config', function(){
-
-		it( 'Should pass it as an option ', function(){
-
-			createClient( {	url: 'redis://redistogo:44ec0bc04dd4a5afe77a649acee7a8f3@drum.redistogo.com:9092/' } );
-			expect( redis.createClient ).toHaveBeenCalledWith( { url: 'redis://redistogo:44ec0bc04dd4a5afe77a649acee7a8f3@drum.redistogo.com:9092/' } );
-		} );
-	} );
-} );
+    expect(redis.createClient).toHaveBeenCalledWith({
+      url: 'redis://redistogo:44e',
+      port: '4444',
+      tls: { rejectUnauthorized: true },
+    })
+  })
+})

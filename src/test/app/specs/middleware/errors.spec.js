@@ -1,103 +1,78 @@
-const proxyquire = require( 'proxyquire' );
+jest.mock('../../../../../config', () => { return { showErrors: false } })
+jest.mock('../../../../app/lib/logger', () => { return { error: jest.fn() } })
+const logger = require('../../../../app/lib/logger')
 
-describe( 'errors middleware', function(){
+describe('errors middleware', () => {
+  let err
+  let req
+  let res
+  let next
+  let middleware
 
-	let err;
-	let req;
-	let res;
-	let next;
-	let config;
-	let middleware;
-	let logger;
+  beforeEach(() => {
+    req = {}
+    res = {
+      status: jest.fn(),
+      render: jest.fn(),
+      sendStatus: jest.fn(),
+    }
+    next = jest.fn()
+    middleware = require('../../../../app/middleware/errors')
+  })
 
-	beforeEach( function(){
+  describe('Errors middleware', () => {
+    describe('catchAll', () => {
+      beforeEach(() => {
+        err = new Error('test')
+      })
 
-		req = {};
-		res = {
-			status: jasmine.createSpy( 'res.status' ),
-			render: jasmine.createSpy( 'res.render' ),
-			sendStatus: jasmine.createSpy( 'res.sendStatus' )
-		};
-		next = jasmine.createSpy( 'next' );
+      describe('When the headers have been sent', () => {
+        test('Should call the next handler with the error', () => {
+          res.headersSent = true
 
-		config = {
-			showErrors: false
-		};
-		logger = {
-			error: jasmine.createSpy( 'logger.error' )
-		};
+          middleware.catchAll(err, req, res, next)
 
-		middleware = proxyquire( '../../../../app/middleware/errors', {
-			'.../../../../config': config,
-			'../lib/logger': logger
-		} );
-	} );
+          expect(res.status).not.toHaveBeenCalled()
+          expect(res.render).not.toHaveBeenCalled()
+          expect(logger.error).toHaveBeenCalled()
+          expect(next).toHaveBeenCalledWith(err)
+        })
+      })
 
-	describe( 'Errors middleware', function(){
+      describe('When the headers have not been sent', () => {
+        describe('A generic error', () => {
+          it('Should log the error and send a response with the right status code', () => {
+            middleware.catchAll(err, req, res, next)
 
-		describe( 'catchAll', function(){
+            expect(res.status).toHaveBeenCalledWith(500)
+            expect(res.render).toHaveBeenCalledWith('error/default', { showErrors: false, error: err })
+            expect(logger.error).toHaveBeenCalled()
+            expect(next).not.toHaveBeenCalled()
+          })
+        })
 
-			beforeEach( function(){
+        describe('A TOO_MANY_BYTES error', () => {
+          it('Should return a 413 status', () => {
+            const tooManyBytesError = new Error('Too many bytes')
+            tooManyBytesError.code = 'TOO_MANY_BYTES'
 
-				err = new Error( 'test' );
-			} );
+            middleware.catchAll(tooManyBytesError, req, res, next)
 
-			describe( 'When the headers have been sent', function(){
+            expect(res.sendStatus).toHaveBeenCalledWith(413)
+            expect(logger.error).toHaveBeenCalled()
+          })
+        })
+      })
+    })
 
-				it( 'Should call the next handler with the error', function(){
+    describe('404', () => {
+      it('Should render the 404 page and send the right status code', () => {
+        middleware.handle404(req, res, next)
 
-					res.headersSent = true;
-
-					middleware.catchAll( err, req, res, next );
-
-					expect( res.status ).not.toHaveBeenCalled();
-					expect( res.render ).not.toHaveBeenCalled();
-					expect( logger.error ).toHaveBeenCalled();
-					expect( next ).toHaveBeenCalledWith( err );
-				} );
-			} );
-
-			describe( 'When the headers have not been sent', function(){
-
-				describe( 'A generic error', function(){
-
-					it( 'Should log the error and send a response with the right status code', function(){
-
-						middleware.catchAll( err, req, res, next );
-
-						expect( res.status ).toHaveBeenCalledWith( 500 );
-						expect( res.render ).toHaveBeenCalledWith( 'error/default', { showErrors: config.showErrors, error: err } );
-						expect( logger.error ).toHaveBeenCalled();
-						expect( next ).not.toHaveBeenCalled();
-					} );
-				} );
-
-				describe( 'A TOO_MANY_BYTES error', function(){
-
-					it( 'Should return a 413 status', function(){
-
-						const tooManyBytesError = new Error( 'Too many bytes' );
-						tooManyBytesError.code = 'TOO_MANY_BYTES';
-
-						middleware.catchAll( tooManyBytesError, req, res, next );
-
-						expect( res.sendStatus ).toHaveBeenCalledWith( 413 );
-						expect( logger.error ).toHaveBeenCalled();
-					} );
-				} );
-			} );
-		} );
-
-		describe( '404', function(){
-
-			it( 'Should render the 404 page and send the right status code', function(){
-
-				middleware.handle404( req, res, next );
-
-				expect( res.status ).toHaveBeenCalledWith( 404 );
-				expect( res.render ).toHaveBeenCalledWith( 'error/404' );
-				expect( next ).not.toHaveBeenCalled();
-			} );
-		} );
-	} );
-} );
+        expect(res.status).toHaveBeenCalledWith(404)
+        expect(res.render).toHaveBeenCalledWith('error/404')
+        expect(next).not.toHaveBeenCalled()
+      })
+    })
+  })
+})
