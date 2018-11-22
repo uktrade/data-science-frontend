@@ -23,9 +23,10 @@ require('dotenv').config()
 
 module.exports = {
 
-  create: () => {
-    const app = express()
-    const isDev = config.isDev
+  create: (testApp = undefined, testConfig = undefined) => {
+    const appConfig = testConfig || config
+    const app = testApp || express()
+    const isDev = appConfig.isDev
     const pathToPublic = path.resolve(__dirname, '../public')
     const staticMaxAge = (isDev ? 0 : '2y')
     const nunjucksEnv = nunjucks.configure([
@@ -36,12 +37,12 @@ module.exports = {
     {
       autoescape: true,
       watch: isDev,
-      noCache: !config.views.cache,
+      noCache: !appConfig.views.cache,
       express: app,
     })
 
     app.set('view engine', 'njk')
-    app.set('view cache', config.views.cache)
+    app.set('view cache', appConfig.views.cache)
     app.disable('x-powered-by')
 
     staticGlobals(nunjucksEnv)

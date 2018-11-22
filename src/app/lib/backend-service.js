@@ -41,7 +41,7 @@ const sources = {
 function transformEvents (responseData) {
   if (responseData.response.statusCode === 200 && responseData.body && responseData.body.events) {
     responseData.body.events = responseData.body.events.map((event) => {
-      event.source = sources[ event.data_source ] || event.data_source
+      event.source = sources[event.data_source] || event.data_source
       return event
     })
   }

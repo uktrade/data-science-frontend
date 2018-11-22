@@ -37,10 +37,12 @@ function transformPageToOffset (page) {
 }
 
 function transformQueryToTurnoverFilter (key, min = '', max = '') {
-  return ((min.length || max.length) && { [key]: {
-    'min': getNumber(min),
-    'max': getNumber(max),
-  } })
+  return ((min.length || max.length) && {
+    [key]: {
+      'min': getNumber(min),
+      'max': getNumber(max),
+    },
+  })
 }
 
 function transformToLowerTrimStart (value) {
@@ -48,10 +50,12 @@ function transformToLowerTrimStart (value) {
 }
 
 function transformQueryToEvidenceFilter (key, min = '', max = '') {
-  return ((min.length || max.length) && { [key]: {
-    'min': getCappedDate(min, 'startDate'),
-    'max': getCappedDate(max, 'endDate'),
-  } })
+  return ((min.length || max.length) && {
+    [key]: {
+      'min': getCappedDate(min, 'startDate'),
+      'max': getCappedDate(max, 'endDate'),
+    },
+  })
 }
 
 function getCappedDate (element, cap) {
@@ -83,9 +87,11 @@ function getNumber (element) {
 }
 
 function transformQueryToDoubleFilter (key, value = '') {
-  return (value.length && { [key]: {
-    'code_match': value,
-  } })
+  return (value.length && {
+    [key]: {
+      'code_match': value,
+    },
+  })
 }
 
 function transformQueryToSortFilter (value = '') {
