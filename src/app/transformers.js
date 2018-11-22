@@ -64,6 +64,18 @@ function getCappedDate (element, cap) {
   }
 }
 
+/**
+ * value = last_export_evidence:desc
+ */
+function getSortValues (value = '') {
+  const list = value.split(/:| /)
+
+  return {
+    field: list[0],
+    ascending: list[1] === 'asc',
+  }
+}
+
 function getNumber (element) {
   if (element.length) {
     return toNumber(element)
@@ -74,6 +86,17 @@ function transformQueryToDoubleFilter (key, value = '') {
   return (value.length && { [key]: {
     'code_match': value,
   } })
+}
+
+function transformQueryToSortFilter (value = '') {
+  const values = getSortValues(value) || value
+  const field = values.field || 'export_propensity'
+  const ascending = values.ascending || false
+
+  return {
+    field,
+    ascending,
+  }
 }
 
 function transformStringToOption (string) {
@@ -89,7 +112,11 @@ module.exports = {
   transformPageToOffset,
   transformQueryToDoubleFilter,
   transformQueryToEvidenceFilter,
+  transformQueryToSortFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
   transformToLowerTrimStart,
 }
+
+
+

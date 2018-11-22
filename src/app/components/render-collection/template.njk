@@ -86,7 +86,7 @@
                 </span>
             </div>
             <div class="govuk-grid-column-one-half govuk-!-margin-top-3 govuk-!-margin-bottom-3">
-                <form method="get" action="/" class="js-auto-submit">
+                <form method="get" action="/">
                     <div class="app-form-group-no-margin app-pull-right">
                         {{ govukSelect({
                             id: "sort",
@@ -102,20 +102,20 @@
                             },
                             items: [
                                 {
-                                    value: "export_propensity",
+                                    value: "export_propensity:desc",
                                     text: "Export potential",
-                                    selected: sort == 'export_propensity'
+                                    selected: sort == 'export_propensity:desc'
                                 },
                                 {
-                                    value: "last_export_evidence",
+                                    value: "last_export_evidence:desc",
                                     text: "Last export evidence",
-                                    selected: sort == 'last_export_evidence'
+                                    selected: sort == 'last_export_evidence:desc'
 
                                 },
                                 {
-                                    value: "company_name",
+                                    value: "company_name:asc",
                                     text: "Company Name A-Z",
-                                    selected: sort == 'company_name'
+                                    selected: sort == 'company_name:asc'
                                 }
                             ]
                         }) }}

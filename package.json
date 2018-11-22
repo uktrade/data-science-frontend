@@ -21,8 +21,6 @@
     "dist": "npm run build:dist && npm run start",
     "heroku-postbuild": "npm run build",
     "lint": "eslint src/app",
-    "dev": "webpack --mode development",
-    "prod": "webpack --mode production",
     "develop": "run-p watch:js:*",
     "watch:js:client": "webpack --watch --progress --mode development",
     "watch:js:server": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'"

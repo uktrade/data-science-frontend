@@ -11,6 +11,7 @@ const {
   transformPageToOffset,
   transformQueryToDoubleFilter,
   transformQueryToEvidenceFilter,
+  transformQueryToSortFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
   transformToLowerTrimStart,
@@ -32,8 +33,7 @@ async function buildFilters (req, res, next) {
       ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
     },
     sort: {
-      field: req.query.sort || 'export_propensity',
-      ascending: true,
+      ...transformQueryToSortFilter(req.query.sort),
     },
   }
 
@@ -57,7 +57,8 @@ async function getData (req, res, query = {}) {
   try {
     const page = req.query.page || 1
     const offset = transformPageToOffset(page)
-    const query = isEmpty(res.locals.query.filters) ? { sort: res.locals.query.sort } : res.locals.query
+    const query = res.locals.query
+    // const query = isEmpty(res.locals.query.filters) ? { sort: res.locals.query.sort } : res.locals.query
 
     console.log('>>>>>> ', query)
 
@@ -127,7 +128,7 @@ async function renderIndex (req, res) {
     endDate: req.query['export-evidence-end-date'],
   }
 
-  const sort = req.query.sort || 'export_potential'
+  const sort = req.query.sort
 
   return res.render('index', {
     result: data,
@@ -143,7 +144,7 @@ async function renderIndex (req, res) {
       serviceUsed,
       ukRegions,
     },
-    sort: sort,
+    ...sort,
   })
 }
 
