@@ -2,7 +2,7 @@ version: 2
 aliases:
   - &node_version node:8.11.3
   # Common steps
-  - &restore_yarn_cache
+  - &restore_npm_cache
     restore_cache:
       name: Restore npm dependencies cache
       key: npm-dependency-{{ checksum "package.json" }}
@@ -14,7 +14,7 @@ jobs:
     working_directory: ~/data-science-frontend
     steps:
       - checkout
-      - *restore_yarn_cache
+      - *restore_npm_cache
       - run: npm install
       - save_cache:
           name: Save npm dependencies cache
@@ -28,10 +28,22 @@ jobs:
     working_directory: ~/data-science-frontend
     steps:
       - checkout
-      - *restore_yarn_cache
+      - *restore_npm_cache
       - run:
           name: Lint code
           command: npm run lint
+          when: always
+
+  unit_test:
+    docker:
+      - image: *node_version
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *restore_npm_cache
+      - run:
+          name: Jest tests
+          command: npm run test
           when: always
 
 workflows:
@@ -40,5 +52,8 @@ workflows:
     jobs:
       - dependencies
       - lint_test:
+          requires:
+            - dependencies
+      - unit_test:
           requires:
             - dependencies
