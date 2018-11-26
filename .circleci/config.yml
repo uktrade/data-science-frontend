@@ -1,9 +1,8 @@
 version: 2
 aliases:
   - &node_version node:8.11.3
-
   # Common steps
-  - &restore_npm_cache
+  - &restore_yarn_cache
     restore_cache:
       name: Restore npm dependencies cache
       key: npm-dependency-{{ checksum "package.json" }}
@@ -29,7 +28,7 @@ jobs:
     working_directory: ~/data-science-frontend
     steps:
       - checkout
-      - *restore_npm_cache
+      - *restore_yarn_cache
       - run:
           name: Lint code
           command: npm run lint
