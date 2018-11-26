@@ -37,6 +37,8 @@ jobs:
   unit_test:
     docker:
       - image: *node_version
+        environment:
+           TZ: "/usr/share/zoneinfo/Europe/London"
     working_directory: ~/data-science-frontend
     steps:
       - checkout
