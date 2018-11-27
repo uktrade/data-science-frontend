@@ -67,6 +67,7 @@ let config = {
   },
   paginationMaxResults: 10000,
   paginationOffset: 20,
+  defaultSortValue: 'export_propensity:desc',
   redis: {
     host: env('REDIS_HOST'),
     port: number('REDIS_PORT'),

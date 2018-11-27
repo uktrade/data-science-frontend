@@ -57,10 +57,7 @@ async function getData (req, res, query = {}) {
   try {
     const page = req.query.page || 1
     const offset = transformPageToOffset(page)
-    const query = res.locals.query
-    // const query = isEmpty(res.locals.query.filters) ? { sort: res.locals.query.sort } : res.locals.query
-
-    console.log('>>>>>> ', query)
+    const query = isEmpty(res.locals.query.filters) ? { sort: res.locals.query.sort } : res.locals.query
 
     return await backendService.searchForCompanies(offset, config.paginationOffset, query)
   } catch (err) {
@@ -128,7 +125,7 @@ async function renderIndex (req, res) {
     endDate: req.query['export-evidence-end-date'],
   }
 
-  const sort = req.query.sort
+  const sort = req.query.sort || config.defaultSortValue
 
   return res.render('index', {
     result: data,
@@ -144,7 +141,7 @@ async function renderIndex (req, res) {
       serviceUsed,
       ukRegions,
     },
-    ...sort,
+    sort,
   })
 }
 
