@@ -123,6 +123,3 @@ module.exports = {
   transformStringToOption,
   transformToLowerTrimStart,
 }
-
-
-
