@@ -1,6 +1,8 @@
 const getFormData = require('get-form-data').default
 const pickBy = require('lodash/pickBy')
 const XHR = require('../lib/xhr')
+require('element-closest')
+if (!Array.from) Array.from = require('array-from')
 
 const AutoSubmit = {
   classes: {
