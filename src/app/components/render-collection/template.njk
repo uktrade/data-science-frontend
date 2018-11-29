@@ -64,7 +64,12 @@
                         {% for item in value %}
                             {% if item.checked %}
                                 <div class="app-filters-tags-title-value">
-                                    <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
+                                    {% if key == 'ukRegions' %}
+                                        <span class="app-filters-tags-title">UK Regions:</span>
+                                    {% else %}
+                                        <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
+                                    {% endif %}
+
                                     <span class="app-filters-tags-value">{{ item.text }}</span>
                                 </div>
                             {% endif %}
