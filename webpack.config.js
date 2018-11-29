@@ -10,6 +10,7 @@ const common = {
   entry: {
     styles: './src/public/scss/styles.scss',
     app: [
+      './src/public/js/vendor/details.polyfill.js',
       './src/public/js/app.js',
     ],
   },
