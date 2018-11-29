@@ -1,4 +1,4 @@
-const { isEmpty, map, castArray } = require('lodash')
+const { castArray, isEmpty, map } = require('lodash')
 
 const config = require('../../../config')
 const backendService = require('../lib/backend-service')
@@ -65,6 +65,18 @@ async function internalCompanyIdEvents (req, res) {
   const data = await backendService.getEventsByInternalCompanyId(req.params.id)
 
   res.json(data.body)
+}
+
+async function getMarketExportedMetadata (req, res) {
+  const data = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
+
+  res.send(JSON.stringify(data))
+}
+
+async function getMarketOfInterestMetadata (req, res) {
+  const data = await getCheckboxFilter(req, 'market_of_interest', 'market-of-interest')
+
+  res.send(JSON.stringify(data))
 }
 
 async function getCheckboxFilter (req, apiParam, queryParam) {
@@ -150,6 +162,8 @@ async function searchByExportCode (req, res) {
 module.exports = {
   buildFilters,
   dataByType,
+  getMarketExportedMetadata,
+  getMarketOfInterestMetadata,
   internalCompanyIdEvents,
   renderIndex,
   search,

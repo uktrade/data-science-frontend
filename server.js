@@ -11,9 +11,9 @@ let clusterFile = '/src/app/cluster.js'
 const childExits = []
 let child
 
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  clusterFile = ('/src/' + clusterFile)
-}
+// if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+//   clusterFile = ('/src/' + clusterFile)
+// }
 
 function createChildProcess () {
   if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {

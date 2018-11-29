@@ -15,8 +15,6 @@ const common = {
   },
   output: {
     path: path.resolve(__dirname, 'src/public/dist/'),
-    filename: '[name].js',
-    sourceMapFilename: '[name].js.map',
   },
   module: {
     rules: [
@@ -26,10 +24,6 @@ const common = {
         options: {
           cacheDirectory: './babel_cache',
         },
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
       },
       {
         test: /\.(eot|ttf|woff|woff2)$/,
@@ -78,8 +72,7 @@ const common = {
                 sourceMap: true, // required for resolve-url-loader
                 includePaths: [
                   path.resolve(__dirname, 'node_modules'),
-                  path.resolve(__dirname, 'node_modules/govuk_frontend_toolkit/stylesheets'),
-                  path.resolve(__dirname, 'node_modules/vue-multiselect/dist'),
+                  path.resolve(__dirname, 'node_modules/govuk_frontend'),
                 ],
               },
             },
@@ -93,10 +86,7 @@ const common = {
       'node_modules',
       path.resolve(__dirname, 'src'),
     ],
-    alias: {
-      'vue$': 'vue/dist/vue.common.js',
-    },
-    extensions: ['*', '.js', '.vue', '.json'],
+    extensions: ['*', '.js', '.json'],
   },
   plugins: [
     new WebpackAssetsManifest(),
