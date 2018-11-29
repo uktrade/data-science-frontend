@@ -184,6 +184,29 @@ function regenIds (wrapper, attr = 'id') {
   return wrapper
 }
 
+function closest (element, selector) {
+  if (!element) {
+    return
+  }
+
+  if (!element.matches) {
+    element.prototype.matches = element.prototype.msMatchesSelector || element.prototype.webkitMatchesSelector
+  }
+
+  let parent
+
+  // traverse parents
+  while (element) {
+    parent = element.parentElement
+    if (parent && parent.matches(selector)) {
+      return parent
+    }
+    element = parent
+  }
+
+  return null
+}
+
 module.exports = {
   addClass,
   removeClass,
@@ -199,4 +222,5 @@ module.exports = {
   removeElement,
   regenIds,
   resetFieldValues,
+  closest,
 }
