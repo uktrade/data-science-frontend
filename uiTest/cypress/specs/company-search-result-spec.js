@@ -3,27 +3,25 @@ import selectors from '../selectors';
 describe('Company search result', function() {
     beforeEach(() => {
         cy.server();
-        cy.visit('/acs');
+        cy.visit('/');
     });
 
     it('displays empty company result page', () => {
-        cy.route('companySearch/*', 'fixtures:empty-result').as('companySearch');
-        cy.wait('@companySearch');
+        cy.get(selectors.filters.companyName).type('invalid company').type('{enter}');
 
-        cy.get(selectors.company.companyList).children().should('have.length', 0);
+        cy.get(selectors.company.companyEmptyContent).should('contain',
+            'Oh no, there are no results for your search');
     });
 
     it('displays a single company result page', () => {
-        cy.route('companySearch/*', 'fixtures:single-company').as('companySearch');
-        cy.wait('@companySearch');
+        cy.get(selectors.filters.companyName).type('single company').type('{enter}');
 
         cy.get(selectors.company.companyList).children().should('have.length', 1);
     });
 
     it('displays multiple company result page', () => {
-        cy.route('companySearch/*', 'fixtures:multiple-companies').as('companySearch');
-        cy.wait('@companySearch');
+        cy.get(selectors.filters.companyName).type('multiple company').type('{enter}');
 
-        cy.get(selectors.company.companyList).children().should('have.length', 10);
+        cy.get(selectors.company.companyList).children().should('have.length', 20);
     });
 });
