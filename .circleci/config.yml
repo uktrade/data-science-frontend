@@ -66,8 +66,13 @@ jobs:
             cd uiTest
             npm install
             cd ..
-            apt-get update; apt-get install xvfb
+            apt-get update; apt-get install xvfb -y sudo
             xvfb-run ./run-functional-tests-ci.sh
+      - save_cache:
+          name: Save uitest npm dependencies cache
+          key: uitest-npm-dependency-{{ checksum "package.json" }}
+          paths:
+            - ~/data-science-frontend/uiTest/node_modules
           when: always
 
 workflows:
