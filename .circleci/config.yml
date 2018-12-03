@@ -59,6 +59,7 @@ jobs:
     steps:
       - checkout
       - *restore_npm_cache
+      - *restore_uitest_npm_cache
       - run: 
           name: Functional dependencies
           command: |
