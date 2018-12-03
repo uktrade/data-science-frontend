@@ -9,7 +9,7 @@ aliases:
   - &restore_uitest_npm_cache
     restore_cache:
       name: Restore uitest npm dependencies cache
-      key: uitest-npm-dependency-{{ checksum "package.json" }}
+      key: cypress-npm-dependency-{{ checksum "package.json" }}
 
 jobs:
   dependencies:
@@ -77,7 +77,7 @@ jobs:
           when: always
       - save_cache:
           name: Save uitest npm dependencies cache
-          key: uitest-npm-dependency-{{ checksum "package.json" }}
+          key: cypress-npm-dependency-{{ checksum "package.json" }}
           paths:
             - ~/data-science-frontend/uiTest/node_modules
             - /root/.cache/Cypress
