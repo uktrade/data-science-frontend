@@ -48,6 +48,18 @@ jobs:
           command: npm run test
           when: always
 
+  functional_test:
+    docker:
+      - image: *node_version
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *restore_npm_cache
+      - run:
+          name: Cypress tests
+          command: ./run-functional-tests-ci.sh
+          when: always
+
 workflows:
   version: 2
   datasciencefe:
@@ -59,3 +71,7 @@ workflows:
       - unit_test:
           requires:
             - dependencies
+      - functional_test:
+          requires:
+            - lint_test
+            - unit_test
