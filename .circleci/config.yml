@@ -52,12 +52,13 @@ jobs:
           command: npm run test
           when: always
 
-  uitest_dependencies:
+  functional_test:
     docker:
       - image: *node_version
     working_directory: ~/data-science-frontend
     steps:
       - checkout
+      - *restore_npm_cache
       - *restore_uitest_npm_cache
       - run: 
           name: Functional dependencies
@@ -73,25 +74,16 @@ jobs:
             make
             cp src/redis-cli /usr/local/bin/
             chmod 755 /usr/local/bin/redis-cli
+      - run:
+          name: Cypress tests
+          command: xvfb-run ./run-functional-tests-ci.sh
+          when: always
       - save_cache:
           name: Save uitest npm dependencies cache
           key: uitest-npm-dependency-{{ checksum "package.json" }}
           paths:
             - ~/data-science-frontend/uiTest/node_modules
             - /root/.cache/Cypress
-          when: always
-
-  functional_test:
-    docker:
-      - image: *node_version
-    working_directory: ~/data-science-frontend
-    steps:
-      - checkout
-      - *restore_npm_cache
-      - *restore_uitest_npm_cache
-      - run:
-          name: Cypress tests
-          command: xvfb-run ./run-functional-tests-ci.sh
           when: always
 
 workflows:
@@ -105,10 +97,7 @@ workflows:
       - unit_test:
           requires:
             - dependencies
-      - uitest_dependencies:
+      - functional_test:
           requires:
             - lint_test
             - unit_test
-      - functional_test:
-          requires:
-            - uitest_dependencies
