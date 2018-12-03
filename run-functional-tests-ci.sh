@@ -10,10 +10,6 @@ echo "App started"
 
 cd uiTest
 
-echo "Installing dependencies"
-
-npm install
-
 echo "Running tests"
 
 npm run test
