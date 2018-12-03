@@ -66,6 +66,7 @@ jobs:
             cd uiTest
             npm install
             cd ..
+            apt-get update; apt-get install xvfb
             xvfb-run ./run-functional-tests-ci.sh
           when: always
 
