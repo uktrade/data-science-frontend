@@ -2,6 +2,10 @@
   "name": "prospect-ui-functional-tests",
   "version": "1.0.0",
   "description": "Functional test suite for prospect frontend",
+  "engines": {
+    "node": "8.11.1",
+    "npm": "5.6.0"
+  },
   "scripts": {
     "test": "./node_modules/.bin/cypress run",
     "watch": "./node_modules/.bin/cypress open",

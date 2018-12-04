@@ -3,15 +3,13 @@ import selectors from '../selectors';
 describe('Company metrics', function() {
     beforeEach(() => {
         cy.server();
-        cy.visit('/acs');
     });
 
     it('displays company metrics', () => {
-        cy.route('companySearch/*', 'fixtures:single-company').as('companySearch');
-        cy.wait('@companySearch');
+        cy.visit('/?company-name=single%20company');
 
         cy.get(selectors.company.companyContent)
-          .should('contain', 'Pelical Tech Ltd.')
+          .should('contain', 'Single Company')
           .and('contain', 'Very low')
           .and('contain', 'August 2018')
           .and('contain', '5777')
@@ -24,8 +22,7 @@ describe('Company metrics', function() {
     });
 
     it('ommits labels when company metrics values are not present', () => {
-        cy.route('companySearch/*', 'fixtures:single-company-no-metrics').as('companySearch');
-        cy.wait('@companySearch');
+        cy.visit('/?company-name=single%20company%20no%20metrics');
 
         cy.get(selectors.company.companyContent)
           .should('contain', 'Pelical Tech Ltd.')
@@ -40,8 +37,7 @@ describe('Company metrics', function() {
     });
 
     it('view data hub profile redirects to the correct page', () => {
-        cy.route('companySearch/*', 'fixtures:single-company').as('companySearch');
-        cy.wait('@companySearch');
+        cy.visit('/?company-name=single%20company');
 
         cy.get(selectors.company.dataHub).then( $a => {
             const href = $a.prop('href');
