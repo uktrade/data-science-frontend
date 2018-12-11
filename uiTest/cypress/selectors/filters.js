@@ -1,5 +1,7 @@
 const filters = {
-    companyName: '#company-name'
+    companyName: '#company-name',
+    exportPotential: '#export-potential-',
+    commodityCode: '#commodity-code',
 };
 
 export default filters;
