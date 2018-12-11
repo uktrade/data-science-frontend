@@ -1,4 +1,5 @@
 const dateFns = require('date-fns')
+const { some } = require('lodash')
 
 function formatNumberWithCommas (x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -22,4 +23,5 @@ module.exports = function (env) {
   env.addFilter('lowerCase', require('lodash/lowerCase'))
   env.addFilter('startCase', require('lodash/startCase'))
   env.addFilter('isString', (obj) => typeof obj === 'string')
+  env.addFilter('isSelected', (list) => some(list, { checked: true }))
 }
