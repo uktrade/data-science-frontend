@@ -56,3 +56,4 @@ dist
 /dump.rdb
 /babel_cache/
 /.build/
+dump.rdb
