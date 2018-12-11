@@ -18,63 +18,25 @@
             <div class="govuk-grid-column-one-half">
                 <a class="govuk-link app-pull-right govuk-!-margin-top-3" href="/">Remove all filters</a>
             </div>
-
-
             <div class="govuk-grid-column-full">
                 {% for key, value in filters %}
-                    {% if value %}
-                        {% if value|isString %}
+                    {% if value.length %}
+                        {% if (value | isSelected) %}
                             <div class="app-filters-tags-title-value">
-                                <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
-                                <span class="app-filters-tags-value">{{ value }}</span>
+                                {% if key == 'ukRegions' %}
+                                    <span class="app-filters-tags-title">UK Regions:</span>
+                                {% else %}
+                                    <span class="app-filters-tags-title">{{ key | lowerCase | startCase }}: </span>
+                                {% endif%}
+                                <span class="app-filters-tags-value">
+                                    {% for item in value %}
+                                        {% if item.checked %}
+                                            {{item.text}}<span class="app-comma">,</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </span>
                             </div>
                         {% endif %}
-
-                        {% if key == 'turnover' and (value.min or value.max)%}
-                            <div class="app-filters-tags-title-value">
-                                <span class="app-filters-tags-title">Turnover - </span>
-                                {% if value.min %}
-                                    <span class="app-filters-tags-title">min: </span>
-                                    <span class="app-filters-tags-value">{{ value.min }}</span>
-                                {% endif %}
-                                {% if value.min and value.max %},{% endif %}
-                                {% if value.max %}
-                                    <span class="app-filters-tags-title">max:</span>
-                                    <span class="app-filters-tags-value">{{ value.max }}</span>
-                                {% endif %}
-                            </div>
-
-                        {% endif %}
-
-                        {% if key == 'latestExport' and (value.startDate or value.endDate) %}
-                            <div class="app-filters-tags-title-value">
-                                <span class="app-filters-tags-title">Latest export evidence - </span>
-                                {% if value.startDate %}
-                                    <span class="app-filters-tags-title">Start date: </span>
-                                    <span class="app-filters-tags-value">{{ value.startDate }}</span>
-                                {% endif %}
-                                {% if value.startDate and value.endDate %},{% endif %}
-                                {% if value.endDate %}
-                                    <span class="app-filters-tags-title">End date:</span>
-                                    <span class="app-filters-tags-value">{{ value.endDate }}</span>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-
-                        {% for item in value %}
-                            {% if item.checked %}
-                                <div class="app-filters-tags-title-value">
-                                    {% if key == 'ukRegions' %}
-                                        <span class="app-filters-tags-title">UK Regions:</span>
-                                    {% else %}
-                                        <span class="app-filters-tags-title">{{ key | lowerCase | startCase}}:</span>
-                                    {% endif %}
-
-                                    <span class="app-filters-tags-value">{{ item.text }}</span>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-
                     {% endif %}
                 {% endfor %}
             </div>
@@ -182,7 +144,7 @@
                     {% endif %}
                     {% if item.num_export_opp_enquiries %}
                         <li>
-                            <span class="app-metric-header govuk-!-display-inline">DIT export opportunities:</span>
+                            <span class="app-metric-header govuk-!-display-inline">Export opportunity enquiries:</span>
                             <span class="app-metric-value govuk-!-display-inline">{{ item.num_export_opp_enquiries }}</span>
                         </li>
                     {% endif %}
