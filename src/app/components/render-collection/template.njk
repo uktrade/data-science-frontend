@@ -151,7 +151,19 @@
                     {% if item.cash_bank_in_hand %}
                         <li>
                             <span class="app-metric-header govuk-!-display-inline">Cash in the bank:</span>
-                            <span class="app-metric-value govuk-!-display-inline">&pound;{{ item.cash_bank_in_hand | round | formatNumberWithCommas}}</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.cash_bank_in_hand | formatWithPoundSign}}</span>
+                        </li>
+                    {% endif %}
+                    {% if item.current_assets %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">Current assets:</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.current_assets | formatWithPoundSign}}</span>
+                        </li>
+                    {% endif %}
+                    {% if item.shareholder_funds %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">Shareholder funds:</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.shareholder_funds | formatWithPoundSign}}</span>
                         </li>
                     {% endif %}
                 </ul>
@@ -177,7 +189,13 @@
                     {% if item.turnover %}
                         <li>
                             <span class="app-metric-header govuk-!-display-inline">Turnover:</span>
-                            <span class="app-metric-value govuk-!-display-inline">&pound;{{ item.turnover | round | formatNumberWithCommas }}</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.turnover | formatWithPoundSign }}</span>
+                        </li>
+                    {% endif %}
+                    {% if item.incorporation_month %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">Incorporation date:</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.incorporation_month | formatDate }}</span>
                         </li>
                     {% endif %}
                 </ul>
