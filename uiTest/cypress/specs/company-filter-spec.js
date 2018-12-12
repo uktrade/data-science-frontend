@@ -10,7 +10,9 @@ describe('Company filters', () => {
     describe('Export Potential', () => {
         it('Filters by low export potential', () => {
             const lowExportPotential = 1;
-            cy.get(`${selectors.filters.exportPotential}${lowExportPotential}`).click();
+            cy.get(`${selectors.filters.exportPotential}${lowExportPotential}`)
+                .should('not.be.disabled')
+                .click();
             
             cy.wait('@filterResults').then((xhr) => {
                 expect(xhr.url).to.contain('?sort=export_propensity:desc&export-potential=Low');
@@ -21,8 +23,11 @@ describe('Company filters', () => {
     });
     describe('Commodity code', () => {
         it('Filters by single commodity code', () => {
-            cy.get(selectors.filters.commodityCode).type('12345').type('{enter}');
-            
+            cy.get(selectors.filters.commodityCode)
+                .should('not.be.disabled')
+                .type('12345')
+                .type('{enter}');
+
             cy.wait('@filterResults').then((xhr) => {
                 expect(xhr.url).to.contain('?sort=export_propensity:desc&export-codes=12345');
             });
