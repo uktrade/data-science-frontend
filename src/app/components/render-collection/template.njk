@@ -160,6 +160,12 @@
                             <span class="app-metric-value govuk-!-display-inline">{{ item.num_hmrc_import_goods_outside_eu }}</span>
                         </li>
                     {% endif %}
+                    {% if item.incorporation_month %}
+                        <li>
+                            <span class="app-metric-header govuk-!-display-inline">Incorporation date:</span>
+                            <span class="app-metric-value govuk-!-display-inline">{{ item.incorporation_month | formatDate }}</span>
+                        </li>
+                    {% endif %}
                 </ul>
                 <ul class="govuk-grid-column-one-half govuk-list">
                     {% if item.cash_bank_in_hand %}
@@ -190,12 +196,6 @@
                         <li>
                             <span class="app-metric-header govuk-!-display-inline">Turnover:</span>
                             <span class="app-metric-value govuk-!-display-inline">{{ item.turnover | formatWithPoundSign }}</span>
-                        </li>
-                    {% endif %}
-                    {% if item.incorporation_month %}
-                        <li>
-                            <span class="app-metric-header govuk-!-display-inline">Incorporation date:</span>
-                            <span class="app-metric-value govuk-!-display-inline">{{ item.incorporation_month | formatDate }}</span>
                         </li>
                     {% endif %}
                 </ul>
