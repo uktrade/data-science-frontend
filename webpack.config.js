@@ -15,7 +15,9 @@ const common = {
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'src/public/dist/'),
+    path: config.buildDir,
+    publicPath: '/',
+
   },
   module: {
     rules: [
@@ -45,8 +47,6 @@ const common = {
             {
               loader: 'css-loader',
               options: {
-                import: false,
-                url: false,
                 sourceMap: config.isDev,
                 minimize: config.isProd,
               },
@@ -54,25 +54,18 @@ const common = {
             {
               loader: 'postcss-loader',
               options: {
-                url: false,
                 plugins: (loader) => [
                   require('autoprefixer')(),
                 ],
                 sourceMap: config.isDev,
               },
             },
+            'resolve-url-loader',
             {
-              loader: 'resolve-url-loader',
-              options: {
-                debug: true,
-              },
-            },
-            {
-              loader: 'fast-sass-loader',
+              loader: 'sass-loader',
               options: {
                 sourceMap: true, // required for resolve-url-loader
                 includePaths: [
-                  path.resolve(__dirname, 'node_modules'),
                   path.resolve(__dirname, 'node_modules/govuk_frontend'),
                 ],
               },

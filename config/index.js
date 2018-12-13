@@ -55,7 +55,8 @@ let config = {
   sentryDsn: env('SENTRY_DSN'),
   analyticsId: env('ANALYTICS_ID'),
   datahubDomain: env('DATA_HUB_DOMAIN', 'https://www.datahub.trade.gov.uk'),
-  buildDir: path.join(root, 'src/app/public/dist'),
+  assetsHost: process.env.ASSETS_HOST,
+  buildDir: path.join(root, '.build'),
   views: {
     cache: bool('CACHE_VIEWS', true),
   },

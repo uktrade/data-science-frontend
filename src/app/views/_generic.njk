@@ -13,7 +13,7 @@
     <!--[if !IE 8]><!-->
     <!-- build:css(src) /public/css/styles.min.css -->
         <base href="/">
-        <link rel="stylesheet" href="/public/dist/css/styles.css">
+        <link rel="stylesheet" href="css/styles.css">
     <!-- endbuild -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="/public/app-ie8.css">
     <![endif]-->
     <!--[if lt IE 9]>
-    <script src="/public/dist/js/html5shiv.min.js"></script>
+    <script src="js/vendor/html5shiv.min.js"></script>
     <![endif]-->
 
     {% block styles %}{% endblock %}
@@ -31,7 +31,7 @@
 {% block bodyEnd %}
     <!-- build:js(src) /public/js/all.min.js -->
         <script src="/public/js/lib/govuk-design-system-all.js"></script>
-        <script src="/public/dist/js/app.js"></script>
+        <script src="js/app.js"></script>
     <!-- endbuild -->
 
     <script>window.GOVUKFrontend.initAll()</script>

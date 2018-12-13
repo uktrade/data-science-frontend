@@ -53,11 +53,10 @@ module.exports = {
     app.use(forceHttps(isDev))
 
     app.use('/public', express.static(pathToPublic, { maxAge: staticMaxAge }))
-    app.use('/assets', express.static(path.join(__dirname, '../node_modules/govuk-frontend/assets')))
+    app.use('/assets', express.static(path.join(__dirname, (isDev ? '../../' : '../../../deps/0') + '/node_modules/govuk-frontend/assets')))
 
     app.use('/js', express.static(path.join(config.buildDir, 'js')))
     app.use('/css', express.static(path.join(config.buildDir, 'css')))
-    app.use('/assets', express.static(path.join(config.buildDir, 'assets')))
 
     app.use(morganLogger((isDev ? 'dev' : 'combined')))
     app.use(locals)
