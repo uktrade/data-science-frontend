@@ -9,37 +9,56 @@ describe('Company filters', () => {
     });
 
     describe('Export Potential', () => {
-        it('Filters by low export potential', () => {
+        it('Filters by selecting a single export potential', () => {
             const lowExportPotential = 1;
             cy.get(`${selectors.filters.exportPotential}${lowExportPotential}`)
                 .should('not.be.disabled')
                 .click();
             
-            cy.wait('@filterResults').then((xhr) => {
-                expect(xhr.url).to.contain('?sort=export_propensity:desc&export-potential=Low');
-            });
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&export-potential=Low');
     
+            cy.get(selectors.company.companyList).children().should('have.length', 1);
+        });
+
+        it('Filters by selecting multiple export potential', () => {
+            const lowExportPotential = 1;
+            const mediumExportPotential = 2;
+
+            cy.get(`${selectors.filters.exportPotential}${lowExportPotential}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&export-potential=Low');
+    
+            cy.get(`${selectors.filters.exportPotential}${mediumExportPotential}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&export-potential=Low&export-potential=Medium');
+
             cy.get(selectors.company.companyList).children().should('have.length', 1);
         });
     });
 
-    describe('Commodity code', () => {
+    describe('Commodity Code', () => {
         it('Filters by single commodity code', () => {
             cy.get(selectors.filters.commodityCode)
                 .should('not.be.disabled')
                 .type('12345')
                 .type('{enter}');
 
-            cy.wait('@filterResults').then((xhr) => {
-                expect(xhr.url).to.contain('?sort=export_propensity:desc&export-codes=12345');
-            });
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&export-codes=12345');
     
             cy.get(selectors.company.companyList).children().should('have.length', 1);
         });
     })
 
     // Disabled until story DST-1220 is fixed
-    xdescribe('Latest export evidence', () => {
+    xdescribe('Latest Export Evidence', () => {
         it('Filters by start date only', () => {
             cy.get(selectors.filters.exportEvidenceStartDate)
                 .should('not.be.disabled')
@@ -97,8 +116,8 @@ describe('Company filters', () => {
         });
     });
 
-    describe('Sic code', () => {
-        it('Filters by sic code', () => {
+    describe('Sic Codes', () => {
+        it('Filters by a sic code', () => {
             cy.get(selectors.filters.sicCodes)
                 .should('not.be.disabled')
                 .type('12345')
@@ -168,4 +187,159 @@ describe('Company filters', () => {
             'Oh no, there are no results for your search');
         });
     });
+
+    describe('Market of Interest', () => {
+        it('Filters by selecting a single market of interest', () => {
+            const colombiaMarketOfInterest = 1;
+            cy.get(`${selectors.filters.marketOfInterest}${colombiaMarketOfInterest}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&market-of-interest=Colombia');
+    
+            cy.get(selectors.company.companyList).children().should('have.length', 1);
+        });
+
+        it('Filters by selecting multiple market of interest', () => {
+            const colombiaMarketOfInterest = 1;
+            const usMarketOfInterest = 2;
+
+            cy.get(`${selectors.filters.marketOfInterest}${colombiaMarketOfInterest}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&market-of-interest=Colombia');
+    
+            cy.get(`${selectors.filters.marketOfInterest}${usMarketOfInterest}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&market-of-interest=Colombia&market-of-interest=US');
+
+            cy.get(selectors.company.companyList).children().should('have.length', 1);
+        });
+    });
+
+    describe('Market Exported to', () => {
+        it('Filters by selecting a single market exported to', () => {
+            const latviaMarketExportedTo = 2;
+            cy.get(`${selectors.filters.marketExportedTo}${latviaMarketExportedTo}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&market-exported-to=Latvia');
+    
+            cy.get(selectors.company.companyList).children().should('have.length', 1);
+        });
+
+        it('Filters by selecting multiple market exported to', () => {
+            const latviaMarketExportedTo = 2;
+            const polandMarketExportedTo = 3;
+
+            cy.get(`${selectors.filters.marketExportedTo}${latviaMarketExportedTo}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&market-exported-to=Latvia');
+
+            cy.get(`${selectors.filters.marketExportedTo}${polandMarketExportedTo}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&market-exported-to=Latvia&market-exported-to=Poland');
+
+            cy.get(selectors.company.companyList).children().should('have.length', 1);
+        });
+    });
+
+    describe('Service Used', () => {
+        it('Filters by selecting a single service used', () => {
+            const ditServiceUsed = 1;
+            cy.get(`${selectors.filters.serviceUsed}${ditServiceUsed}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&service-used=DIT');
+    
+            cy.get(selectors.company.companyList).children().should('have.length', 1);
+        });
+
+        it('Filters by selecting multiple service used', () => {
+            const ditServiceUsed = 1;
+            const tbdServiceUsed = 3;
+
+            cy.get(`${selectors.filters.serviceUsed}${ditServiceUsed}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&service-used=DIT');
+    
+            cy.get(`${selectors.filters.serviceUsed}${tbdServiceUsed}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&service-used=DIT&service-used=TBD');
+
+            cy.get(selectors.company.companyList).children().should('have.length', 1);
+        });
+    });
+
+    describe('Uk Regions', () => {
+        it('Filters by selecting a single market exported to', () => {
+            const eastOfLondonRegion = 1;
+            cy.get(`${selectors.filters.ukRegion}${eastOfLondonRegion}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&uk-regions=East of London');
+    
+            cy.get(selectors.company.companyList).children().should('have.length', 1);
+        });
+
+        it('Filters by selecting multiple market exported to', () => {
+            const eastOfLondonRegion = 1;
+            const london = 2;
+
+            cy.get(`${selectors.filters.ukRegion}${eastOfLondonRegion}`)
+                .should('not.be.disabled')
+                .click();
+            
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&uk-regions=East of London');
+
+            cy.get(`${selectors.filters.ukRegion}${london}`)
+                .should('not.be.disabled')
+                .click();
+    
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&uk-regions=East of London&uk-regions=London');
+
+            cy.get(selectors.company.companyList).children().should('have.length', 1);
+        });
+    });
+
+    // describe('Multiple filters', () => {
+    //     it('Filters by selecting a export potential and filtering by company name', () => {
+    //         const eastOfLondonRegion = 1;
+    //         cy.get(`${selectors.filters.ukRegion}${eastOfLondonRegion}`)
+    //             .should('not.be.disabled')
+    //             .click();
+            
+    //         cy.wait('@filterResults').then((xhr) => {
+    //             expect(xhr.url).to.contain('?sort=export_propensity:desc&uk-regions=East of London');
+    //         });
+    
+    //         cy.get(selectors.company.companyList).children().should('have.length', 1);
+    //     });
+    // });
 });
