@@ -82,6 +82,8 @@ jobs:
             - ~/data-science-frontend/uiTest/node_modules
             - /root/.cache/Cypress
           when: always
+      - store_artifacts:
+          path: uiTest/cypress/screenshots
 
 workflows:
   version: 2

@@ -18,7 +18,10 @@ describe('Company metrics', function() {
           .and('contain', '5533')
           .and('contain', '432432')
           .and('contain', '50 to 249')
-          .and('contain', '£34,655,709');
+          .and('contain', '£34,655,709')
+          .and('contain', '£1,000,000')
+          .and('contain', '£1,000')
+          .and('contain', 'November 2000');
     });
 
     it('ommits labels when company metrics values are not present', () => {
