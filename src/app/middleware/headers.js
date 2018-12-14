@@ -1,5 +1,5 @@
 const cspValues = [
-  `default-src 'none'`,
+  `default-src 'self'`,
   `base-uri 'self'`,
   `script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://cdnjs.cloudflare.com`,
   `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com`,
