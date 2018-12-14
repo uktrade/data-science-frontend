@@ -328,18 +328,22 @@ describe('Company filters', () => {
         });
     });
 
-    // describe('Multiple filters', () => {
-    //     it('Filters by selecting a export potential and filtering by company name', () => {
-    //         const eastOfLondonRegion = 1;
-    //         cy.get(`${selectors.filters.ukRegion}${eastOfLondonRegion}`)
-    //             .should('not.be.disabled')
-    //             .click();
+    describe('Multiple filters', () => {
+        it('Filters by selecting a export potential and company name', () => {
+            const lowExportPotential = 1;
+            cy.get(`${selectors.filters.exportPotential}${lowExportPotential}`)
+                .should('not.be.disabled')
+                .click();
             
-    //         cy.wait('@filterResults').then((xhr) => {
-    //             expect(xhr.url).to.contain('?sort=export_propensity:desc&uk-regions=East of London');
-    //         });
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&export-potential=Low');
     
-    //         cy.get(selectors.company.companyList).children().should('have.length', 1);
-    //     });
-    // });
+            cy.get(selectors.filters.companyName).type('single company').type('{enter}');
+
+            cy.wait('@filterResults').its('url').should('contain',
+                '?sort=export_propensity:desc&company-name=single company&export-potential=Low');
+    
+            cy.get(selectors.company.companyList).children().should('have.length', 1);
+        });
+    });
 });
