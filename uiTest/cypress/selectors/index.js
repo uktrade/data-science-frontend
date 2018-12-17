@@ -1,7 +1,7 @@
-import company from './company';
-import filters from './filters';
+import company from './company'
+import filters from './filters'
 
 export default {
-    company,
-    filters
-};
+  company,
+  filters,
+}
