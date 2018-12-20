@@ -11,7 +11,7 @@ describe('Filters typeahead', () => {
       cy.get(selectors.filters.marketOfInterestTypeahead)
         .should('not.be.disabled')
         .type('Col')
-        
+
       cy.get(`${selectors.filters.marketOfInterest}1`).should('be.visible')
       cy.get(`${selectors.filters.marketOfInterest}2`).should('not.be.visible')
       cy.get(`${selectors.filters.marketOfInterest}3`).should('not.be.visible')
@@ -34,7 +34,7 @@ describe('Filters typeahead', () => {
       cy.get(selectors.filters.marketOfInterestTypeahead)
         .should('not.be.disabled')
         .type('Ind')
-        
+
       cy.get(`${selectors.filters.marketExportedTo}1`).should('be.visible')
       cy.get(`${selectors.filters.marketExportedTo}2`).should('not.be.visible')
       cy.get(`${selectors.filters.marketExportedTo}3`).should('not.be.visible')
