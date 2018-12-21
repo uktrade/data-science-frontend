@@ -31,7 +31,7 @@ describe('Filters typeahead', () => {
 
   describe('Market Exported to', () => {
     it('Filters country list', () => {
-      cy.get(selectors.filters.marketOfInterestTypeahead)
+      cy.get(selectors.filters.marketExportedToTypeahead)
         .should('not.be.disabled')
         .type('Ind')
 
@@ -42,7 +42,7 @@ describe('Filters typeahead', () => {
     })
 
     it('Does not filter country list when only 2 letters are typed in', () => {
-      cy.get(selectors.filters.marketOfInterestTypeahead)
+      cy.get(selectors.filters.marketExportedToTypeahead)
         .should('not.be.disabled')
         .type('In')
 
