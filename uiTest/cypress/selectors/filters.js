@@ -8,7 +8,9 @@ const filters = {
   turnOverMin: '#turnover-minimum',
   turnOverMax: '#turnover-maximum',
   marketOfInterest: '#market-of-interest-',
+  marketOfInterestTypeahead: '.js-market-of-interest',
   marketExportedTo: '#market-exported-to-',
+  marketExportedToTypeahead: '.js-market-exported-to',
   serviceUsed: '#service-used-',
   ukRegion: '#uk-regions-',
 }
