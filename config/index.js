@@ -75,6 +75,7 @@ let config = {
     password: env('REDIS_PASSWORD'),
     url: (vcapRedisUrl || env('REDIS_URL', env('REDISTOGO_URL'))),
     tls: bool('REDIS_USE_TLS'),
+    isCachingEnabled: !bool('REDIS_CACHING_DISABLED'),
   },
   session: {
     ttl: (1000 * 60 * 60 * 2), // milliseconds for cookie

@@ -1,4 +1,5 @@
 const backendRequest = require('./backend-request')
+const config = require('../../../config')
 
 const sources = {
   'citrix.webinars.attendees': 'Citrix (DIT Webinars)',
@@ -82,7 +83,9 @@ module.exports = {
   },
 
   getDataByType: async (type) => {
-    const responseData = await backendRequest('/api/v1/company/search/' + encodeURIComponent(type) + '/', { cache: true })
+    const responseData = await backendRequest('/api/v1/company/search/' + encodeURIComponent(type) + '/', {
+      cache: config.redis.isCachingEnabled,
+    })
 
     return responseData
   },
@@ -90,7 +93,7 @@ module.exports = {
   searchForCompanies: async (offset, limit, data) => {
     const responseData = await backendRequest(`/api/v1/company/search/?offset=${offset}&limit=${limit}`, {
       method: 'POST',
-      cache: true,
+      cache: config.redis.isCachingEnabled,
       data,
     })
 
