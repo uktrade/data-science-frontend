@@ -12,7 +12,7 @@ describe('getCacheTime', () => {
         it('Should return 5 mins time', () => {
           mockdate.set('Mon, 30 Apr 2018 04:00:01 GMT')
           const time = getCacheTime()
-          expect(time.seconds).toEqual(1525061101)
+          expect(time.seconds).toEqual(300)
           expect(time.utc).toEqual('Mon, 30 Apr 2018 04:05:01 GMT')
         })
       })
@@ -21,7 +21,7 @@ describe('getCacheTime', () => {
         it('Should return 5 mins time', () => {
           mockdate.set('Mon, 30 Apr 2018 05:28:01 GMT')
           const time = getCacheTime()
-          expect(time.seconds).toEqual(1525066381)
+          expect(time.seconds).toEqual(300)
           expect(time.utc).toEqual('Mon, 30 Apr 2018 05:33:01 GMT')
         })
       })
@@ -30,7 +30,7 @@ describe('getCacheTime', () => {
         it('Should return 5 mins time', () => {
           mockdate.set('Mon, 30 Apr 2018 06:59:00 GMT')
           const time = getCacheTime()
-          expect(time.seconds).toEqual(1525071840)
+          expect(time.seconds).toEqual(300)
           expect(time.utc).toEqual('Mon, 30 Apr 2018 07:04:00 GMT')
         })
       })
@@ -42,7 +42,7 @@ describe('getCacheTime', () => {
           mockdate.set('Mon, 30 Apr 2018 7:59:00 GMT')
           const time = getCacheTime()
 
-          expect(time.seconds).toEqual(1525129199)
+          expect(time.seconds).toEqual(54059)
           expect(time.utc).toEqual('Mon, 30 Apr 2018 22:59:59 GMT')
         })
       })
@@ -52,7 +52,7 @@ describe('getCacheTime', () => {
           mockdate.set('Mon, 30 Apr 2018 08:01:01 GMT')
           const time = getCacheTime()
 
-          expect(time.seconds).toEqual(1525129199)
+          expect(time.seconds).toEqual(53938)
           expect(time.utc).toEqual('Mon, 30 Apr 2018 22:59:59 GMT')
         })
       })
@@ -62,7 +62,7 @@ describe('getCacheTime', () => {
           mockdate.set('Mon, 30 Apr 2018 11:00:01 GMT')
           const time = getCacheTime()
 
-          expect(time.seconds).toEqual(1525129199)
+          expect(time.seconds).toEqual(43198)
           expect(time.utc).toEqual('Mon, 30 Apr 2018 22:59:59 GMT')
         })
       })
@@ -75,7 +75,7 @@ describe('getCacheTime', () => {
         it('Should return 5 mins time', () => {
           mockdate.set('Tue, 02 Jan 2018 07:59:00 GMT')
           const time = getCacheTime()
-          expect(time.seconds).toEqual(1514880240)
+          expect(time.seconds).toEqual(300)
           expect(time.utc).toEqual('Tue, 02 Jan 2018 08:04:00 GMT')
         })
       })
@@ -87,7 +87,7 @@ describe('getCacheTime', () => {
           mockdate.set('Tue, 02 Jan 2018 08:01:01 GMT')
           const time = getCacheTime()
 
-          expect(time.seconds).toEqual(1514937599)
+          expect(time.seconds).toEqual(57538)
           expect(time.utc).toEqual('Tue, 02 Jan 2018 23:59:59 GMT')
         })
       })
