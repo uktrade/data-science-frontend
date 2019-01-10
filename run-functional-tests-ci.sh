@@ -12,7 +12,7 @@ echo "Starting app"
 
 echo "App started"
 
-cd uiTest
+cd uiTest/functional
 
 echo "Running tests"
 
