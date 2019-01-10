@@ -1,27 +1,12 @@
-## Setup
+# Directory that contains functional and end to end tests
 
-Pre-requisites:
+## Shared selectors
 
-Ensure you have [node](https://nodejs.org/en/download/) v8 installed then install dependencies:
+Notice that the two test suites share the same selectors, so modifying something in `selectors` folder
+should reflect both test suties
 
-`$ npm install`
+## Functional tests
+[Functional README](functional/README.md)
 
-## Coding standards
-
-Eslint will run as part of the build, assure you run the command below before committing:
-
-`$ npm run lint`
-
-## Running the tests
-
-Notice that before running the tests the application should be up and running.
-
-By default cypress will run on electron headlessly, you can read more about it [here](https://docs.cypress.io/guides/core-concepts/launching-browsers.html#Electron-Browser)
-
-Execute all the tests on `specs` in chrome browser:
-
-`$ npm run test --browser chrome`
-
-## Running the tests manually in cypress interface
-
-`$ npm run watch --browser chrome`
+## End to End tests
+[End to End README](end-to-end/README.md)
