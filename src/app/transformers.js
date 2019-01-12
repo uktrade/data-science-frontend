@@ -49,8 +49,28 @@ function transformToLowerTrimStart (value) {
   return trimStart(toLower(value))
 }
 
+function formatMonthString (date) {
+  if (date < 10) {
+    return `0${date}`
+  } else {
+    return date
+  }
+}
+
 function transformQueryToEvidenceFilter (key, min = '', max = '') {
-  return ((min.length || max.length) && {
+  const inputMin = min
+  const inputMax = max
+
+  if (!min.length) {
+    min = '1970-01' // epoch time
+  }
+
+  if (!max.length) {
+    date = new Date()
+    max = `${date.getFullYear()}-${formatMonthString(date.getMonth() + 1)}`
+  }
+
+  return ((inputMin.length || inputMax.length) && {
     [key]: {
       'min': getCappedDate(min, 'startDate'),
       'max': getCappedDate(max, 'endDate'),
