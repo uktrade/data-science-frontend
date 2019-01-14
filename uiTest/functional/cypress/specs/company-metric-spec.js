@@ -1,4 +1,4 @@
-import selectors from '../selectors'
+import selectors from '../../../selectors'
 
 describe('Company metrics', function () {
   beforeEach(() => {
