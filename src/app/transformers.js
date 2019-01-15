@@ -66,7 +66,7 @@ function transformQueryToEvidenceFilter (key, min = '', max = '') {
   }
 
   if (!max.length) {
-    date = new Date()
+    const date = new Date()
     max = `${date.getFullYear()}-${formatMonthString(date.getMonth() + 1)}`
   }
 
