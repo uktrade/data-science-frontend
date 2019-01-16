@@ -1,5 +1,6 @@
 const IMPLICIT_TIMEOUT = 30000
-const BASE_URL = process.env.BASE_URL || 'https://find-exporters-dev.london.cloudapps.digital/'
+const BASE_URL = process.env.BASE_URL || 'http://localhost:8080'
+//'https://find-exporters-dev.london.cloudapps.digital/'
 
 exports.config = {
     //
@@ -22,7 +23,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        './test/specs/**/*.js'
+        './src/test/specs/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -94,27 +95,27 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ["selenium-standalone"],//
-    seleniumArgs: {
-        version : "3.9.1",
-        drivers : {
-          chrome : {
-            version : "2.44",
-            arch    : process.arch,
-          }
-        }
-      },
-      seleniumInstallArgs: {
-        version : "3.9.1",
-        baseURL : "https://selenium-release.storage.googleapis.com",
-        drivers : {
-          chrome : {
-            version : "2.44",
-            arch    : process.arch,
-            baseURL : "https://chromedriver.storage.googleapis.com",
-          }
-        }
-      },
+    services: ["selenium-standalone"],
+    // seleniumArgs: {
+    //     version : "3.9.1",
+    //     drivers : {
+    //       chrome : {
+    //         version : "2.44",
+    //         arch    : process.arch,
+    //       }
+    //     }
+    //   },
+    //   seleniumInstallArgs: {
+    //     version : "3.9.1",
+    //     baseURL : "https://selenium-release.storage.googleapis.com",
+    //     drivers : {
+    //       chrome : {
+    //         version : "2.44",
+    //         arch    : process.arch,
+    //         baseURL : "https://chromedriver.storage.googleapis.com",
+    //       }
+    //     }
+    //   },
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: https://webdriver.io/docs/frameworks.html
