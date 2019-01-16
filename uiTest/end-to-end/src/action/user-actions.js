@@ -4,8 +4,6 @@ const getElement = elementSelector => {
   
 const clickOn = elementSelector => {
   const element = getElement(elementSelector)
-  element.waitForVisible()
-  element.waitForEnabled()
   element.click()
 }
   

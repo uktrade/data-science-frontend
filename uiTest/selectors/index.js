@@ -1,9 +1,9 @@
 import company from './company'
 import filters from './filters'
-import home from './home'
+import login from './login'
 
 export default {
   company,
   filters,
-  home,
+  login,
 }

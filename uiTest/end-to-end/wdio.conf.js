@@ -1,6 +1,5 @@
 const IMPLICIT_TIMEOUT = 30000
-const BASE_URL = process.env.BASE_URL || 'http://localhost:8080'
-//'https://find-exporters-dev.london.cloudapps.digital/'
+const BASE_URL = process.env.BASE_URL || 'https://find-exporters-dev.london.cloudapps.digital/'
 
 exports.config = {
     //
