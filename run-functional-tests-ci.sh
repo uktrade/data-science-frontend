@@ -2,7 +2,7 @@ export LOG_LEVEL=debug
 
 echo "Building the assets"
 
-npm run clean -y sudo && npm run prod
+npm run prod
 
 echo "Starting app"
 
