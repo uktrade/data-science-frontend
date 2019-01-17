@@ -31,5 +31,6 @@ export default {
   readText,
   selectOption,
   enterText,
-  getElements
+  getElements,
+  getElement
 }

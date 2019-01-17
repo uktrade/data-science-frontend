@@ -18,14 +18,23 @@ const applyFilters = (filters) => {
 const companyName = value => {
   userActions.enterText(selectors.filters.companyName, value)
   browser.keys(['Enter'])
-  browser.waitUntil(() => {
-    return userActions.readText(selectors.company.companyNames).includes(value)
-  }, 20000, `expected company name to contain ${value}`)
+  waitForContentToLoad(value)
 }
 
 const turnOverMin = value => {
   userActions.enterText(selectors.filters.turnOverMin, value)
   browser.keys(['Enter'])
+  waitForContentToLoad(value)
+}
+
+const waitForContentToLoad = (value) => {
+  browser.waitUntil(() => {
+    if (userActions.getElement(selectors.company.pagination).getAttribute('href')) {
+      return userActions.getElement(selectors.company.pagination).getAttribute('href').includes(value)
+    } else {
+      return false
+    }
+  }, 20000)
 }
 
 export default applyFilters
