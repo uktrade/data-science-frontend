@@ -58,7 +58,7 @@ describe('Company filters', () => {
   })
 
   // Disabled until story DST-1220 is fixed
-  xdescribe('Latest Export Evidence', () => {
+  describe('Latest Export Evidence', () => {
     it('Filters by start date only', () => {
       cy.get(selectors.filters.exportEvidenceStartDate)
         .should('not.be.disabled')
@@ -68,8 +68,7 @@ describe('Company filters', () => {
       cy.wait('@filterResults').its('url').should('contain',
         '?sort=export_propensity:desc&export-evidence-start-date=2000-10')
 
-      cy.get(selectors.company.companyEmptyContent).should('contain',
-        'Oh no, there are no results for your search')
+      cy.get(selectors.company.companyList).children().should('have.length', 1)
     })
 
     it('Filters by end date only', () => {
@@ -81,8 +80,7 @@ describe('Company filters', () => {
       cy.wait('@filterResults').its('url').should('contain',
         '?sort=export_propensity:desc&export-evidence-end-date=2000-10')
 
-      cy.get(selectors.company.companyEmptyContent).should('contain',
-        'Oh no, there are no results for your search')
+      cy.get(selectors.company.companyList).children().should('have.length', 1)
     })
 
     it('Filters by start and end date', () => {
