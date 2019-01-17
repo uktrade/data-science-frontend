@@ -10,9 +10,9 @@ describe('Find Exporter', () => {
     actionSequences.login()
     actionSequences.applyFilters({
       companyName: companyFilterName,
-      turnOverMin: '10000'
+      turnOverMin: '10000',
     })
-    
+
     const listOfCompanies = userActions.getElements(selectors.company.companyContent)
     listOfCompanies.forEach((companyContent) => {
       const companyContentText = companyContent.getText()

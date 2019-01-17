@@ -3,5 +3,5 @@ import login from './login'
 
 export default {
   applyFilters,
-  login
+  login,
 }

@@ -1,16 +1,16 @@
 const getElement = elementSelector => {
-  return $(elementSelector);
+  return $(elementSelector)
 }
 
 const getElements = elementSelector => {
-  return $$(elementSelector);
+  return $$(elementSelector)
 }
 
 const clickOn = elementSelector => {
   const element = getElement(elementSelector)
   element.click()
 }
-  
+
 const readText = elementSelector => {
   const element = getElement(elementSelector)
   return element.getText()
@@ -32,5 +32,5 @@ export default {
   selectOption,
   enterText,
   getElements,
-  getElement
+  getElement,
 }
