@@ -9,8 +9,12 @@ const applyFilters = (filters) => {
     const filterValue = filter[1]
 
     switch (filterName) {
-      case 'companyName': companyName(filterValue); break
-      case 'turnOverMin': turnOverMin(filterValue); break
+      case 'companyName':
+        companyName(filterValue)
+        break
+      case 'turnOverMin':
+        turnOverMin(filterValue)
+        break
     }
   })
 }
