@@ -27,7 +27,7 @@
     "dist": "npm run build:dist && npm run start",
     "heroku-postbuild": "npm run build",
     "lint": "npm-run-all lint:all:*",
-    "lint:all:js": "eslint ./src ./config ./uiTest/cypress",
+    "lint:all:js": "eslint ./src ./config ./uiTest/functional/cypress ./uiTest/end-to-end/src",
     "lint:all:styles": "sass-lint -v -q -c .sass-lint.yml src/public/scss/**/*.scss",
     "dev": "webpack --mode development",
     "prod": "webpack --mode production",

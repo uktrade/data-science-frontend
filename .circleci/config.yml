@@ -63,7 +63,7 @@ jobs:
       - run: 
           name: Functional dependencies
           command: |
-            cd uiTest
+            cd uiTest/functional
             npm install
             apt-get update
             apt-get install xvfb -y sudo
@@ -79,11 +79,11 @@ jobs:
           name: Save uitest npm dependencies cache
           key: cypress-npm-dependency-{{ checksum "package.json" }}
           paths:
-            - ~/data-science-frontend/uiTest/node_modules
+            - ~/data-science-frontend/uiTest/functional/node_modules
             - /root/.cache/Cypress
           when: always
       - store_artifacts:
-          path: uiTest/cypress/screenshots
+          path: uiTest/functional/cypress/screenshots
 
 workflows:
   version: 2

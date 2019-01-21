@@ -2,7 +2,7 @@ export LOG_LEVEL=debug
 
 echo "Building the assets"
 
-npm run build
+npm run prod
 
 echo "Starting app"
 
@@ -12,7 +12,7 @@ echo "Starting app"
 
 echo "App started"
 
-cd uiTest
+cd uiTest/functional
 
 echo "Running tests"
 
