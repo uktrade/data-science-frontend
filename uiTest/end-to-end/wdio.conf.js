@@ -13,6 +13,24 @@ remoteConfig = {
   browserstackLocal: browserStackTunnel,
 }
 
+browserMatrix = [
+  { 
+    browserName: 'firefox',
+    os: 'Windows',
+    os_version: '7',
+  },
+  { 
+    browserName: 'chrome',
+    os: 'Windows',
+    os_version: '10',
+  },
+  { 
+    browserName: 'IE',
+    os: 'Windows',
+    os_version: '10',
+  },
+]
+
 const defaultConfig = {
   //
   // ====================
@@ -60,14 +78,7 @@ const defaultConfig = {
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
   // https://docs.saucelabs.com/reference/platforms-configurator
   //
-  capabilities: [{
-    // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-    // grid with only 5 firefox instances available you can make sure that not more than
-    // 5 instances get started at a time.
-    maxInstances: 5,
-    //
-    browserName: 'chrome'
-  }],
+  capabilities: isRemote ? [...browserMatrix] : [{ maxInstances: 5, browserName: 'chrome' }],
   //
   // ===================
   // Test Configurations
