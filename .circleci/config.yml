@@ -6,10 +6,14 @@ aliases:
     restore_cache:
       name: Restore npm dependencies cache
       key: npm-dependency-{{ checksum "package.json" }}
-  - &restore_uitest_npm_cache
+  - &restore_functional_npm_cache
     restore_cache:
-      name: Restore uitest npm dependencies cache
+      name: Restore functional test npm dependencies cache
       key: cypress-npm-dependency-{{ checksum "package.json" }}
+  - &restore_end_to_end_npm_cache
+    restore_cache:
+      name: Restore end to end test npm dependencies cache
+      key: webdriverio-npm-dependency-{{ checksum "package.json" }}
 
 jobs:
   dependencies:
@@ -59,8 +63,8 @@ jobs:
     steps:
       - checkout
       - *restore_npm_cache
-      - *restore_uitest_npm_cache
-      - run: 
+      - *restore_functional_npm_cache
+      - run:
           name: Functional dependencies
           command: |
             cd uiTest/functional
@@ -84,6 +88,30 @@ jobs:
           when: always
       - store_artifacts:
           path: uiTest/functional/cypress/screenshots
+
+  end_to_end_test:
+    docker:
+      - image: ukti/data-sci-end-to-end
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *restore_npm_cache
+      - *restore_end_to_end_npm_cache
+      - run: 
+          name: End to end dependencies
+          command: |
+            cd uiTest/end-to-end
+            npm install
+      - run:
+          name: Webdriverio tests
+          command: ./run-end-to-end-tests-ci.sh
+          when: always
+      - save_cache:
+          name: Save functional test npm dependencies cache
+          key: webdriverio-npm-dependency-{{ checksum "package.json" }}
+          paths:
+            - ~/data-science-frontend/uiTest/end-to-end/node_modules
+          when: always
 
 workflows:
   version: 2

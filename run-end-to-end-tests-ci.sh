@@ -2,4 +2,4 @@
 cd uiTest/end-to-end
 
 # Install dependencies and execute tests
-npm install && npm run test
+npm run test
