@@ -21,13 +21,13 @@ const applyFilters = (filters) => {
 
 const companyName = value => {
   userActions.enterText(selectors.filters.companyName, value)
-  browser.keys(['Enter'])
+  userActions.clickOn(selectors.filters.commodityCode)
   waitForContentToLoad(value)
 }
 
 const turnOverMin = value => {
   userActions.enterText(selectors.filters.turnOverMin, value)
-  browser.keys(['Enter'])
+  userActions.clickOn(selectors.filters.turnOverMax)
   waitForContentToLoad(value)
 }
 

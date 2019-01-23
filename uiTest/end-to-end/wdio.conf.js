@@ -1,4 +1,4 @@
-const IMPLICIT_TIMEOUT = process.env.WDIO_IMPLICIT_TIMEOUT || 30000
+const IMPLICIT_TIMEOUT = process.env.WDIO_IMPLICIT_TIMEOUT || 90000
 const BASE_URL = process.env.BASE_URL || 'https://find-exporters-dev.london.cloudapps.digital/'
 
 const browserStackUser = process.env.BROWSERSTACK_USERNAME || "";
@@ -12,6 +12,25 @@ remoteConfig = {
   key: browserStackKey,
   browserstackLocal: browserStackTunnel,
 }
+
+browserMatrix = [
+  { 
+    browserName: 'firefox',
+    os: 'Windows',
+    os_version: '7',
+  },
+  { 
+    browserName: 'chrome',
+    os: 'Windows',
+    os_version: '10',
+  },
+  { 
+    browserName: 'IE',
+    os: 'Windows',
+    os_version: '10',
+    'browserstack.selenium_version' : '3.8.0',
+  },
+]
 
 const defaultConfig = {
   //
@@ -60,14 +79,7 @@ const defaultConfig = {
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
   // https://docs.saucelabs.com/reference/platforms-configurator
   //
-  capabilities: [{
-    // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-    // grid with only 5 firefox instances available you can make sure that not more than
-    // 5 instances get started at a time.
-    maxInstances: 5,
-    //
-    browserName: 'chrome'
-  }],
+  capabilities: isRemote ? [...browserMatrix] : [{ maxInstances: 5, browserName: 'chrome' }],
   //
   // ===================
   // Test Configurations
