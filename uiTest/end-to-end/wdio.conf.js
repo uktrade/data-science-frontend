@@ -28,6 +28,7 @@ browserMatrix = [
     browserName: 'IE',
     os: 'Windows',
     os_version: '10',
+    'browserstack.selenium_version' : '2.53.1',
   },
 ]
 
