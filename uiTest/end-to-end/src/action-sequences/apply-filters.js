@@ -22,7 +22,7 @@ const applyFilters = (filters) => {
 const companyName = value => {
   userActions.enterText(selectors.filters.companyName, value.toLowerCase())
   userActions.clickOn(selectors.filters.commodityCode)
-  waitForContentToLoad(value)
+  waitForContentToLoad(value.toLowerCase())
 }
 
 const turnOverMin = value => {
