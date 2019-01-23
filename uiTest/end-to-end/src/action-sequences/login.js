@@ -7,10 +7,15 @@ const loginUrl = process.env.LOGIN_URL
 
 const login = () => {
   browser.url(loginUrl)
-  userActions.clickOn(selectors.login.user)
-  userActions.enterText(selectors.login.user, user)
-  userActions.clickOn(selectors.login.password)
-  userActions.enterText(selectors.login.password, password)
+  if (browser.capabilities.browserName === 'internet explorer') {
+    userActions.clickOn(selectors.login.user)
+    browser.keys(user)
+    userActions.clickOn(selectors.login.password)
+    browser.keys(password)
+  } else {
+    userActions.enterText(selectors.login.user, user)
+    userActions.enterText(selectors.login.password, password)
+  }
   userActions.clickOn(selectors.login.signin)
   browser.url('')
 }
