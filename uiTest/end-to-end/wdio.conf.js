@@ -1,4 +1,4 @@
-const IMPLICIT_TIMEOUT = process.env.WDIO_IMPLICIT_TIMEOUT || 30000
+const IMPLICIT_TIMEOUT = process.env.WDIO_IMPLICIT_TIMEOUT || 90000
 const BASE_URL = process.env.BASE_URL || 'https://find-exporters-dev.london.cloudapps.digital/'
 
 const browserStackUser = process.env.BROWSERSTACK_USERNAME || "";
