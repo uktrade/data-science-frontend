@@ -1,5 +1,9 @@
 # Data Hub - Find Exporters Front-End
 
+## Build Status
+
+[![CircleCI](https://circleci.com/gh/uktrade/data-science-frontend/tree/develop.svg?style=svg)](https://circleci.com/gh/uktrade/data-science-frontend/tree/develop)
+
 ## Setup
 
 Pre-requisites:
