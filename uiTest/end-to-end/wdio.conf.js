@@ -1,3 +1,5 @@
+const clientMatrix = require('@uktrade/client-matrix-js')
+
 const IMPLICIT_TIMEOUT = process.env.WDIO_IMPLICIT_TIMEOUT || 90000
 const BASE_URL = process.env.BASE_URL || 'https://find-exporters-dev.london.cloudapps.digital/'
 
@@ -5,6 +7,10 @@ const browserStackUser = process.env.BROWSERSTACK_USERNAME || "";
 const browserStackKey = process.env.BROWSERSTACK_ACCESS_KEY || "";
 const browserStackTunnel = !!process.env.TUNNEL;
 const isRemote = !!process.env.BROWSERSTACK_ACCESS_KEY;
+const clients = process.env.CLIENTS
+  ? process.env.CLIENTS.split(",").map(client => client.trim())
+  : ['chrome_latest', 'firefox_latest', 'ie11']
+const clientMatrixList = clientMatrix.requestedClients(clients)
 
 remoteConfig = {
   services: ['browserstack'],
@@ -12,26 +18,6 @@ remoteConfig = {
   key: browserStackKey,
   browserstackLocal: browserStackTunnel,
 }
-
-browserMatrix = [
-  { 
-    browserName: 'firefox',
-    os: 'Windows',
-    os_version: '7',
-  },
-  { 
-    browserName: 'chrome',
-    os: 'Windows',
-    os_version: '10',
-  },
-  { 
-    browserName: 'IE',
-    os: 'Windows',
-    os_version: '7',
-    browser_version : '11.0',
-    'browserstack.selenium_version' : '3.8.0',
-  },
-]
 
 const defaultConfig = {
   //
@@ -80,7 +66,7 @@ const defaultConfig = {
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
   // https://docs.saucelabs.com/reference/platforms-configurator
   //
-  capabilities: isRemote ? [...browserMatrix] : [{ maxInstances: 5, browserName: 'chrome' }],
+  capabilities: isRemote ? [...clientMatrixList] : [{ maxInstances: 5, browserName: 'chrome' }],
   //
   // ===================
   // Test Configurations
