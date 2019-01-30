@@ -1,4 +1,4 @@
-const { castArray, isEmpty, map } = require('lodash')
+const { castArray, intersection, isEmpty, isNil, map } = require('lodash')
 
 const config = require('../../../config')
 const backendService = require('../lib/backend-service')
@@ -38,6 +38,97 @@ async function buildFilters (req, res, next) {
   }
 
   next()
+}
+
+function getUserName (email = '') {
+  const names = email.substring(0, email.lastIndexOf('@')).split('.')
+  const firstName = names[0]
+  const lastName = names[names.length - 1]
+
+  return `${firstName} ${lastName}`
+}
+
+// TODO(jf): put this in builders
+function getApps (permittedApplications) {
+  const apps = [
+    {
+      key: 'datahub-crm',
+      name: 'Companies',
+      path: `${config.datahubDomain}/companies`,
+    }, {
+      key: 'datahub-crm',
+      name: 'Contacts',
+      path: `${config.datahubDomain}/contacts`,
+    }, {
+      key: 'datahub-crm',
+      name: 'Events',
+      path: `${config.datahubDomain}/events`,
+    }, {
+      key: 'datahub-crm',
+      name: 'Interactions',
+      path: `${config.datahubDomain}/interactions`,
+    }, {
+      key: 'datahub-crm',
+      name: 'Investments',
+      path: `${config.datahubDomain}/investment-projects`,
+    }, {
+      key: 'datahub-crm',
+      name: 'Orders (OMIS)',
+      path: `${config.datahubDomain}/omis`,
+    }, {
+      key: 'datahub-mi',
+      name: 'MI dashboards',
+      path: `${config.miDomain}`,
+    }, {
+      key: 'find-exporters',
+      name: 'Find exporters',
+      path: `/`,
+    },
+  ]
+
+  const appKeys = map(apps, (item) => item.key)
+  const permittedAppsKeys = map(permittedApplications, (item) => item.key)
+  const keys = intersection(appKeys, permittedAppsKeys)
+  const foo = buildPermittedAppsCollection(apps, keys)
+
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+  console.log(foo)
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+  return foo
+}
+
+function buildPermittedAppsCollection (apps, keys) {
+  let collection = []
+
+  map(keys, (key) => {
+    map(apps, (item) => {
+      if (item.key === key) {
+        collection.push(item)
+      }
+    })
+  })
+
+  return collection
+}
+
+function buildHeader (req, res, next) {
+  if (config.sso.bypass) {
+    next()
+  } else {
+    const introspect = JSON.parse(req.session.introspect)
+
+    if (!isNil(introspect)) {
+      res.locals.globalHeader = {
+        name: getUserName(introspect.username),
+        email: introspect.username,
+        supportUrl: `${config.datahubDomain}/support`,
+        permitted_applications: getApps(introspect.permitted_applications),
+      }
+    }
+
+    next()
+  }
 }
 
 async function dataByType (req, res) {
@@ -112,6 +203,8 @@ async function renderIndex (req, res) {
   const marketOfInterest = await getCheckboxFilter(req, 'market_of_interest', 'market-of-interest')
   const serviceUsed = await getCheckboxFilter(req, 'service_usage', 'service-used')
   const marketExportedTo = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
+  const globalHeader = res.locals.globalHeader
+  const dataTest = res.data_test
 
   const companyName = req.query['company-name']
   const commodityCode = req.query['export-codes']
@@ -129,6 +222,8 @@ async function renderIndex (req, res) {
 
   return res.render('index', {
     result: data,
+    globalHeader,
+    dataTest,
     filters: {
       companyName,
       exportPotential,
@@ -167,6 +262,7 @@ async function searchByExportCode (req, res) {
 }
 
 module.exports = {
+  buildHeader,
   buildFilters,
   dataByType,
   getMarketExportedMetadata,

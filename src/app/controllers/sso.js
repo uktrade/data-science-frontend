@@ -3,6 +3,8 @@ const request = require('request')
 const config = require('../../../config')
 const logger = require('../lib/logger')
 
+const axios = require('axios')
+
 const isAlpha = /^[a-zA-Z0-9-]+$/
 
 const urls = ['auth', 'token'].reduce((params, param) => {
@@ -10,6 +12,20 @@ const urls = ['auth', 'token'].reduce((params, param) => {
 
   return params
 }, {})
+
+async function getSSOIntrospect (token) {
+  const options = {
+    headers: { 'Authorization': 'Bearer ' + config.sso.accessToken },
+  }
+
+  const data = await axios.get(
+    `https://sso.trade.gov.uk/o/introspect/?token=${token}`,
+    options,
+  ).then((response) => response.data)
+    .catch((error) => error)
+
+  return JSON.stringify(data)
+}
 
 function stringify (params) {
   const arr = []
@@ -47,8 +63,7 @@ function checkCallbackErrors (errorParam, stateParam, codeParam, stateId) {
 }
 
 module.exports = {
-
-  authRedirect: (req, res) => {
+  authRedirect: (req, res, next) => {
     const stateId = uuid()
     const urlParams = {
       response_type: 'code',
@@ -64,14 +79,14 @@ module.exports = {
 
     req.session.oauthStateId = stateId // used to check the callback received contains matching state param
     req.session.save((err) => {
-      if (err) { throw err }
+      if (err) { next(err) }
 
       logger.info('Session saved to redis')
       res.redirect(`${urls.auth}?${stringify(urlParams)}`)
     })
   },
 
-  callback: (req, res) => {
+  callback: (req, res, next) => {
     const errorParam = req.query.error
     const stateParam = req.query.state
     const codeParam = req.query.code
@@ -80,7 +95,7 @@ module.exports = {
 
     if (errMessage) {
       logger.error(errMessage)
-      throw new Error(errMessage)
+      next(errMessage)
     }
 
     request({
@@ -95,20 +110,28 @@ module.exports = {
       },
       json: true,
 
-    }, (err, response, data) => {
+    }, async (err, response, data) => {
       if (err) {
         logger.error('Error with SSO token request')
         logger.error(err)
-        throw new Error('Error with token request')
+        next(err)
       }
 
       if (data.access_token) {
         req.session.ssoToken = data.access_token
+        req.session.introspect = await getSSOIntrospect(data.access_token)
+
         delete req.session.oauthStateId
         res.redirect(req.session.returnPath || '/')
       } else {
-        throw new Error('No access_token from SSO')
+        next(err)
       }
     })
+  },
+
+  signOutOAuth: function (req, res) {
+    req.session = null
+    res.clearCookie('connect.sid')
+    res.redirect(config.sso.logoutUrl)
   },
 }

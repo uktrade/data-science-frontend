@@ -14,6 +14,7 @@ module.exports = function locals (req, res, next) {
 
   res.locals = Object.assign({}, res.locals, {
     IS_XHR: req.xhr,
+    BASE_URL: baseUrl,
 
     getAssetPath (asset) {
       const assetsUrl = config.assetsHost || baseUrl

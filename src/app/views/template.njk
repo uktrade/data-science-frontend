@@ -39,8 +39,6 @@
 
 {% block header %}
     <div class="global-header">
-
-
         <header class="govuk-header " role="banner" data-module="header">
             <div class="govuk-header__container govuk-width-container">
                 <div class="govuk-header__logo">
@@ -54,9 +52,17 @@
                     <span class="govuk-tag govuk-phase-banner__content__tag global-phase-tag">BETA</span>
                 </div>
                 <ul class="proposition-menu">
-                    <li class="proposition-menu__item"><a href="#" class="proposition-menu__link govuk-link active">Support</a></li>
-                    <li class="proposition-menu__item"><a href="#" class="proposition-menu__link govuk-link">Cecily Cardew</a></li>
-                    <li class="proposition-menu__item"><a href="#" class="proposition-menu__link govuk-link">Sign out</a></li>
+                    <li class="proposition-menu__item">
+                        <a href="{{globalHeader.supportUrl}}" class="proposition-menu__link govuk-link">Support</a>
+                    </li>
+                    <li class="proposition-menu__item">
+                        <a href="mailto:{{globalHeader.email}}" class="proposition-menu__link govuk-link">
+                            {{globalHeader.name | title}}
+                        </a>
+                    </li>
+                    <li class="proposition-menu__item">
+                        <a href="/sign-out" class="proposition-menu__link govuk-link">Sign out</a>
+                    </li>
                 </ul>
 
             </div>
@@ -64,36 +70,22 @@
                 <nav class="global-nav govuk-clearfix">
                     <div class="govuk-width-container">
                         <ul class="global-nav-list">
-                            <li class="global-nav-list-item">
-                                <a href="#" class="global-nav-link govuk-link">Companies</a>
-                            </li>
-                            <li class="global-nav-list-item">
-                                <a href="#" class="global-nav-link govuk-link">Contacts</a>
-                            </li>
-                            <li class="global-nav-list-item">
-                                <a href="#" class="global-nav-link govuk-link">Events</a>
-                            </li>
-                            <li class="global-nav-list-item">
-                                <a href="#" class="global-nav-link govuk-link">Interactions</a>
-                            </li>
-                            <li class="global-nav-list-item">
-                                <a href="#" class="global-nav-link govuk-link">Investments</a>
-                            </li>
-                            <li class="global-nav-list-item">
-                                <a href="#" class="global-nav-link govuk-link">Orders (OMIS)</a>
-                            </li>
-                            <li class="global-nav-list-item">
-                                <a href="#" class="global-nav-link govuk-link">MI dashboards</a>
-                            </li>
-                            <li class="global-nav-list-item">
-                                <a href="#" class="global-nav-link govuk-link active">Find Exporters</a>
-                            </li>
+                            {% for item in globalHeader.permitted_applications %}
+                                <li class="global-nav-list-item">
+                                    <a href="{{ item.path }}"
+                                       class="global-nav-link govuk-link {{ 'active' if item.path == '/' }}">
+                                        {{ item.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </nav>
             </div>
         </header>
     </div>
+
+    <h2>{{ data_test }}</h2>
 {% endblock %}
 
 {% block main %}

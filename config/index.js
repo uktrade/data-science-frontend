@@ -55,6 +55,7 @@ let config = {
   sentryDsn: env('SENTRY_DSN'),
   analyticsId: env('ANALYTICS_ID'),
   datahubDomain: env('DATA_HUB_DOMAIN', 'https://www.datahub.trade.gov.uk'),
+  miDomain: env('PERFORMANCE_DASHBOARDS_URL', 'https://mi.exportwins.service.trade.gov.uk'),
   assetsHost: process.env.ASSETS_HOST,
   buildDir: path.join(root, '.build'),
   views: {
@@ -82,6 +83,9 @@ let config = {
     secret: requiredEnv('SESSION_SECRET'),
   },
   sso: {
+    accessToken: env('SSO_ACCESS_TOKEN'),
+    userToken: env('SSO_USER_TOKEN'),
+    logoutUrl: env('SSO_LOGOUT_URL'),
     bypass: bool('SSO_BYPASS'),
     protocol: env('SSO_PROTOCOL', 'https'),
     domain: requiredEnv('SSO_DOMAIN'),

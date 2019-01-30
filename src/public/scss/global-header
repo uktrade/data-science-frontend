@@ -9,6 +9,7 @@ $datahub-mobile-breakpoint: 640px;
 .global-header {
   .govuk-header {
     padding-top: 2px;
+    border-bottom: none;
   }
 
   .global-nav {
