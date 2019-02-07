@@ -1,12 +1,18 @@
 const ssoController = require('./controllers/sso')
 
 const {
-  buildFilters,
-  buildHeader,
-  getMarketExportedMetadata,
-  getMarketOfInterestMetadata,
   renderIndex,
 } = require('./controllers/acs')
+
+const {
+  getMarketExportedMetadata,
+  getMarketOfInterestMetadata,
+} = require('./repos')
+
+const {
+  buildFilters,
+  buildHeader,
+} = require('./builders')
 
 module.exports = function (express, app) {
   app.get('/login/', ssoController.authRedirect)

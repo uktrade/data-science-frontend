@@ -20,7 +20,7 @@
     "tag-master": "git tag v${npm_package_version}-master && git push --tags",
     "test": "NODE_ENV=development; SSO_BYPASS=true; jest",
     "test:unit": "jest",
-    "start": "export LOG_LEVEL=debug; NODE_ENV=production node --use-strict server.js",
+    "start": "NODE_ENV=production node --use-strict server.js",
     "watch": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'",
     "grunt": "grunt dist",
     "build": "npm run clean && npm run prod",

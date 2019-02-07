@@ -1,4 +1,4 @@
-const { castArray, isFunction, map, toLower, toNumber, startCase, trimStart } = require('lodash')
+const { castArray, isFunction, intersection, map, toLower, toNumber, startCase, trimStart } = require('lodash')
 
 const config = require('../../config')
 
@@ -26,6 +26,36 @@ function sanitizeKeyValuePair (key, value = '', utility = {}) {
   } else {
     return (value.length && { [key]: value })
   }
+}
+
+function transformPermittedAppsToCollection (apps, keys) {
+  let collection = []
+
+  map(keys, (key) => {
+    map(apps, (item) => {
+      if (item.key === key) {
+        collection.push(item)
+      }
+    })
+  })
+
+  return collection
+}
+
+function transformAppsToPermittedApps (appsNamesAndPaths, permittedApplications) {
+  const appKeys = map(appsNamesAndPaths, (item) => item.key)
+  const permittedAppsKeys = map(permittedApplications, (item) => item.key)
+  const keys = intersection(appKeys, permittedAppsKeys)
+
+  return transformPermittedAppsToCollection(appsNamesAndPaths, keys)
+}
+
+function transformEmailToUsername (email = '') {
+  const names = email.substring(0, email.lastIndexOf('@')).split('.')
+  const firstName = names[0]
+  const lastName = names[names.length - 1]
+
+  return `${firstName} ${lastName}`
 }
 
 function transformPageToOffset (page) {
@@ -135,6 +165,8 @@ function transformStringToOption (string) {
 module.exports = {
   selectCheckboxFilter,
   sanitizeKeyValuePair,
+  transformAppsToPermittedApps,
+  transformEmailToUsername,
   transformPageToOffset,
   transformQueryToDoubleFilter,
   transformQueryToEvidenceFilter,
