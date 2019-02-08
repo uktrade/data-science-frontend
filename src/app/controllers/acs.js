@@ -30,7 +30,6 @@ async function renderIndex (req, res) {
   const serviceUsed = await getCheckboxFilter(req, 'service_usage', 'service-used')
   const marketExportedTo = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
   const globalHeader = res.locals.globalHeader
-  const dataTest = res.data_test
 
   const companyName = req.query['company-name']
   const commodityCode = req.query['export-codes']
@@ -49,7 +48,6 @@ async function renderIndex (req, res) {
   return res.render('index', {
     result: data,
     globalHeader,
-    dataTest,
     filters: {
       companyName,
       exportPotential,

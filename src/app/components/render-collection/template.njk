@@ -20,21 +20,51 @@
             </div>
             <div class="govuk-grid-column-full">
                 {% for key, value in filters %}
-                    {% if value.length %}
-                        {% if (value | isSelected) %}
+                    {% if (value | isSelected) %}
+                        <div class="app-filters-tags-title-value">
+                            {% if key == 'ukRegions' %}
+                                <span class="app-filters-tags-title">UK Regions:</span>
+                            {% else %}
+                                <span class="app-filters-tags-title">{{ key | lowerCase | startCase }}: </span>
+                            {% endif%}
+
+                            <span class="app-filters-tags-value">
+                                {% for item in value %}
+                                    {% if item.checked %}
+                                        {{item.text}}<span class="app-comma">,</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                    {% elseif key == 'companyName' or key == 'commodityCode' or key == 'sicCodes'%}
+                        {% if value %}
                             <div class="app-filters-tags-title-value">
-                                {% if key == 'ukRegions' %}
-                                    <span class="app-filters-tags-title">UK Regions:</span>
-                                {% else %}
-                                    <span class="app-filters-tags-title">{{ key | lowerCase | startCase }}: </span>
-                                {% endif%}
-                                <span class="app-filters-tags-value">
-                                    {% for item in value %}
-                                        {% if item.checked %}
-                                            {{item.text}}<span class="app-comma">,</span>
-                                        {% endif %}
-                                    {% endfor %}
-                                </span>
+                                <span class="app-filters-tags-title">{{ key | lowerCase | startCase }}:</span>
+                                <span class="app-filters-tags-value">{{ value }}</span>
+                            </div>
+                        {% endif %}
+                    {% elseif key == 'latestExport' %}
+                        {% if value.startDate or value.end %}
+                            <div class="app-filters-tags-title-value">
+                                <span class="app-filters-tags-title">{{ key | lowerCase | startCase }}:</span>
+                                {% if value.startDate %}
+                                    <span class="app-filters-tags-value">from {{ value.startDate }}</span>
+                                {% endif %}
+                                {% if value.endDate %}
+                                    <span class="app-filters-tags-value">to {{ value.endDate }}</span>
+                                {%  endif %}
+                            </div>
+                        {%  endif %}
+                    {% elseif key == 'turnover' %}
+                        {% if value.min or value.max %}
+                            <div class="app-filters-tags-title-value">
+                                <span class="app-filters-tags-title">{{ key | lowerCase | startCase }}:</span>
+                                {% if value.min %}
+                                    <span class="app-filters-tags-value">from {{ value.min | formatWithPoundSign }}</span>
+                                {% endif %}
+                                {% if value.max %}
+                                    <span class="app-filters-tags-value">to {{ value.max | formatWithPoundSign}}</span>
+                                {%  endif %}
                             </div>
                         {% endif %}
                     {% endif %}
