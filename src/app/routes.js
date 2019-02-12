@@ -1,12 +1,12 @@
 const ssoController = require('./controllers/sso')
 
-const {
-  renderIndex,
-} = require('./controllers/acs')
+const { renderIndex } = require('./controllers/acs')
+const { renderCompanyTimeline } = require('./controllers/company-timeline')
 
 const {
   getMarketExportedMetadata,
   getMarketOfInterestMetadata,
+  // getcompanytimelineMetadata,
 } = require('./repos')
 
 const {
@@ -30,5 +30,11 @@ module.exports = function (express, app) {
 
   app.get('/market-exported-to',
     getMarketExportedMetadata,
+  )
+
+  app.get('/:company_id',
+    // getcompanytimelineMetadata,
+    // buildCompanyTimeline,
+    renderCompanyTimeline,
   )
 }

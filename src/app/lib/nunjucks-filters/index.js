@@ -23,6 +23,18 @@ function formatWithPoundSign (x) {
   }
 }
 
+/**
+ * logs an object in the template to the console on the client.
+ * @param  {*} a any type
+ * @return {String}   a script tag with a console.log call.
+ * @example {{ "hello world" | log }}
+ * @example {{ "hello world" | log | safe }}  [for environments with autoescaping turned on]
+ */
+
+function log (a) {
+  return '<script>console.log(' + JSON.stringify(a, null, '\t') + ');</script>'
+}
+
 module.exports = function (env) {
   env.addFilter('formatDate', formatDate)
   env.addFilter('formatNumberWithCommas', formatNumberWithCommas)
@@ -33,4 +45,5 @@ module.exports = function (env) {
   env.addFilter('startCase', require('lodash/startCase'))
   env.addFilter('isString', (obj) => typeof obj === 'string')
   env.addFilter('isSelected', (list) => some(list, { checked: true }))
+  env.addFilter('log', log)
 }

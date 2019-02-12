@@ -6,6 +6,13 @@ const marketExportedToTypeahead = new CheckboxTypeahead()
 const marketOfInterestTypeahead = new CheckboxTypeahead()
 
 AutoSubmit.init()
-marketExportedToTypeahead.init('market-exported-to')
-marketOfInterestTypeahead.init('market-of-interest')
+
+if (document.getElementsByClassName('js-market-of-interest').length) {
+  marketOfInterestTypeahead.init('market-of-interest')
+}
+
+if (document.getElementsByClassName('js-market-exported-to').length) {
+  marketExportedToTypeahead.init('market-exported-to')
+}
+
 MirrorValue.init()

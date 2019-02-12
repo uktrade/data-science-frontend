@@ -131,7 +131,8 @@
             <div class="app-collection-heading">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
-                        <h3 class="govuk-heading-m govuk-!-margin-top-4">{{ item.company_name | title }}</h3>
+                        {{ item.company_id | dump }}
+                        <h3 class="govuk-heading-m govuk-!-margin-top-4"><a href="/{{ item.company_id }}">{{ item.company_name | title }}</a></h3>
                     </div>
                     {% if item.region %}
                         <div class="govuk-grid-column-one-third">
