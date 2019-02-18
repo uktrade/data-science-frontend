@@ -24,11 +24,7 @@ async function getSSOIntrospect (token) {
   ).then((response) => response.data)
     .catch((error) => error)
 
-  console.log('=====================')
-  console.log(data)
-  console.log('=====================')
-
-  return JSON.stringify(data)
+  return data
 }
 
 function stringify (params) {
@@ -136,6 +132,6 @@ module.exports = {
   signOutOAuth: function (req, res) {
     req.session = null
     res.clearCookie('connect.sid')
-    res.redirect(`${config.sso.domain}/logout`)
+    res.redirect(`${config.sso.protocol}://${config.sso.domain}/logout`)
   },
 }
