@@ -25,7 +25,7 @@ function buildHeader (req, res, next) {
 
     next()
   } else {
-    const introspect = req.session.introspect
+    const introspect = JSON.parse(req.session.introspect)
 
     if (!isNil(introspect)) {
       res.locals.globalHeader = {

@@ -24,7 +24,7 @@ async function getSSOIntrospect (token) {
   ).then((response) => response.data)
     .catch((error) => error)
 
-  return data
+  return JSON.stringify(data)
 }
 
 function stringify (params) {
@@ -120,6 +120,10 @@ module.exports = {
       if (data.access_token) {
         req.session.ssoToken = data.access_token
         req.session.introspect = await getSSOIntrospect(data.access_token)
+
+        console.log('=====================')
+        console.log(req.session.introspect)
+        console.log('=====================')
 
         delete req.session.oauthStateId
         res.redirect(req.session.returnPath || '/')
