@@ -19,7 +19,7 @@ async function getSSOIntrospect (token) {
   }
 
   const data = await axios.get(
-    `${config.sso.domain}/api/v1/user/me/`,
+    `${config.sso.protocol}://${config.sso.domain}/api/v1/user/me/`,
     options,
   ).then((response) => response.data)
     .catch((error) => error)
