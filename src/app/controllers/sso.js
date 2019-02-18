@@ -24,7 +24,7 @@ async function getSSOIntrospect (token) {
   ).then((response) => response.data)
     .catch((error) => error)
 
-  return JSON.stringify(data)
+  return data
 }
 
 function stringify (params) {
