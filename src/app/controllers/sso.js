@@ -15,11 +15,11 @@ const urls = ['auth', 'token'].reduce((params, param) => {
 
 async function getSSOIntrospect (token) {
   const options = {
-    headers: { 'Authorization': 'Bearer ' + config.sso.accessToken },
+    headers: { 'Authorization': 'Bearer ' + token },
   }
 
   const data = await axios.get(
-    `https://sso.trade.gov.uk/o/introspect/?token=${token}`,
+    `${config.sso.domain}/api/v1/user/me`,
     options,
   ).then((response) => response.data)
     .catch((error) => error)
@@ -132,6 +132,6 @@ module.exports = {
   signOutOAuth: function (req, res) {
     req.session = null
     res.clearCookie('connect.sid')
-    res.redirect(config.sso.logoutUrl)
+    res.redirect(`${config.sso.domain}/logout`)
   },
 }
