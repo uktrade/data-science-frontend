@@ -19,15 +19,13 @@ async function getSSOIntrospect (token) {
   }
 
   const data = await axios.get(
-    `${config.sso.domain}/api/v1/user/me`,
+    `${config.sso.domain}/api/v1/user/me/`,
     options,
   ).then((response) => response.data)
     .catch((error) => error)
 
   console.log('=====================')
   console.log(data)
-  console.log('++++++++++++++++++++++')
-  console.log(JSON.stringify(data))
   console.log('=====================')
 
   return JSON.stringify(data)
