@@ -5,7 +5,6 @@ const config = require('../../config')
 const {
   sanitizeKeyValuePair,
   transformAppsToPermittedApps,
-  transformEmailToUsername,
   transformQueryToDoubleFilter,
   transformQueryToEvidenceFilter,
   transformQueryToSortFilter,
@@ -17,13 +16,20 @@ const { appsNamesAndPaths } = require('./macros')
 
 function buildHeader (req, res, next) {
   if (config.sso.bypass) {
+    res.locals.globalHeader = {
+      name: 'dit user',
+      email: 'user@email.com',
+      supportUrl: `${config.datahubDomain}/support`,
+      permitted_applications: appsNamesAndPaths,
+    }
+
     next()
   } else {
     const introspect = JSON.parse(req.session.introspect)
 
     if (!isNil(introspect)) {
       res.locals.globalHeader = {
-        name: transformEmailToUsername(introspect.username),
+        name: `${introspect.first_name} ${introspect.last_name}`,
         email: introspect.username,
         supportUrl: `${config.datahubDomain}/support`,
         permitted_applications: transformAppsToPermittedApps(appsNamesAndPaths, introspect.permitted_applications),

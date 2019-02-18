@@ -85,7 +85,6 @@ let config = {
   sso: {
     accessToken: env('SSO_ACCESS_TOKEN'),
     userToken: env('SSO_USER_TOKEN'),
-    logoutUrl: env('SSO_LOGOUT_URL'),
     bypass: bool('SSO_BYPASS'),
     protocol: env('SSO_PROTOCOL', 'https'),
     domain: requiredEnv('SSO_DOMAIN'),
@@ -101,6 +100,7 @@ let config = {
     },
     redirectUri: requiredEnv('SSO_REDIRECT_URI'),
     paramLength: number('OAUTH_PARAM_LENGTH', 75),
+    url: env('SSO_URL'),
   },
   backend: {
     url: requiredEnv('BACKEND_URL'),
