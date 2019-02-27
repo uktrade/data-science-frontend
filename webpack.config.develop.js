@@ -13,7 +13,7 @@ module.exports = {
     new ExtractTextPlugin('css/[name].css'),
     new BrowserSyncPlugin({
       port: 8081,
-      proxy: `http://localhost:${config.port}`,
+      proxy: `http://localhost:${config.server.port}`,
       open: false,
       files: [
         '.build/css/*.css',

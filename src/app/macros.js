@@ -20,7 +20,7 @@ const appsNamesAndPaths = [
   }, {
     key: 'datahub-crm',
     name: 'Investments',
-    path: `${config.datahubDomain}/investment-projects`,
+    path: `${config.datahubDomain}/investments`,
   }, {
     key: 'datahub-crm',
     name: 'Orders (OMIS)',
