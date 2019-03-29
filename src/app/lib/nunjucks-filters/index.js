@@ -1,5 +1,5 @@
 const dateFns = require('date-fns')
-const { some } = require('lodash')
+const { some, toUpper, startCase } = require('lodash')
 
 function formatNumberWithCommas (x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -23,6 +23,13 @@ function formatWithPoundSign (x) {
   }
 }
 
+function formatAddress (unformattedAddress) {
+  const postcode = unformattedAddress.split(',').map(s => s.trim().match(/([A-Za-z]{1,2}\d{1,2})(\s?(\d?\w{2}))?/)).filter(e => e)[0][0]
+  const address = startCase(unformattedAddress)
+
+  return address.replace(startCase(postcode), toUpper(postcode))
+}
+
 /**
  * logs an object in the template to the console on the client.
  * @param  {*} a any type
@@ -38,6 +45,8 @@ function log (a) {
 module.exports = function (env) {
   env.addFilter('formatDate', formatDate)
   env.addFilter('formatNumberWithCommas', formatNumberWithCommas)
+  env.addFilter('formatAddress', formatAddress)
+  env.addFilter('formatToUpper', require('lodash/toUpper'))
   env.addFilter('formatWithPoundSign', formatWithPoundSign)
   env.addFilter('dateOnly', require('./date-only'))
   env.addFilter('isArray', require('lodash/isArray'))

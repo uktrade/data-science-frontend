@@ -1,11 +1,11 @@
 const backendService = require('../lib/backend-service')
 
 async function renderCompanyTimeline (req, res) {
-  companyTimeline = await backendService.getEventsByInternalCompanyId(req.params.company_id)
-  data = companyTimeline.body
+  const companyProfile = await backendService.getCompanyProfileByInternalCompanyId(req.params.company_id)
 
-  console.log(companyTimeline)
-  return res.render('company-timeline', { data })
+  profile = companyProfile.body.result[0]
+
+  return res.render('company-timeline', { profile })
 }
 
 module.exports = {

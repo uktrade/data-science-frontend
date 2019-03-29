@@ -6,7 +6,6 @@ const { renderCompanyTimeline } = require('./controllers/company-timeline')
 const {
   getMarketExportedMetadata,
   getMarketOfInterestMetadata,
-  // getcompanytimelineMetadata,
 } = require('./repos')
 
 const {
@@ -32,9 +31,8 @@ module.exports = function (express, app) {
     getMarketExportedMetadata,
   )
 
-  app.get('/:company_id',
-    // getcompanytimelineMetadata,
-    // buildCompanyTimeline,
+  app.get('/company-profile/:company_id',
+    buildHeader,
     renderCompanyTimeline,
   )
 }
