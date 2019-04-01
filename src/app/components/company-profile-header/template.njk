@@ -1,0 +1,19 @@
+{% from "back-link/macro.njk" import govukBackLink %}
+{% from "local-phase-banner/macro.njk" import localPhaseBanner %}
+
+<div class="app-company-profile-header">
+    <div class="govuk-width-container">
+        {{ localPhaseBanner() }}
+        <main class="govuk-main-wrapper {{ mainClasses }}" id="main-content" role="main">
+            {{ govukBackLink({
+                text: "Back",
+                href: returnUrl
+            }) }}
+            <h2 class="govuk-heading-l govuk-!-margin-top-4">{{ params.company_name | title }}</h2>
+            <p class="govuk-body">{{ params.registered_address | formatAddress }}</p>
+            <p class="govuk-body">{{ params.telephone_number }}</p>
+        </main>
+    </div>
+</div>
+
+

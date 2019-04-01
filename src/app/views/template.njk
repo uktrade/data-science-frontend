@@ -56,7 +56,7 @@
                         <a href="{{globalHeader.supportUrl}}" class="proposition-menu__link govuk-link">Support</a>
                     </li>
                     <li class="proposition-menu__item">
-                        <a href="mailto:{{globalHeader.email}}" class="proposition-menu__link govuk-link">
+                        <a href="{{globalHeader.profileUrl}}" class="proposition-menu__link govuk-link">
                             {{globalHeader.name | title}}
                         </a>
                     </li>
@@ -88,16 +88,9 @@
 {% endblock %}
 
 {% block main %}
+    {% block beforeContent %}{% endblock %}
     <div class="govuk-width-container">
-
-        {% block beforeContent %}{% endblock %}
-        <div class="govuk-phase-banner">
-            <p class="govuk-phase-banner__content">
-                <span class="govuk-phase-banner__text">
-                      Find exporters is a new service - your <a class="govuk-link" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSc-H72Kx9azBV4NvVTn-EmQ867gAZsVQ0UWEIpmD7Njcpm4BQ/viewform">feedback</a> will help us to improve it.
-                </span>
-            </p>
-        </div>
+        {% block beforeWrapperContainer %}{% endblock %}
         <main class="govuk-main-wrapper {{ mainClasses }}" id="main-content" role="main">
             {% block content %}{% endblock %}
         </main>

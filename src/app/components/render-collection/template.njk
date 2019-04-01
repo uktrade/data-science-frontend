@@ -127,7 +127,7 @@
     <ol class="govuk-list govuk-body app-collection-list">
     {% if result.length %}
         {% for item in result %}
-            <li class="app-collection-item">
+            <li class="app-collection-item" id="{{ item.company_id }}">
             <div class="app-collection-heading">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
@@ -135,7 +135,10 @@
                     </div>
                     {% if item.region %}
                         <div class="govuk-grid-column-one-third">
-                            <span class="govuk-!-font-size-16 govuk-!-font-weight-bold app-badge">{{ item.region }}</span>
+                            <span class="govuk-!-font-size-16 govuk-!-display-inline govuk-!-font-weight-bold app-badge">{{ item.region }}</span>
+                            {% if item.headquarter_type %}
+                                <span class="govuk-!-font-size-16 govuk-!-display-inline govuk-!-font-weight-bold app-badge">{{ item.headquarter_type | formatToUpper }}</span>
+                            {% endif %}
                         </div>
                     {% endif %}
                     <div class="govuk-grid-column-full">
@@ -149,6 +152,13 @@
                                target="_blank"
                                href="https://www.google.co.uk/search?q={{ item.company_name | urlencode }}+{{item.postcode}}"
                             > View company in Google search </a>
+                        {% endif %}
+
+                        {% if item.line_of_business  %}
+                            <div class="govuk-!-display-block govuk-!-padding-top-4 govuk-!-padding-bottom-4">
+                                <span class="app-metric-header govuk-!-display-inline">Line of business:</span>
+                                <span class="app-metric-value govuk-!-display-inline">{{ item.line_of_business }}</span>
+                            </div>
                         {% endif %}
 
                         {% if item.export_propensity  %}

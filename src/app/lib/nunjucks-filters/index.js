@@ -23,8 +23,9 @@ function formatWithPoundSign (x) {
   }
 }
 
-function formatAddress (unformattedAddress) {
-  const postcode = unformattedAddress.split(',').map(s => s.trim().match(/([A-Za-z]{1,2}\d{1,2})(\s?(\d?\w{2}))?/)).filter(e => e)[0][0]
+function formatAddress (unformattedAddress = '') {
+  const postcodeList = unformattedAddress.split(',').map(s => s.trim().match(/([A-Za-z]{1,2}\d{1,2})(\s?(\d?\w{2}))?/)).filter(e => e)
+  const postcode = postcodeList[0] ? postcodeList[0][0] : ''
   const address = startCase(unformattedAddress)
 
   return address.replace(startCase(postcode), toUpper(postcode))

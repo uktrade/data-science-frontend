@@ -10,8 +10,13 @@
 {% from "filter-latest-export-evidence/macro.njk" import filterLatestExportEvidence %}
 {% from "render-collection/macro.njk" import renderCollection %}
 {% from "input/macro.njk" import govukInput %}
+{% from "local-phase-banner/macro.njk" import localPhaseBanner %}
 
 {% extends "_generic.njk" %}
+
+{%  block beforeWrapperContainer %}
+    {{ localPhaseBanner() }}
+{% endblock %}
 
 {% block content %}
     <h1 class="govuk-heading-l">Find Exporters</h1>
