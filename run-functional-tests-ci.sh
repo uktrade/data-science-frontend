@@ -16,7 +16,7 @@ cd uiTest/functional
 
 echo "Running tests"
 
-npm run test
+npm run test -- --browser chrome
 
 if [ $? -eq 0 ]
 then
