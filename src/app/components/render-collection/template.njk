@@ -131,7 +131,11 @@
             <div class="app-collection-heading">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
+                    {% if item.datahub_company_id %}
+                        <h3 class="govuk-heading-m govuk-!-margin-top-4"><a href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}">{{ item.company_name | title }}</a></h3>
+                    {% else %}
                         <h3 class="govuk-heading-m govuk-!-margin-top-4"><a href="/company-profile/{{ item.company_id }}">{{ item.company_name | title }}</a></h3>
+                    {% endif %}
                     </div>
                     {% if item.region %}
                         <div class="govuk-grid-column-one-third">
@@ -142,20 +146,8 @@
                         </div>
                     {% endif %}
                     <div class="govuk-grid-column-full">
-                        {% if item.datahub_company_id %}
-                            <a class="govuk-link app-collection-link"
-                               target="_blank"
-                               href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}"
-                            >View Data Hub profile</a>
-                        {% else %}
-                            <a class="gov-link app-collection-link"
-                               target="_blank"
-                               href="https://www.google.co.uk/search?q={{ item.company_name | urlencode }}+{{item.postcode}}"
-                            > View company in Google search </a>
-                        {% endif %}
-
                         {% if item.line_of_business  %}
-                            <div class="govuk-!-display-block govuk-!-padding-top-4 govuk-!-padding-bottom-4">
+                            <div class="govuk-!-display-block govuk-!-padding-top-1 govuk-!-padding-bottom-4">
                                 <span class="app-metric-header govuk-!-display-inline">Line of business:</span>
                                 <span class="app-metric-value govuk-!-display-inline">{{ item.line_of_business }}</span>
                             </div>
