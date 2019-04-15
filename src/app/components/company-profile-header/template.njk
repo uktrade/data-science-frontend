@@ -4,10 +4,14 @@
 <div class="app-company-profile-header">
     <div class="govuk-width-container">
         {{ localPhaseBanner() }}
-        <main class="govuk-main-wrapper {{ mainClasses }}" id="main-content" role="main">
-            <h2 class="govuk-heading-l govuk-!-margin-top-4">{{ params.company_name | title }}</h2>
-            <p class="govuk-body">{{ params.registered_address | formatAddress }}</p>
-            <p class="govuk-body">{{ params.telephone_number }}</p>
+        <main class="govuk-main-wrapper {{ mainClasses }} govuk-!-padding-top-3" id="main-content" role="main">
+            <h2 class="govuk-heading-l govuk-!-margin-top-4 govuk-!-margin-bottom-3">{{ params.company_name | formatToUpper }}</h2>
+            {% if params.registered_address %}
+                <p class="govuk-body-s govuk-!-margin-bottom-2">{{ params.registered_address | formatToUpper }}</p>
+            {% elseif params.postcode %}
+                <p class="govuk-body-s govuk-!-margin-bottom-2">{{ params.postcode | formatToUpper }}</p>
+            {% endif %}
+            <p class="govuk-body-s govuk-!-margin-bottom-2">{{ params.telephone_number }}</p>
         </main>
     </div>
 </div>
