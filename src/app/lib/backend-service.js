@@ -65,7 +65,13 @@ module.exports = {
   },
 
   getEventsByInternalCompanyId: async function (id) {
-    const responseData = await backendRequest('/api/v1/company/events/?company_id=' + parseInt(id, 10))
+    const responseData = await backendRequest('/api/v2/company/events/?company_id=' + parseInt(id, 10) + '&meta_data=true')
+
+    return transformEvents(responseData)
+  },
+
+  getCompanyProfileByInternalCompanyId: async function (id) {
+    const responseData = await backendRequest('/api/v1/company/profile/' + parseInt(id, 10) + '/')
 
     return transformEvents(responseData)
   },

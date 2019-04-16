@@ -6,7 +6,13 @@
 
 {% set htmlClasses = "app-no-canvas-background" %}
 
-{% block pageTitle %}DS - Find Exporters{% endblock %}
+{% block pageTitle %}
+    {% if pageName %}
+        {{pageName}}
+    {% else %}
+        Find Exporters
+    {% endif %}
+{% endblock %}
 
 {% block head %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

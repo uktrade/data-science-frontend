@@ -1,8 +1,7 @@
 const ssoController = require('./controllers/sso')
 
-const {
-  renderIndex,
-} = require('./controllers/acs')
+const { renderIndex } = require('./controllers/acs')
+const { renderCompanyTimeline } = require('./controllers/company-timeline')
 
 const {
   getMarketExportedMetadata,
@@ -18,6 +17,7 @@ module.exports = function (express, app) {
   app.get('/login/', ssoController.authRedirect)
   app.get('/login/callback/', ssoController.callback)
   app.get('/sign-out/', ssoController.signOutOAuth)
+
   app.get('/',
     buildHeader,
     buildFilters,
@@ -30,5 +30,10 @@ module.exports = function (express, app) {
 
   app.get('/market-exported-to',
     getMarketExportedMetadata,
+  )
+
+  app.get('/company-profile/:company_id',
+    buildHeader,
+    renderCompanyTimeline,
   )
 }

@@ -21,6 +21,7 @@ function buildHeader (req, res, next) {
       email: 'user@email.com',
       supportUrl: `${config.datahubDomain}/support`,
       permitted_applications: appsNamesAndPaths,
+      profileUrl: `${config.datahubDomain}/profile`,
     }
 
     next()
@@ -33,6 +34,7 @@ function buildHeader (req, res, next) {
         email: introspect.username,
         supportUrl: `${config.datahubDomain}/support`,
         permitted_applications: transformAppsToPermittedApps(appsNamesAndPaths, introspect.permitted_applications),
+        profileUrl: `${config.datahubDomain}/profile`,
       }
     }
 
