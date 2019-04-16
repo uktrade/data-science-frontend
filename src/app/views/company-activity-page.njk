@@ -1,8 +1,9 @@
 {% from "company-profile-header/macro.njk" import companyProfileHeader %}
 {% from "company-profile-body/macro.njk" import companyProfileBody %}
 
-{% extends "_generic.njk" %}
+{% set pageName = 'Find Exporters - ' + title %}
 
+{% extends "_generic.njk" %}
 
 {% block beforeContent %}
     {{ companyProfileHeader(profile) }}
