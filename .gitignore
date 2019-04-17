@@ -57,3 +57,6 @@ dist
 /babel_cache/
 /.build/
 dump.rdb
+
+# Ignore functional tests screenshots
+cypress/

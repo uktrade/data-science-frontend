@@ -12,11 +12,9 @@ echo "Starting app"
 
 echo "App started"
 
-cd uiTest/functional
-
 echo "Running tests"
 
-npm run test -- --browser chrome
+npm run test:functional -- --browser chrome
 
 if [ $? -eq 0 ]
 then

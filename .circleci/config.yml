@@ -11,10 +11,6 @@ aliases:
     run:
       name: Temporarily store node/npm versions on filesystem
       command: node --version > node_version; npm --version > npm_version
-  - &restore_functional_npm_cache
-    restore_cache:
-      name: Restore functional test npm dependencies cache
-      key: cypress-npm-dependency-{{ checksum "package.json" }}
   - &restore_end_to_end_npm_cache
     restore_cache:
       name: Restore end to end test npm dependencies cache
@@ -43,6 +39,7 @@ jobs:
           key: npm-dependency-{{ checksum "package.json" }}-{{ checksum "node_version" }}-{{ checksum "npm_version" }}
           paths:
             - ~/data-science-frontend/node_modules
+            - /root/.cache/Cypress
 
   lint_test:
     docker:
@@ -81,25 +78,12 @@ jobs:
       - checkout
       - *store_versions
       - *restore_npm_cache
-      - *restore_functional_npm_cache
-      - run:
-          name: Functional dependencies
-          command: |
-            cd uiTest/functional
-            npm install
       - run:
           name: Cypress tests
           command: ./run-functional-tests-ci.sh
           when: always
-      - save_cache:
-          name: Save uitest npm dependencies cache
-          key: cypress-npm-dependency-{{ checksum "package.json" }}
-          paths:
-            - ~/data-science-frontend/uiTest/functional/node_modules
-            - /root/.cache/Cypress
-          when: always
       - store_artifacts:
-          path: uiTest/functional/cypress/screenshots
+          path: cypress/screenshots
 
   end_to_end_test:
     docker:
