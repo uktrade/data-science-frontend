@@ -8,6 +8,7 @@
 {% from "filter-market-of-interest/macro.njk" import filterMarketOfInterest %}
 {% from "filter-market-exported-to/macro.njk" import filterMarketExportedTo %}
 {% from "filter-latest-export-evidence/macro.njk" import filterLatestExportEvidence %}
+{% from "filter-sectors/macro.njk" import filterSectors %}
 {% from "render-collection/macro.njk" import renderCollection %}
 {% from "input/macro.njk" import govukInput %}
 {% from "local-phase-banner/macro.njk" import localPhaseBanner %}
@@ -28,6 +29,7 @@
                 {{ filterExportPotential(filters) }}
                 {{ filterCommodityCode(filters) }}
                 {{ filterLatestExportEvidence(filters) }}
+                {{ filterSectors(filters) }}
                 {{ filterSicCodes(filters) }}
                 {{ filterTurnover(filters) }}
                 {{ filterMarketOfInterest(filters) }}

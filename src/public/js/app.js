@@ -5,6 +5,7 @@ const MirrorValue = require('./modules/mirror-value.js')
 
 const marketExportedToTypeahead = new CheckboxTypeahead()
 const marketOfInterestTypeahead = new CheckboxTypeahead()
+const sectorsTypeahead = new CheckboxTypeahead()
 
 AutoSubmit.init()
 
@@ -14,6 +15,10 @@ if (document.getElementsByClassName('js-market-of-interest').length) {
 
 if (document.getElementsByClassName('js-market-exported-to').length) {
   marketExportedToTypeahead.init('market-exported-to')
+}
+
+if (document.getElementsByClassName('js-dit-sectors').length) {
+  sectorsTypeahead.init('dit-sectors')
 }
 
 if (document.getElementsByClassName('js-company-profile-details').length) {
