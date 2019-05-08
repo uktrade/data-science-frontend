@@ -63,7 +63,6 @@ function CheckboxTypeahead () {
 
     typeahead (event) {
       const target = event.target
-
       if (!target.classList.contains(this.classes.checkbox)) { return }
 
       const boxes = closest(target, this.root).querySelectorAll(this.selectors.box)

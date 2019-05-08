@@ -142,5 +142,8 @@
     "webpack-merge": "^4.1.4",
     "winston": "2.4.2"
   },
-  "sasslintConfig": ".sass-lint.yml"
+  "sasslintConfig": ".sass-lint.yml",
+  "resolutions": {
+    "tar": "^4.4.8"
+  }
 }

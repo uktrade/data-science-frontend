@@ -50,14 +50,6 @@ function transformAppsToPermittedApps (appsNamesAndPaths, permittedApplications)
   return transformPermittedAppsToCollection(appsNamesAndPaths, keys)
 }
 
-function transformEmailToUsername (email = '') {
-  const names = email.substring(0, email.lastIndexOf('@')).split('.')
-  const firstName = names[0]
-  const lastName = names[names.length - 1]
-
-  return `${firstName} ${lastName}`
-}
-
 function transformPageToOffset (page) {
   if (page === 1) {
     return 0
@@ -162,16 +154,23 @@ function transformStringToOption (string) {
   }
 }
 
+function transformStringToOptionUnformatted (string) {
+  return {
+    value: string,
+    text: string,
+  }
+}
+
 module.exports = {
   selectCheckboxFilter,
   sanitizeKeyValuePair,
   transformAppsToPermittedApps,
-  transformEmailToUsername,
   transformPageToOffset,
   transformQueryToDoubleFilter,
   transformQueryToEvidenceFilter,
   transformQueryToSortFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
+  transformStringToOptionUnformatted,
   transformToLowerTrimStart,
 }

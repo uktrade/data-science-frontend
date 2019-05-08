@@ -53,6 +53,7 @@ async function buildFilters (req, res, next) {
       ...transformQueryToTurnoverFilter('turnover', req.query['turnover-minimum'], req.query['turnover-maximum']),
       ...sanitizeKeyValuePair('market_of_interest', req.query['market-of-interest'], castArray),
       ...sanitizeKeyValuePair('market_exported', req.query['market-exported-to'], castArray),
+      ...sanitizeKeyValuePair('dit_sectors', req.query['dit-sectors'], castArray),
       ...sanitizeKeyValuePair('service_usage', req.query['service-used'], castArray),
       ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
     },
