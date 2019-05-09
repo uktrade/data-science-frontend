@@ -8,7 +8,6 @@ const {
   selectCheckboxFilter,
   transformPageToOffset,
   transformStringToOption,
-  transformStringToOptionUnformatted,
 } = require('./transformers')
 
 async function getData (req, res, query = {}) {

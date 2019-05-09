@@ -4,7 +4,6 @@ const { buildPagination } = require('../lib/pagination')
 const {
   getCheckboxFilter,
   getData,
-  getSectorsFilter,
 } = require('../repos')
 
 function getIndexData (req, res) {
