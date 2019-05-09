@@ -30,7 +30,7 @@ async function renderIndex (req, res) {
   const marketOfInterest = await getCheckboxFilter(req, 'market_of_interest', 'market-of-interest')
   const serviceUsed = await getCheckboxFilter(req, 'service_usage', 'service-used')
   const marketExportedTo = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
-  const sectors = await getSectorsFilter(req, 'dit_sectors', 'dit-sectors')
+  const sectors = await getCheckboxFilter(req, 'dit_sectors', 'dit-sectors')
   const globalHeader = res.locals.globalHeader
 
   const companyName = req.query['company-name']

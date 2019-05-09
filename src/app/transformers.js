@@ -150,7 +150,7 @@ function transformQueryToSortFilter (value = '') {
 function transformStringToOption (string) {
   return {
     value: string,
-    text: startCase(toLower(string)),
+    text: string,
   }
 }
 

@@ -51,4 +51,27 @@ describe('Filters typeahead', () => {
       cy.get(`${selectors.filters.marketExportedTo}3`).should('be.visible')
     })
   })
+
+  describe('Sectors', () => {
+    it('Filters sectors list', () => {
+      cy.get(selectors.filters.sectorsTypeahead)
+        .should('not.be.disabled')
+        .type('Ear')
+
+      cy.get(`${selectors.filters.sectors}1`).should('be.visible')
+      cy.get(`${selectors.filters.sectors}2`).should('not.be.visible')
+      cy.get(`${selectors.filters.sectors}3`).should('not.be.visible')
+      cy.get(`${selectors.filters.sectors}4`).should('not.be.visible')
+    })
+
+    it('Does not filter sectors list when only 2 letters are typed in', () => {
+      cy.get(selectors.filters.sectorsTypeahead)
+        .should('not.be.disabled')
+        .type('Ea')
+
+      cy.get(`${selectors.filters.sectors}1`).should('be.visible')
+      cy.get(`${selectors.filters.sectors}2`).should('be.visible')
+      cy.get(`${selectors.filters.sectors}3`).should('be.visible')
+    })
+  })
 })

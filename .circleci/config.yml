@@ -69,21 +69,21 @@ jobs:
           command: npm run test
           when: always
 
-#  functional_test:
-#    docker:
-#      - *docker_dit_cypress_dependencies
-#      - *docker_redis
-#    working_directory: ~/data-science-frontend
-#    steps:
-#      - checkout
-#      - *store_versions
-#      - *restore_npm_cache
-#      - run:
-#          name: Cypress tests
-#          command: ./run-functional-tests-ci.sh
-#          when: always
-#      - store_artifacts:
-#          path: cypress/screenshots
+  functional_test:
+    docker:
+      - *docker_dit_cypress_dependencies
+      - *docker_redis
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *store_versions
+      - *restore_npm_cache
+      - run:
+          name: Cypress tests
+          command: ./run-functional-tests-ci.sh
+          when: always
+      - store_artifacts:
+          path: cypress/screenshots
 
   end_to_end_test:
     docker:
@@ -121,7 +121,7 @@ workflows:
       - unit_test:
           requires:
             - dependencies
-#      - functional_test:
-#          requires:
-#            - lint_test
-#            - unit_test
+      - functional_test:
+          requires:
+            - lint_test
+            - unit_test

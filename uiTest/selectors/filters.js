@@ -11,6 +11,8 @@ const filters = {
   marketOfInterestTypeahead: '.js-market-of-interest',
   marketExportedTo: '#market-exported-to-',
   marketExportedToTypeahead: '.js-market-exported-to',
+  sectors: '#dit-sectors-',
+  sectorsTypeahead: '.js-dit-sectors',
   serviceUsed: '#service-used-',
   ukRegion: '#uk-regions-',
 }
