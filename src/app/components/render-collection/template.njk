@@ -173,6 +173,12 @@
                     </div>
                     <div class="govuk-grid-row">
                         <ul class="govuk-grid-column-one-half govuk-list">
+                            {% if item.last_interaction_date %}
+                                <li>
+                                    <span class="app-metric-header govuk-!-display-inline">Last interaction date:</span>
+                                    <span class="app-metric-value govuk-!-display-inline">{{ item.last_interaction_date | formatDate }}</span>
+                                </li>
+                            {% endif %}
                             {% if item.last_export_evidence %}
                                 <li>
                                     <span class="app-metric-header govuk-!-display-inline">Last export evidence:</span>
@@ -203,14 +209,15 @@
                                     <span class="app-metric-value govuk-!-display-inline">{{ item.num_hmrc_import_goods_outside_eu }}</span>
                                 </li>
                             {% endif %}
+
+                        </ul>
+                        <ul class="govuk-grid-column-one-half govuk-list">
                             {% if item.incorporation_month %}
                                 <li>
                                     <span class="app-metric-header govuk-!-display-inline">Incorporation date:</span>
                                     <span class="app-metric-value govuk-!-display-inline">{{ item.incorporation_month | formatDate }}</span>
                                 </li>
                             {% endif %}
-                        </ul>
-                        <ul class="govuk-grid-column-one-half govuk-list">
                             {% if item.cash_bank_in_hand %}
                                 <li>
                                     <span class="app-metric-header govuk-!-display-inline">Cash in the bank:</span>
