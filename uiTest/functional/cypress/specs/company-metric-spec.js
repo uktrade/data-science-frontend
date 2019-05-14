@@ -12,6 +12,7 @@ describe('Company metrics', function () {
       .should('contain', 'Single Company')
       .and('contain', 'Very low')
       .and('contain', 'August 2018')
+      .and('contain', 'September 2018')
       .and('contain', '5777')
       .and('contain', '5664')
       .and('contain', '£1,194,675')
