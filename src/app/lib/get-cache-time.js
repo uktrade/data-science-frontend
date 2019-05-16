@@ -1,20 +1,20 @@
-const fiveMins = ( 1000 * 60 * 5 );
+module.exports = function () {
+  const date = new Date()
+  const newDate = new Date()
+  let delay
 
-module.exports = function(){
+  if (date.getHours() < 8) {
+    delay = 60 * 5
+  } else {
+    delay = Math.ceil(Math.abs((date.setHours(23, 59, 59, 0) - (newDate.getTime())) / 1000))
+  }
 
-	const date = new Date();
+  function getDelayedTime (dt, seconds) {
+    return new Date(dt.getTime() + seconds * 1000)
+  }
 
-	if( date.getHours() < 8 ){
-
-		date.setTime( date.getTime() + fiveMins );
-
-	} else {
-
-		date.setHours( 23, 59, 59, 0 );
-	}
-
-	return {
-		seconds: ( date.getTime() / 1000 ),
-		utc: date.toUTCString()
-	};
-};
+  return {
+    seconds: delay,
+    utc: getDelayedTime(newDate, delay).toUTCString(),
+  }
+}

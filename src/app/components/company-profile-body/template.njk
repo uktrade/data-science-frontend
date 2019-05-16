@@ -1,0 +1,74 @@
+{% from "back-link/macro.njk" import govukBackLink %}
+    <table class="govuk-table js-company-profile-details">
+        <tbody class="govuk-table__body">
+        {% if params.trading_name %}
+            <tr class="govuk-table__row">
+                <th class="govuk-table__cell govuk-!-font-size-16">Trading Names</th>
+                <td class="govuk-table__cell govuk-!-font-size-16">
+                    {{ params.trading_name }}
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if params.domestic_ultimate_business_name %}
+            <tr class="govuk-table__row">
+                <th class="govuk-table__cell govuk-!-font-size-16">UK parent company name</th>
+                <td class="govuk-table__cell govuk-!-font-size-16">{{ params.domestic_ultimate_business_name | title }}</td>
+            </tr>
+        {% endif %}
+
+        {% if params.domestic_ultimate_address %}
+            <tr class="govuk-table__row">
+                <th class="govuk-table__cell govuk-!-font-size-16">UK parent company address</th>
+                <td class="govuk-table__cell govuk-!-font-size-16">{{ params.domestic_ultimate_address | formatAddress }}</td>
+            </tr>
+        {% endif %}
+
+        {% if params.global_ultimate_name %}
+            <tr class="govuk-table__row">
+                <th class="govuk-table__cell govuk-!-font-size-16">Global parent company name</th>
+                <td class="govuk-table__cell govuk-!-font-size-16">{{ params.global_ultimate_name | title }}</td>
+            </tr>
+        {% endif %}
+
+        {% if params.global_ultimate_address %}
+            <tr class="govuk-table__row">
+                <th class="govuk-table__cell govuk-!-font-size-16">Global parent company address</th>
+                <td class="govuk-table__cell govuk-!-font-size-16">{{ params.global_ultimate_address | formatAddress }}</td>
+            </tr>
+        {% endif %}
+
+        <tr class="govuk-table__row js-see-more app-hidden">
+            <td class="govuk-table__cell govuk-!-font-size-16 js-border-none" scope="row"><a class="js-see-more-cta govuk-link" href="#">See more</a></td>
+            <td class="govuk-table__cell govuk-!-font-size-16 js-border-none" scope="row"></td>
+        </tr>
+
+        {% if params.national_identification_number %}
+            <tr class="govuk-table__row js-toggle-visibility app-js-hidden">
+                <th class="govuk-table__cell govuk-!-font-size-16">Companies house ID</th>
+                <td class="govuk-table__cell govuk-!-font-size-16">{{ params.national_identification_number }}</td>
+            </tr>
+        {% endif %}
+
+        {% if params.sic_codes %}
+            <tr class="govuk-table__row js-toggle-visibility app-js-hidden">
+                <th class="govuk-table__cell govuk-!-font-size-16">SIC code</th>
+                <td class="govuk-table__cell govuk-!-font-size-16">{{ params.sic_codes }}</td>
+            </tr>
+        {% endif %}
+
+        {% if params.headquarter_type %}
+            <tr class="govuk-table__row js-toggle-visibility app-js-hidden">
+                <th class="govuk-table__cell govuk-!-font-size-16">Headquarter</th>
+                <td class="govuk-table__cell govuk-!-font-size-16">{{ params.headquarter_type }}</td>
+            </tr>
+        {% endif %}
+
+        {% if params.number_of_family_members %}
+            <tr class="govuk-table__row js-toggle-visibility app-js-hidden">
+                <th class="govuk-table__cell govuk-!-font-size-16">Family members</th>
+                <td class="govuk-table__cell govuk-!-font-size-16">{{ params.number_of_family_members }}</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>

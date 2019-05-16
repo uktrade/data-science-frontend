@@ -1,0 +1,5 @@
+src/public/dist
+babel_cache/
+/src/public/js/app-bundle.js.map
+/src/public/js/all.js
+/src/public/js/lib/govuk-design-system-all.js

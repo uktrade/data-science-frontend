@@ -2,47 +2,28 @@
 {% from "label/macro.njk" import govukLabel %}
 {% from "input/macro.njk" import govukInput %}
 
-<div class="govuk-form-group">
+<div class="govuk-form-group js-checkbox-typeahead">
     <div class=" app-filter-group-heading">
         {{ govukLabel({
             text: "Market of interest",
             classes: "govuk-!-font-weight-bold app-filter-label"
         }) }}
-
-        {{ govukInput({
-            label: {
-                text: "Search for country",
-                classes: "app-filter-label"
-            },
-            id: "search-for-country",
-            name: "search-for-country"
-        }) }}
-
+        <div class="app-checkbox-typeahead">
+            {{ govukInput({
+                label: {
+                    text: "Search for country",
+                    classes: "app-filter-label"
+                },
+                classes: "js-market-of-interest js-checkbox-typeahead-input js-prevent-auto-submit"
+            }) }}
+        </div>
     </div>
     <div class="app-filter-group-list ">
         {{ govukCheckboxes({
             idPrefix: "market-of-interest",
             name: "market-of-interest",
             classes: "app-filter-checkboxes-group",
-
-            items: [
-                {
-                    value: "Afghanistan",
-                    text: "Afghanistan"
-                },{
-                    value: "Albania",
-                    text: "Albania"
-                },{
-                    value: "London",
-                    text: "London"
-                },{
-                    value: "Algeria",
-                    text: "Algeria"
-                },{
-                    value: "Needs all countries",
-                    text: "Needs all countries"
-                }
-            ]
+            items: params.marketOfInterest
         }) }}
     </div>
 </div>

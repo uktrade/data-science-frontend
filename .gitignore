@@ -53,3 +53,10 @@ dist
 
 # webstorm cluster debugger config
 /server-debug.js
+/dump.rdb
+/babel_cache/
+/.build/
+dump.rdb
+
+# Ignore functional tests screenshots
+cypress/

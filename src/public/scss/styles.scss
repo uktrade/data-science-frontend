@@ -1,4 +1,7 @@
-@import "govuk-frontend/all";
-@import "utilities";
+$govuk-font-family: Arial, sans-serif;
 
-@import "../../app/components/render-collection/render-collection";
+@import "../../../node_modules/govuk-frontend/all";
+@import "global-header";
+@import "utilities";
+@import "../../app/components/render-collection/styles";
+@import "../../app/components/company-profile-header/styles";

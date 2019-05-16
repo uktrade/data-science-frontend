@@ -1,6 +1,6 @@
 const { range, take, get, omitBy } = require('lodash')
 const queryString = require('qs')
-const config = require('../config')
+const config = require('../../../config')
 
 function getPageLink (page, query = {}) {
   const newQuery = Object.assign({}, query, {
@@ -54,7 +54,7 @@ function truncatePages (pagination, blockSize) {
 }
 
 function buildPagination (query = {}, results, truncate = 4) {
-  const limit = results.limit || Math.max(get(results, 'results.length', 10), 10)
+  const limit = results.limit || Math.max(get(results, 'results.length', config.paginationOffset), config.paginationOffset)
   const totalPages = results.count ? Math.ceil(results.count / limit) : 0
   const totalPagesLimited = Math.round(Math.min(totalPages, config.paginationMaxResults / limit))
 

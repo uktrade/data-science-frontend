@@ -1,15 +1,55 @@
-{% extends 'layout.njk' %}
-{% set pageName='Homepage' %}
-{% block page_content %}
-Welcome to the Data Hub Labs.
+{% from "filter-company-name/macro.njk" import filterCompanyName %}
+{% from "filter-commodity-code/macro.njk" import filterCommodityCode %}
+{% from "filter-sic-codes/macro.njk" import filterSicCodes %}
+{% from "filter-turnover/macro.njk" import filterTurnover %}
+{% from "filter-export-potential/macro.njk" import filterExportPotential %}
+{% from "filter-service-used/macro.njk" import filterServiceUsed %}
+{% from "filter-uk-regions/macro.njk" import filterUkRegions %}
+{% from "filter-market-of-interest/macro.njk" import filterMarketOfInterest %}
+{% from "filter-market-exported-to/macro.njk" import filterMarketExportedTo %}
+{% from "filter-latest-export-evidence/macro.njk" import filterLatestExportEvidence %}
+{% from "filter-sectors/macro.njk" import filterSectors %}
+{% from "render-collection/macro.njk" import renderCollection %}
+{% from "input/macro.njk" import govukInput %}
+{% from "local-phase-banner/macro.njk" import localPhaseBanner %}
 
-Choose the service you would like to use:
-<ul>
-	<li>
-		<a href="/timeline/">Company Timeline</a>
-	</li>
-	<li>
-		<a href="/acs/">Company Finder</a>
-	</li>
-</ul>
+{% extends "_generic.njk" %}
+
+{%  block beforeWrapperContainer %}
+    {{ localPhaseBanner() }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="govuk-heading-l">Find Exporters</h1>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            <form action="/" class="js-auto-submit app-form-filters">
+                <input name="sort" type="hidden" value="{{ sort }}">
+                {{ filterCompanyName(filters) }}
+                {{ filterExportPotential(filters) }}
+                {{ filterCommodityCode(filters) }}
+                {{ filterLatestExportEvidence(filters) }}
+                {{ filterSicCodes(filters) }}
+                {{ filterTurnover(filters) }}
+                {{ filterSectors(filters) }}
+                {{ filterUkRegions(filters) }}
+                {{ filterMarketOfInterest(filters) }}
+                {{ filterMarketExportedTo(filters) }}
+                {{ filterServiceUsed(filters) }}
+                <button class="govuk-button app-button-submit app-js-hidden" type="submit">Refresh results</button>
+            </form>
+        </div>
+        <div class="govuk-grid-column-two-thirds">
+            {% block xhr_content %}
+                <article class="column-two-thirds" id="xhr-outlet">
+                    {{ renderCollection({
+                        count: count,
+                        data: result,
+                        filters: filters,
+                        sort: sort
+                    }) }}
+                </article>
+            {% endblock %}
+        </div>
+    </div>
 {% endblock %}

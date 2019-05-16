@@ -6,19 +6,29 @@ const CHILD_EXIT_THRESHOLD = 60000 // 1 minute
 const childProcess = require('child_process')
 const pkg = require('./package.json')
 
-let clusterFile = '/app/cluster.js'
+let clusterFile = '/src/app/cluster.js'
 
 const childExits = []
 let child
 
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  clusterFile = ('/src/' + clusterFile)
-}
+// if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+//   clusterFile = ('/src/' + clusterFile)
+// }
 
 function createChildProcess () {
-  child = childProcess.fork(
-    __dirname + clusterFile
-  )
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    child = childProcess.fork(
+      __dirname + clusterFile,
+      [],
+      {
+        execArgv: ['--inspect-brk'],
+      }
+    )
+  } else {
+    child = childProcess.fork(
+      __dirname + clusterFile,
+    )
+  }
 
   console.info('Child process created, pid: ' + child.pid)
 

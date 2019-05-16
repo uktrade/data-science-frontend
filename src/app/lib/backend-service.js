@@ -1,4 +1,5 @@
 const backendRequest = require('./backend-request')
+const config = require('../../../config')
 
 const sources = {
   'citrix.webinars.attendees': 'Citrix (DIT Webinars)',
@@ -41,7 +42,7 @@ const sources = {
 function transformEvents (responseData) {
   if (responseData.response.statusCode === 200 && responseData.body && responseData.body.events) {
     responseData.body.events = responseData.body.events.map((event) => {
-      event.source = sources[ event.data_source ] || event.data_source
+      event.source = sources[event.data_source] || event.data_source
       return event
     })
   }
@@ -64,7 +65,13 @@ module.exports = {
   },
 
   getEventsByInternalCompanyId: async function (id) {
-    const responseData = await backendRequest('/api/v1/company/events/?company_id=' + parseInt(id, 10))
+    const responseData = await backendRequest('/api/v2/company/events/?company_id=' + parseInt(id, 10) + '&meta_data=true')
+
+    return transformEvents(responseData)
+  },
+
+  getCompanyProfileByInternalCompanyId: async function (id) {
+    const responseData = await backendRequest('/api/v1/company/profile/' + parseInt(id, 10) + '/')
 
     return transformEvents(responseData)
   },
@@ -82,7 +89,9 @@ module.exports = {
   },
 
   getDataByType: async (type) => {
-    const responseData = await backendRequest('/api/v1/company/search/' + encodeURIComponent(type) + '/', { cache: true })
+    const responseData = await backendRequest('/api/v1/company/search/' + encodeURIComponent(type) + '/', {
+      cache: config.redis.isCachingEnabled,
+    })
 
     return responseData
   },
@@ -90,6 +99,7 @@ module.exports = {
   searchForCompanies: async (offset, limit, data) => {
     const responseData = await backendRequest(`/api/v1/company/search/?offset=${offset}&limit=${limit}`, {
       method: 'POST',
+      cache: config.redis.isCachingEnabled,
       data,
     })
 

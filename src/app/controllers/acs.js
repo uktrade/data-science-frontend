@@ -1,84 +1,71 @@
-const config = require('../config')
-const backendService = require('../lib/backend-service')
-const getCacheTime = require('../lib/get-cache-time')
-const logger = require('../lib/logger')
-
+const config = require('../../../config')
 const { buildPagination } = require('../lib/pagination')
 
-async function dataByType (req, res) {
-  const data = await backendService.getDataByType(req.params.type)
+const {
+  getCheckboxFilter,
+  getData,
+} = require('../repos')
 
-  if (!config.isDev) {
-    const cacheTime = getCacheTime()
+function getIndexData (req, res) {
+  return getData(req, res, req.body).then((response) => {
+    const result = response.body.result || {}
+    const count = response.body.count || 0
 
-    res.setHeader('Cache-Control', 'public, max-age=' + cacheTime.seconds)
-    res.setHeader('Expires', cacheTime.utc)
-  }
-
-  res.json(data.body)
-}
-
-async function getData (req, res) {
-  try {
-    const page = req.query.page || 0
-    const offset = page === 0 ? page : page * 20
-    // TODO(jf): store the default offset and limit vals
-    return await backendService.searchForCompanies(offset, 20, {})
-  } catch (err) {
-    logger.error(err)
-  }
-}
-
-async function internalCompanyIdEvents (req, res) {
-  const data = await backendService.getEventsByInternalCompanyId(req.params.id)
-
-  res.json(data.body)
+    return {
+      ...response,
+      result,
+      count,
+      page: 1,
+      limit: 20,
+      pagination: buildPagination(req.query, { count, page: 1, result }),
+    }
+  })
 }
 
 async function renderIndex (req, res) {
-  const data = await getData(req, res).then((response) => {
-    const result = response.body.result || {}
-    return {
-      ...response,
-      page: 1,
-      limit: 20,
-      // @TODO(kg) send results count
-      pagination: buildPagination(req.query, { count: config.paginationMaxResults, page: 1, result }),
-      result,
-    }
-  })
+  const data = await getIndexData(req, res)
+  const ukRegions = await getCheckboxFilter(req, 'region', 'uk-regions')
+  const exportPotential = await getCheckboxFilter(req, 'export_propensity', 'export-potential')
+  const marketOfInterest = await getCheckboxFilter(req, 'market_of_interest', 'market-of-interest')
+  const serviceUsed = await getCheckboxFilter(req, 'service_usage', 'service-used')
+  const marketExportedTo = await getCheckboxFilter(req, 'market_exported', 'market-exported-to')
+  const sectors = await getCheckboxFilter(req, 'dit_sectors', 'dit-sectors')
+  const globalHeader = res.locals.globalHeader
 
-  return res.render('acs/index', {
+  const companyName = req.query['company-name']
+  const commodityCode = req.query['export-codes']
+  const sicCodes = req.query['sic-codes']
+  const turnover = {
+    min: req.query['turnover-minimum'],
+    max: req.query['turnover-maximum'],
+  }
+  const latestExport = {
+    startDate: req.query['export-evidence-start-date'],
+    endDate: req.query['export-evidence-end-date'],
+  }
+
+  const sort = req.query.sort || config.defaultSortValue
+
+  return res.render('index', {
     result: data,
+    globalHeader,
+    filters: {
+      companyName,
+      exportPotential,
+      commodityCode,
+      latestExport,
+      sicCodes,
+      turnover,
+      marketOfInterest,
+      marketExportedTo,
+      sectors,
+      serviceUsed,
+      ukRegions,
+    },
+    sort,
   })
-}
-
-async function search (req, res) {
-  const offset = req.query.offset
-  const limit = req.query.limit
-  const postData = req.body
-  const data = await backendService.searchForCompanies(offset, limit, postData)
-
-  res.json(data.body)
-}
-
-async function searchBySicCode (req, res) {
-  const data = await backendService.searchBySicCode(req.params.code)
-
-  res.json(data.body)
-}
-
-async function searchByExportCode (req, res) {
-  const data = await backendService.searchByExportCode(req.params.code)
-
-  res.json(data.body)
 }
 
 module.exports = {
-  dataByType,
-  internalCompanyIdEvents,
   renderIndex,
-  search,
-  searchBySicCode,
-  searchByExportCode,
 }

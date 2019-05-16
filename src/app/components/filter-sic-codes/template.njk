@@ -1,12 +1,17 @@
 {% from "input/macro.njk" import govukInput %}
+{% from "label/macro.njk" import govukLabel %}
 
 <div class="govuk-form-group app-filter-group-heading">
-    {{ govukInput({
-        label: {
+    {{ govukLabel({
             text: "SIC codes",
             classes: "govuk-!-font-weight-bold app-filter-label"
-        },
+    }) }}
+
+    <a href="http://resources.companieshouse.gov.uk/sic/" target="_blank" class="govuk-link app-filter-external-link"> Do you know your SIC code?</a>
+  
+    {{ govukInput({
         id: "sic-codes",
-        name: "sic-codes"
+        name: "sic-codes",
+        value:params.sicCodes
     }) }}
 </div>

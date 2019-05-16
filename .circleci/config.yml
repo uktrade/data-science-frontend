@@ -1,0 +1,127 @@
+version: 2
+aliases:
+  - &node_version  node:8.15.1
+  - &redis_version redis:3.2.10
+  # Common steps
+  - &restore_npm_cache
+    restore_cache:
+      name: Restore npm dependencies cache
+      key: npm-dependency-{{ checksum "package.json" }}-{{ checksum "node_version" }}-{{ checksum "npm_version" }}
+  - &store_versions
+    run:
+      name: Temporarily store node/npm versions on filesystem
+      command: node --version > node_version; npm --version > npm_version
+  - &restore_end_to_end_npm_cache
+    restore_cache:
+      name: Restore end to end test npm dependencies cache
+      key: webdriverio-npm-dependency-{{ checksum "package.json" }}
+
+  # Cypress dependencies base docker container
+  - &docker_dit_cypress_dependencies
+    image: ukti/docker-dit-cypress
+
+  # Data hub redis container
+  - &docker_redis
+    image: *redis_version
+
+jobs:
+  dependencies:
+    docker:
+      - image: *node_version
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *store_versions
+      - *restore_npm_cache
+      - run: npm install
+      - save_cache:
+          name: Save npm dependencies cache
+          key: npm-dependency-{{ checksum "package.json" }}-{{ checksum "node_version" }}-{{ checksum "npm_version" }}
+          paths:
+            - ~/data-science-frontend/node_modules
+            - /root/.cache/Cypress
+
+  lint_test:
+    docker:
+      - image: *node_version
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *store_versions
+      - *restore_npm_cache
+      - run:
+          name: Lint code
+          command: npm run lint
+          when: always
+
+  unit_test:
+    docker:
+      - image: *node_version
+        environment:
+           TZ: "/usr/share/zoneinfo/Europe/London"
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *store_versions
+      - *restore_npm_cache
+      - run:
+          name: Jest tests
+          command: npm run test
+          when: always
+
+  functional_test:
+    docker:
+      - *docker_dit_cypress_dependencies
+      - *docker_redis
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *store_versions
+      - *restore_npm_cache
+      - run:
+          name: Cypress tests
+          command: ./run-functional-tests-ci.sh
+          when: always
+      - store_artifacts:
+          path: cypress/screenshots
+
+  end_to_end_test:
+    docker:
+      - image: ukti/data-sci-end-to-end
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *store_versions
+      - *restore_npm_cache
+      - *restore_end_to_end_npm_cache
+      - run:
+          name: End to end dependencies
+          command: |
+            cd uiTest/end-to-end
+            npm install
+      - run:
+          name: Webdriverio tests
+          command: ./run-end-to-end-tests-ci.sh
+          when: always
+      - save_cache:
+          name: Save functional test npm dependencies cache
+          key: webdriverio-npm-dependency-{{ checksum "package.json" }}
+          paths:
+            - ~/data-science-frontend/uiTest/end-to-end/node_modules
+          when: always
+
+workflows:
+  version: 2
+  datasciencefe:
+    jobs:
+      - dependencies
+      - lint_test:
+          requires:
+            - dependencies
+      - unit_test:
+          requires:
+            - dependencies
+      - functional_test:
+          requires:
+            - lint_test
+            - unit_test

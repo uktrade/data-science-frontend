@@ -2,7 +2,7 @@
   float: right;
 }
 
-.app-filter-label, 
+.app-filter-label,
 .app-filter-heading,
 .app-filter-subheading,
 .app-filter-checkboxes-select,
@@ -12,6 +12,66 @@
 
 .app-filter-checkboxes-group label {
   font-size: 16px;
-  padding-top: 11px;  
+  padding-top: 11px;
 }
+
+.app-filter-external-link {
+  font-size: 16px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.app-button-submit {
+  width: 100%;
+}
+
+.app-js-hidden {
+  .js-enabled & {
+    display: none;
+  }
+}
+
+.app-hidden {
+  display: none !important;
+}
+
+.u-loading {
+  &::before {
+    animation: growRight 3s;
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    border-top: 2px solid  $govuk-link-hover-colour;
+  }
+}
+
+@keyframes growRight {
+  0% {
+    right: 100%;
+  }
+  20% {
+    right: 60%;
+  }
+  100% {
+    right: 0;
+  }
+}
+
+.app-checkbox-typeahead {
+  display: none;
+
+  .js-enabled & {
+    display: block;
+  }
+}
+
+.js-border-none {
+  border: none !important;
+}
+
+
+
 

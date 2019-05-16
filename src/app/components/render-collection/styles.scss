@@ -1,0 +1,162 @@
+.app-filter-group-heading {
+  background-color: govuk-colour("grey-3");
+  padding: 10px;
+}
+
+.app-filter-group-list {
+  background-color: white;
+  border-style: solid;
+  border-color: govuk-colour("grey-3");
+  padding: 10px;
+  border-top: 0px;
+  height: 8.5em;
+  overflow-y: scroll;
+}
+
+.app-filter-group-details {
+  margin-bottom: 0;
+}
+
+.app-collection-item {
+  position: relative;
+
+  .govuk-list > li {
+    margin-bottom: 2px;
+  }
+}
+
+.app-badge {
+  display: block;
+  margin-top: 15px;
+  border: 2px solid govuk-colour("grey-3");
+  border-radius: 4px;
+  padding: 2px 5px;
+  float: right;
+}
+
+.app-form-group-no-margin {
+  .govuk-form-group {
+    margin-bottom: 0;
+  }
+}
+
+.app-sort-select {
+  width: auto;
+}
+
+.app-large-section-break {
+  border-bottom: 5px solid govuk-colour("black");
+}
+
+.app-pagination-list {
+  padding: 8px 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  color:  $govuk-link-colour;
+  text-decoration: none;
+  margin: 0 auto;
+  width: auto;
+  display: block;
+}
+
+.app-pagination-list-item {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: govuk-colour("grey-4");
+}
+
+.app-pagination-list-item.is-current,
+.app-pagination-list-item.is-truncated {
+  background: transparent;
+}
+
+.app-pagination-link {
+  text-decoration: none;
+  color: $govuk-link-colour;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.app-aligned-center {
+  text-align: center;
+}
+
+.app-filters-tags-title-value {
+  display: inline-block;
+  position: relative;
+  margin-right: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 6px;
+  background: #f8f8f8;
+  font-family: "nta", Arial, sans-serif;
+}
+
+.app-filters-tags-title {
+  position: relative;
+  color: #6f777b;
+}
+
+
+.app-filters-tags-value {
+  position: relative;
+  font-weight: bold;
+}
+
+.govuk-details__summary-text {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 5px;
+  padding-left: 0px;
+  color: #005ea5;
+}
+
+.app-collection-heading-link {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+.app-metric-header {
+  font-size: 16px;
+  color: govuk-colour("grey-1");
+}
+
+.app-metric-value {
+  font-size: 16px;
+  color: black;
+}
+
+.app-metric-link  {
+  font-size: 16px;
+  color: $govuk-link-colour;
+  display: inline-block;
+  margin: 0 15px;
+}
+
+.app-metric-potential-title {
+  font-size: 16px;
+  display: block;
+  color: govuk-colour("grey-1");
+}
+
+.app-metric-potential-data {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.app-header-company {
+  font-size: 19px;
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+.app-collection-link {
+  font-size: 16px;
+}
+
+.app-comma:last-of-type {
+  display: none;
+}
+
+
+

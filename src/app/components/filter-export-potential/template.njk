@@ -8,11 +8,11 @@
             text: "Export potential",
             classes: "govuk-!-font-weight-bold app-filter-label"
         }) }}
-
         {{ govukDetails({
             summaryText: "What is export potential?",
             classes: "app-filter-group-details app-filter-label",
             html: "
+                <p class='app-filter-label'><small>This tool provides export potential scores for companies. The results are produced by an algorithm that uses machine learning. The algorithm is a work in progress that learns mostly using data of exporters of goods so it is more accurate in that area. We are continuing to improve the algorithm so, please do share your <a class='govuk-link' target='_blank'  href='https://docs.google.com/forms/d/e/1FAIpQLSc-H72Kx9azBV4NvVTn-EmQ867gAZsVQ0UWEIpmD7Njcpm4BQ/viewform'>feedback</a>.</small></p>
                 <ul class='govuk-list'>
                     <li>
                         <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-label'>Very High:</span> Most of the businesses with common features to this one are exporters</p>
@@ -21,7 +21,7 @@
                         <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>High:</span> This business shares some features with successful exporters</p>
                     </li>
                     <li>
-                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Medium:</span> Some buinesses that look like this one do export, while some others don't</p>
+                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Medium:</span> Some businesses that look like this one do export, while some others don't</p>
                     </li>
                     <li>
                         <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Low:</span> This business shares many features with companies that do not export</p>
@@ -38,25 +38,7 @@
             idPrefix: "export-potential",
             classes:"app-filter-checkboxes-group label",
             name: "export-potential",
-
-            items: [
-                {
-                    value: "very-high",
-                    text: "Very high"
-                },{
-                    value: "high",
-                    text: "High"
-                },{
-                    value: "medium",
-                    text: "Medium"
-                },{
-                    value: "low",
-                    text: "Low"
-                },{
-                    value: "very-low",
-                    text: "Very low"
-                }
-            ]
+            items: params.exportPotential
         }) }}
     </div>
 </div>

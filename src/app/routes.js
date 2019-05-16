@@ -1,31 +1,44 @@
-const homeController = require('./controllers/home')
 const ssoController = require('./controllers/sso')
-const timelineController = require('./controllers/timeline')
+
+const { renderIndex } = require('./controllers/acs')
+const { renderCompanyTimeline } = require('./controllers/company-timeline')
 
 const {
-  dataByType,
-  internalCompanyIdEvents,
-  renderIndex,
-  search,
-  searchBySicCode,
-  searchByExportCode,
-} = require('./controllers/acs')
+  getMarketExportedMetadata,
+  getMarketOfInterestMetadata,
+  getSectorsMetadata,
+} = require('./repos')
+
+const {
+  buildFilters,
+  buildHeader,
+} = require('./builders')
 
 module.exports = function (express, app) {
-  app.get('/', homeController)
   app.get('/login/', ssoController.authRedirect)
   app.get('/login/callback/', ssoController.callback)
+  app.get('/sign-out/', ssoController.signOutOAuth)
 
-  app.get('/timeline/', timelineController.index)
-  app.get('/timeline/search/', timelineController.search)
-
-  app.get('/acs/',
+  app.get('/',
+    buildHeader,
+    buildFilters,
     renderIndex
   )
 
-  app.get('/acs/api/timeline/events/:id', internalCompanyIdEvents)
-  app.get('/acs/api/search/sic-code/:code', searchBySicCode)
-  app.get('/acs/api/search/export-code/:code', searchByExportCode)
-  app.get('/acs/api/data/:type', dataByType)
-  app.post('/acs/api/search/', express.json(), search)
+  app.get('/market-of-interest',
+    getMarketOfInterestMetadata,
+  )
+
+  app.get('/market-exported-to',
+    getMarketExportedMetadata,
+  )
+
+  app.get('/dit-sectors',
+    getSectorsMetadata,
+  )
+
+  app.get('/company-profile/:company_id',
+    buildHeader,
+    renderCompanyTimeline,
+  )
 }
