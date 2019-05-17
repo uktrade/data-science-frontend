@@ -176,7 +176,7 @@
                             {% if item.last_interaction_date %}
                                 <li>
                                     <span class="app-metric-header govuk-!-display-inline">Last DIT interaction date:</span>
-                                    <span class="app-metric-value govuk-!-display-inline">{{ item.last_interaction_date | formatDate }}</span>
+                                    <span class="app-metric-value govuk-!-display-inline">{{ item.last_interaction_date | formatLongDate }}</span>
                                 </li>
                             {% endif %}
                             {% if item.last_export_evidence %}
