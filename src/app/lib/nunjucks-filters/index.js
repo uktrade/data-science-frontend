@@ -15,6 +15,16 @@ function formatDate (value, format = 'MMMM YYYY') {
   return dateFns.format(parsedDate, format)
 }
 
+function formatLongDate (value, format = 'DD MMMM YYYY') {
+  if (!value) {
+    return value
+  }
+  const parsedDate = dateFns.parse(value)
+
+  if (!dateFns.isValid(parsedDate)) { return value }
+  return dateFns.format(parsedDate, format)
+}
+
 function formatWithPoundSign (x) {
   if (x > 0) {
     return `\u00A3${formatNumberWithCommas(Math.round(x))}`
@@ -45,6 +55,7 @@ function log (a) {
 
 module.exports = function (env) {
   env.addFilter('formatDate', formatDate)
+  env.addFilter('formatLongDate', formatLongDate)
   env.addFilter('formatNumberWithCommas', formatNumberWithCommas)
   env.addFilter('formatAddress', formatAddress)
   env.addFilter('formatToUpper', require('lodash/toUpper'))
