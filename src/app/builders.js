@@ -4,7 +4,6 @@ const config = require('../../config')
 
 const {
   sanitizeKeyValuePair,
-  transformAppsToPermittedApps,
   transformQueryToDoubleFilter,
   transformQueryToEvidenceFilter,
   transformQueryToSortFilter,
@@ -12,15 +11,13 @@ const {
   transformToLowerTrimStart,
 } = require('./transformers')
 
-const { appsNamesAndPaths } = require('./macros')
-
 function buildHeader (req, res, next) {
   if (config.sso.bypass) {
     res.locals.globalHeader = {
       name: 'dit user',
       email: 'user@email.com',
       supportUrl: `${config.datahubDomain}/support`,
-      permitted_applications: appsNamesAndPaths,
+      permitted_applications: [ 'datahub-crm', 'find-exporters' ].map((key) => ({ key })),
       profileUrl: `${config.datahubDomain}/profile`,
     }
 
@@ -33,7 +30,7 @@ function buildHeader (req, res, next) {
         name: `${introspect.first_name} ${introspect.last_name}`,
         email: introspect.username,
         supportUrl: `${config.datahubDomain}/support`,
-        permitted_applications: transformAppsToPermittedApps(appsNamesAndPaths, introspect.permitted_applications),
+        permitted_applications: introspect.permitted_applications,
         profileUrl: `${config.datahubDomain}/profile`,
       }
     }

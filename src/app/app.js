@@ -28,9 +28,11 @@ module.exports = {
     const app = testApp || express()
     const isDev = appConfig.isDev
     const pathToPublic = path.resolve(__dirname, '../public')
+    const pathToNodeModules = path.resolve(__dirname, (isDev ? '../../' : '../../../deps/0') + '/node_modules')
     const staticMaxAge = (isDev ? 0 : '2y')
     const nunjucksEnv = nunjucks.configure([
-      path.resolve(__dirname, (isDev ? '../../' : '../../../deps/0') + '/node_modules/govuk-frontend/components'),
+      `${pathToNodeModules}/govuk-frontend/components`,
+      `${pathToNodeModules}/@uktrade`,
       `${__dirname}/views`,
       `${__dirname}/components`,
     ],
@@ -53,7 +55,7 @@ module.exports = {
     app.use(forceHttps(isDev))
 
     app.use('/public', express.static(pathToPublic, { maxAge: staticMaxAge }))
-    app.use('/assets', express.static(path.join(__dirname, (isDev ? '../../' : '../../../deps/0') + '/node_modules/govuk-frontend/assets')))
+    app.use('/assets', express.static(`${pathToNodeModules}/govuk-frontend/assets`))
 
     app.use('/js', express.static(path.join(config.buildDir, 'js')))
     app.use('/css', express.static(path.join(config.buildDir, 'css')))
