@@ -1,4 +1,4 @@
-const { castArray, isFunction, intersection, map, toLower, toNumber, trimStart } = require('lodash')
+const { castArray, isFunction, map, toLower, toNumber, trimStart } = require('lodash')
 
 const config = require('../../config')
 
