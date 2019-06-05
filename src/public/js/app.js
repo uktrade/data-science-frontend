@@ -1,3 +1,5 @@
+require('@uktrade/datahub-header/component/header')
+
 const AutoSubmit = require('./modules/auto-submit')
 const CheckboxTypeahead = require('./modules/checkbox-typeahead')
 const toggleDetails = require('./modules/toggle-details')
