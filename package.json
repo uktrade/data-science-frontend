@@ -19,7 +19,7 @@
     "postversion": "git push && git push --tags",
     "tag-master": "git tag v${npm_package_version}-master && git push --tags",
     "test": "NODE_ENV=development; SSO_BYPASS=true; jest",
-    "test:unit": "jest",
+    "test:unit": "jest src/",
     "test:functional": "cypress run",
     "test:functional:watch": "cypress open",
     "start": "NODE_ENV=production node --use-strict server.js",
