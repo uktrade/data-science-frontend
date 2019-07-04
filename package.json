@@ -151,6 +151,7 @@
     "fstream": ">=1.0.12",
     "js-yaml": ">=3.13.1",
     "underscore.string": ">=3.3.5",
-    "handlebars": ">=4.1.0"
+    "handlebars": ">=4.1.0",
+    "lodash": ">=4.17.11"
   }
 }
