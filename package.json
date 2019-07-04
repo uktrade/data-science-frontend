@@ -83,7 +83,7 @@
     "jasmine": "3.0.0",
     "jasmine-core": "2.99.1",
     "jest": "^23.6.0",
-    "jest-codemods": "^0.16.0",
+    "jest-codemods": "^0.20.0",
     "load-grunt-tasks": "3.5.2",
     "mocha": "^5.2.0",
     "mocha-circleci-reporter": "0.0.3",
@@ -152,6 +152,7 @@
     "js-yaml": ">=3.13.1",
     "underscore.string": ">=3.3.5",
     "handlebars": ">=4.1.0",
-    "lodash": ">=4.17.11"
+    "lodash": ">=4.17.11",
+    "shelljs": ">=0.8.3"
   }
 }
