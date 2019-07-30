@@ -91,6 +91,7 @@ jobs:
       - checkout
       - *store_versions
       - *restore_npm_cache
+      - *wait_for_api_sandbox
       - run:
           name: Cypress tests
           command: ./run-functional-tests-ci.sh
