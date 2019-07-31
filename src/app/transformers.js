@@ -139,6 +139,19 @@ function transformStringToOptionUnformatted (string) {
   }
 }
 
+/**
+ * transformCommaSeparatedStringToArray
+ * Will split string on commas to an array, trim whitespace off each resulting
+ * element, and finally filter out any empty string elements.
+ */
+
+function transformCommaSeparatedStringToArray (string) {
+  const arr = string.split(',')
+  const trimmed = arr.map(s => s.trim())
+  const emptyRemoved = trimmed.filter(s => s)
+  return emptyRemoved
+}
+
 module.exports = {
   selectCheckboxFilter,
   sanitizeKeyValuePair,
@@ -149,5 +162,6 @@ module.exports = {
   transformQueryToTurnoverFilter,
   transformStringToOption,
   transformStringToOptionUnformatted,
+  transformCommaSeparatedStringToArray,
   transformToLowerTrimStart,
 }

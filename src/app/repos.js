@@ -15,7 +15,6 @@ async function getData (req, res, query = {}) {
     const page = req.query.page || 1
     const offset = transformPageToOffset(page)
     const query = isEmpty(res.locals.query.filters) ? { sort: res.locals.query.sort } : res.locals.query
-
     return await backendService.searchForCompanies(offset, config.paginationOffset, query)
   } catch (err) {
     logger.error(err)

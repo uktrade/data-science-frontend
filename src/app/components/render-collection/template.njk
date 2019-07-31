@@ -36,7 +36,7 @@
                                 {% endfor %}
                             </span>
                         </div>
-                    {% elseif key == 'companyName' or key == 'commodityCode' or key == 'sicCodes'%}
+                    {% elseif key == 'companyName' or key == 'commodityCode' or key == 'sicCodes' or key == 'postcode' %}
                         {% if value %}
                             <div class="app-filters-tags-title-value">
                                 <span class="app-filters-tags-title">{{ key | lowerCase | startCase }}:</span>
