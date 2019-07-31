@@ -24,6 +24,29 @@ aliases:
   - &docker_redis
     image: *redis_version
 
+  - &docker_dt07_api_sandbox
+    image: ukti/find-exporters-sandbox:latest
+
+  - &wait_for_api_sandbox
+    run:
+      name: Wait for api sandbox
+      command: dockerize -wait ${BACKEND_URL}/ping.xml -timeout 120s
+
+  - &find_exporters_base_envs
+    BACKEND_URL: http://localhost:8002
+    LOG_LEVEL: debug
+    SSO_BYPASS: true
+    SESSION_SECRET: x
+    SSO_DOMAIN: x
+    SSO_CLIENT: x
+    SSO_SECRET: x
+    SSO_PATH_AUTH: x
+    SSO_PATH_TOKEN: x
+    SSO_PATH_INTROSPECT: x
+    SSO_REDIRECT_URI: x
+    BACKEND_KEY: x
+    BACKEND_USER: x
+
 jobs:
   dependencies:
     docker:
@@ -58,7 +81,8 @@ jobs:
     docker:
       - image: *node_version
         environment:
-           TZ: "/usr/share/zoneinfo/Europe/London"
+          <<: *find_exporters_base_envs
+          TZ: "/usr/share/zoneinfo/Europe/London"
     working_directory: ~/data-science-frontend
     steps:
       - checkout
@@ -71,13 +95,16 @@ jobs:
 
   functional_test:
     docker:
-      - *docker_dit_cypress_dependencies
+      - <<: *docker_dit_cypress_dependencies
+        environment: *find_exporters_base_envs
       - *docker_redis
+      - *docker_dt07_api_sandbox
     working_directory: ~/data-science-frontend
     steps:
       - checkout
       - *store_versions
       - *restore_npm_cache
+      - *wait_for_api_sandbox
       - run:
           name: Cypress tests
           command: ./run-functional-tests-ci.sh
