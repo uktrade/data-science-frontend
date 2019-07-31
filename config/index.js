@@ -54,6 +54,7 @@ let config = {
   logLevel: env('LOG_LEVEL', 'warn'),
   sentryDsn: env('SENTRY_DSN'),
   analyticsId: env('ANALYTICS_ID'),
+  googleTagManagerKey: env('GOOGLE_TAG_MANAGER_KEY'),
   datahubDomain: env('DATA_HUB_DOMAIN', 'https://www.datahub.trade.gov.uk'),
   miDomain: env('PERFORMANCE_DASHBOARDS_URL', 'https://mi.exportwins.service.trade.gov.uk'),
   assetsHost: process.env.ASSETS_HOST,
