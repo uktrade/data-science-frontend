@@ -9,6 +9,7 @@
 {% from "filter-market-exported-to/macro.njk" import filterMarketExportedTo %}
 {% from "filter-latest-export-evidence/macro.njk" import filterLatestExportEvidence %}
 {% from "filter-sectors/macro.njk" import filterSectors %}
+{% from "filter-postcode/macro.njk" import filterPostcode %}
 {% from "render-collection/macro.njk" import renderCollection %}
 {% from "input/macro.njk" import govukInput %}
 {% from "local-phase-banner/macro.njk" import localPhaseBanner %}
@@ -32,6 +33,7 @@
                 {{ filterSicCodes(filters) }}
                 {{ filterTurnover(filters) }}
                 {{ filterSectors(filters) }}
+                {{ filterPostcode(filters) }}
                 {{ filterUkRegions(filters) }}
                 {{ filterMarketOfInterest(filters) }}
                 {{ filterMarketExportedTo(filters) }}
