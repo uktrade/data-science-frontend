@@ -9,7 +9,7 @@ const {
   transformQueryToSortFilter,
   transformQueryToTurnoverFilter,
   transformToLowerTrimStart,
-  transformCommaSeparatedStringToArray,
+  transformPostcodeFilter,
 } = require('./transformers')
 
 function buildHeader (req, res, next) {
@@ -54,7 +54,7 @@ async function buildFilters (req, res, next) {
       ...sanitizeKeyValuePair('dit_sectors', req.query['dit-sectors'], castArray),
       ...sanitizeKeyValuePair('service_usage', req.query['service-used'], castArray),
       ...sanitizeKeyValuePair('region', req.query['uk-regions'], castArray),
-      ...sanitizeKeyValuePair('postcode', req.query.postcode, transformCommaSeparatedStringToArray),
+      ...sanitizeKeyValuePair('postcode', req.query.postcode, transformPostcodeFilter),
     },
     sort: {
       ...transformQueryToSortFilter(req.query.sort),
