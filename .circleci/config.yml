@@ -49,6 +49,21 @@ aliases:
     NODE_ENV: development
     TZ: Europe/London
 
+  - &find_exporters_e2e_envs
+    BACKEND_URL: https://dt07-staging.london.cloudapps.digital
+    LOG_LEVEL: debug
+    SSO_BYPASS: true
+    SESSION_SECRET: x
+    SSO_DOMAIN: x
+    SSO_CLIENT: x
+    SSO_SECRET: x
+    SSO_PATH_AUTH: x
+    SSO_PATH_TOKEN: x
+    SSO_PATH_INTROSPECT: x
+    SSO_REDIRECT_URI: x
+    BACKEND_KEY: x
+    BACKEND_USER: prospects
+
 jobs:
   dependencies:
     docker:
@@ -119,6 +134,7 @@ jobs:
   end_to_end_test:
     docker:
       - image: ukti/data-sci-end-to-end
+        environment: *find_exporters_e2e_envs
     working_directory: ~/data-science-frontend
     steps:
       - checkout
@@ -156,3 +172,6 @@ workflows:
           requires:
             - lint_test
             - unit_test
+      - end_to_end_test:
+          requires:
+            - functional_test
