@@ -20,6 +20,10 @@ aliases:
   - &docker_data_hub_base
     image: ukti/data-hub-frontend-test:2.0.0
 
+  # End to end test dependency container
+  - &docker_end_to_end
+    image: ukti/data-sci-end-to-end
+
   # Data hub redis container
   - &docker_redis
     image: *redis_version
@@ -133,14 +137,18 @@ jobs:
 
   end_to_end_test:
     docker:
-      - image: ukti/data-sci-end-to-end
+      - <<: *docker_end_to_end
         environment: *find_exporters_e2e_envs
+      - *docker_redis
     working_directory: ~/data-science-frontend
     steps:
       - checkout
       - *store_versions
       - *restore_npm_cache
       - *restore_end_to_end_npm_cache
+      - run:
+          name: App dependencies
+          command: npm install
       - run:
           name: End to end dependencies
           command: |

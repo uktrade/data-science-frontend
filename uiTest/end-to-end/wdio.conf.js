@@ -1,11 +1,11 @@
 const clientMatrix = require('@uktrade/client-matrix-js')
+const browserstack = require('browserstack-local')
 
 const IMPLICIT_TIMEOUT = process.env.WDIO_IMPLICIT_TIMEOUT || 90000
-const BASE_URL = process.env.BASE_URL || 'https://find-exporters-dev.london.cloudapps.digital/'
+const BASE_URL = process.env.BASE_URL || 'http://localhost:8080'
 
 const browserStackUser = process.env.BROWSERSTACK_USERNAME || "";
 const browserStackKey = process.env.BROWSERSTACK_ACCESS_KEY || "";
-const browserStackTunnel = !!process.env.TUNNEL;
 const isRemote = !!process.env.BROWSERSTACK_ACCESS_KEY;
 const clients = process.env.CLIENTS
   ? process.env.CLIENTS.split(",").map(client => client.trim())
@@ -16,7 +16,23 @@ remoteConfig = {
   services: ['browserstack'],
   user: browserStackUser,
   key: browserStackKey,
-  browserstackLocal: browserStackTunnel,
+  browserstackLocal: true,
+  // Code to start browserstack local before start of test
+  onPrepare: function () {
+    console.log("Connecting local");
+    return new Promise(function(resolve, reject){
+      exports.bs_local = new browserstack.Local();
+      exports.bs_local.start({'key': exports.config.key }, function(error) {
+        if (error) return reject(error);
+        console.log('Connected. Now testing...');
+        resolve();
+      });
+    });
+  },
+  // Code to stop browserstack local after end of test
+  onComplete: function () {
+    exports.bs_local.stop(function() {});
+  },
 }
 
 const defaultConfig = {
@@ -74,7 +90,7 @@ const defaultConfig = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error
-  logLevel: 'info',
+  logLevel: 'debug',
   //
   // Warns when a deprecated command is used
   deprecationWarnings: true,
