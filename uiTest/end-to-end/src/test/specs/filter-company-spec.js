@@ -7,7 +7,6 @@ const companyFilterName = 'Limited'
 
 describe('Find Exporter', () => {
   it('should retrieve company list after applying filters', () => {
-    actionSequences.login()
     actionSequences.applyFilters({
       companyName: companyFilterName,
       turnOverMin: '10000',
