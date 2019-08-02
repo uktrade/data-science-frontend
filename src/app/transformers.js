@@ -140,16 +140,16 @@ function transformStringToOptionUnformatted (string) {
 }
 
 /**
- * transformCommaSeparatedStringToArray
+ * transformPostcodeFilter
  * Will split string on commas to an array, trim whitespace off each resulting
  * element, and finally filter out any empty string elements.
  */
 
-function transformCommaSeparatedStringToArray (string) {
+function transformPostcodeFilter (string) {
   const arr = string.split(',')
-  const trimmed = arr.map(s => s.trim())
-  const emptyRemoved = trimmed.filter(s => s)
-  return emptyRemoved
+  const normalized = arr.map(s => s.trim().toUpperCase())
+  const emptyRemoved = normalized.filter(s => s)
+  return [...new Set(emptyRemoved)]
 }
 
 module.exports = {
@@ -162,6 +162,6 @@ module.exports = {
   transformQueryToTurnoverFilter,
   transformStringToOption,
   transformStringToOptionUnformatted,
-  transformCommaSeparatedStringToArray,
+  transformPostcodeFilter,
   transformToLowerTrimStart,
 }
