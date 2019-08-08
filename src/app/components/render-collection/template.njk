@@ -136,6 +136,17 @@
                             {% else %}
                                 <h3 class="govuk-heading-m govuk-!-margin-top-4"><a href="/company-profile/{{ item.company_id }}">{{ item.company_name | title }}</a></h3>
                             {% endif %}
+                            {% if item.time_since_remove_recorded %}
+                                <p>
+                                    <strong>
+                                        This company dissolved on {{ item.dissolved_date }} and will be deleted
+                                    {% if item.days_to_deletion < 2 %}
+                                        soon.
+                                    {% else %}
+                                        in {{ item.days_to_deletion }} days.
+                                    {% endif %}
+                                </strong></p>
+                            {% endif %}
                             </div>
                             {% if item.region %}
                                 <div class="govuk-grid-column-one-third">

@@ -1,5 +1,6 @@
 const config = require('../../../config')
 const { buildPagination } = require('../lib/pagination')
+const prepareCompany = require('../transformers').prepareCompany
 
 const {
   getCheckboxFilter,
@@ -8,8 +9,9 @@ const {
 
 function getIndexData (req, res) {
   return getData(req, res, req.body).then((response) => {
-    const result = response.body.result || {}
+    const rawResult = response.body.result || []
     const count = response.body.count || 0
+    const result = rawResult.map(prepareCompany)
 
     return {
       ...response,

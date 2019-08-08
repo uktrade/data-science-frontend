@@ -70,6 +70,7 @@ let config = {
   },
   paginationMaxResults: 10000,
   paginationOffset: 20,
+  daysUntilDissolvedCompaniesDeleted: 180,
   defaultSortValue: 'export_propensity:desc',
   redis: {
     host: env('REDIS_HOST'),
