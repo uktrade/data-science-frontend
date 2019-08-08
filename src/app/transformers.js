@@ -1,5 +1,5 @@
 const { castArray, isFunction, map, toLower, toNumber, trimStart } = require('lodash')
-
+const moment = require('moment')
 const config = require('../../config')
 
 function selectCheckboxFilter (query, filter) {
@@ -132,13 +132,6 @@ function transformStringToOption (string) {
   }
 }
 
-function transformStringToOptionUnformatted (string) {
-  return {
-    value: string,
-    text: string,
-  }
-}
-
 /**
  * transformPostcodeFilter
  * Will split string on commas to an array, trim whitespace off each resulting
@@ -152,7 +145,35 @@ function transformPostcodeFilter (string) {
   return [...new Set(emptyRemoved)]
 }
 
+/**
+ * prepareCompany
+ * prepares a company as returned from the dt07 backend, for use
+ * in the nunjucks template frontend.
+ * Transformations applied:
+ *  1. If company.time_since_remove_recorded is present and valid,
+ *      a) this is formated to DD/MM/YYYY and saved to company.dissolved_date
+ *      b) the number of days until the company will dissappear is calculated
+ *         and saved to company.days_to_deletion.
+ *     OTOH if company.time_since_remove_recorded is not valid,
+ *     it is set to null.
+ */
+
+function prepareCompany (company) {
+  if (company.time_since_remove_recorded) {
+    const dt = moment(company.time_since_remove_recorded)
+    if (dt.isValid()) {
+      company.dissolved_date = dt.format('DD/MM/YYYY')
+      company.days_to_deletion = config.daysUntilDissolvedCompaniesDeleted - (
+        moment().startOf('day').diff(dt.startOf('day'), 'days'))
+    } else {
+      company.time_since_remove_recorded = null
+    }
+  }
+  return company
+}
+
 module.exports = {
+  prepareCompany,
   selectCheckboxFilter,
   sanitizeKeyValuePair,
   transformPageToOffset,
@@ -161,7 +182,6 @@ module.exports = {
   transformQueryToSortFilter,
   transformQueryToTurnoverFilter,
   transformStringToOption,
-  transformStringToOptionUnformatted,
   transformPostcodeFilter,
   transformToLowerTrimStart,
 }
