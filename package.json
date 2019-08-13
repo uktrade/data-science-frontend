@@ -1,6 +1,6 @@
 {
   "name": "prospects-fe",
-  "version": "1.0.0",
+  "version": "1.04.0",
   "description": "Data Hub Find Exporters",
   "main": "server.js",
   "engines": {
