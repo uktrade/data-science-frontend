@@ -1,15 +1,8 @@
-jest.mock('.../../../../config', () => (
-  {
-    analyticsId: 'abc123',
-    datahubDomain: 'https://some-domain.com',
-    googleTagManagerKey: 'GA123456A',
-  }
-))
+jest.mock('.../../../../config', () => ({ analyticsId: 'abc123', datahubDomain: 'https://some-domain.com' }))
 
 describe('Static globals', () => {
   const analyticsId = 'abc123'
   const datahubDomain = 'https://some-domain.com'
-  const googleTagManagerKey = 'GA123456A'
 
   let calls
   let staticGlobals
@@ -41,19 +34,12 @@ describe('Static globals', () => {
   it('Should add the headerLink to the nunjucks env', () => {
     const args = calls[2]
 
-    expect(args[0]).toEqual('googleTagManagerKey')
-    expect(args[1]).toEqual(googleTagManagerKey)
-  })
-
-  it('Should add the headerLink to the nunjucks env', () => {
-    const args = calls[3]
-
     expect(args[0]).toEqual('headerLink')
     expect(args[1]).toEqual(`${datahubDomain}/`)
   })
 
   it('Should add the profileLink to the nunjucks env', () => {
-    const args = calls[4]
+    const args = calls[3]
 
     expect(args[0]).toEqual('profileLink')
     expect(args[1]).toEqual(`${datahubDomain}/profile`)
