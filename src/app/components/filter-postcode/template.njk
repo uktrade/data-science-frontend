@@ -1,0 +1,17 @@
+{% from "input/macro.njk" import govukInput %}
+
+<div class="govuk-form-group app-filter-group-heading">
+    {{ govukInput({
+        label: {
+            text: "Postcode",
+            classes: "govuk-!-font-weight-bold app-filter-label"
+        },
+        hint: {
+            text: "Search multiple postcodes separated by a comma",
+            classes: "app-filter-hint"
+        },
+        id: "postcode",
+        name: "postcode",
+        value: params.postcode
+    }) }}
+</div>

@@ -1,5 +1,6 @@
 const config = require('../../../config')
 const { buildPagination } = require('../lib/pagination')
+const prepareCompany = require('../transformers').prepareCompany
 
 const {
   getCheckboxFilter,
@@ -8,8 +9,9 @@ const {
 
 function getIndexData (req, res) {
   return getData(req, res, req.body).then((response) => {
-    const result = response.body.result || {}
+    const rawResult = response.body.result || []
     const count = response.body.count || 0
+    const result = rawResult.map(prepareCompany)
 
     return {
       ...response,
@@ -46,6 +48,13 @@ async function renderIndex (req, res) {
 
   const sort = req.query.sort || config.defaultSortValue
 
+  // Use the cleaned version of the postcode query to show on the frontend
+  const postcode = res.locals.query &&
+    res.locals.query.filters &&
+    res.locals.query.filters.postcode &&
+    res.locals.query.filters.postcode.length &&
+    res.locals.query.filters.postcode.join(', ')
+
   return res.render('index', {
     result: data,
     globalHeader,
@@ -61,6 +70,7 @@ async function renderIndex (req, res) {
       sectors,
       serviceUsed,
       ukRegions,
+      postcode,
     },
     sort,
   })

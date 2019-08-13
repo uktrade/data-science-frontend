@@ -36,7 +36,7 @@
                                 {% endfor %}
                             </span>
                         </div>
-                    {% elseif key == 'companyName' or key == 'commodityCode' or key == 'sicCodes'%}
+                    {% elseif key == 'companyName' or key == 'commodityCode' or key == 'sicCodes' or key == 'postcode' %}
                         {% if value %}
                             <div class="app-filters-tags-title-value">
                                 <span class="app-filters-tags-title">{{ key | lowerCase | startCase }}:</span>
@@ -135,6 +135,17 @@
                                 <h3 class="govuk-heading-m govuk-!-margin-top-4"><a href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}">{{ item.company_name | title }}</a></h3>
                             {% else %}
                                 <h3 class="govuk-heading-m govuk-!-margin-top-4"><a href="/company-profile/{{ item.company_id }}">{{ item.company_name | title }}</a></h3>
+                            {% endif %}
+                            {% if item.time_since_remove_recorded %}
+                                <p>
+                                    <strong>
+                                        This company dissolved on {{ item.dissolved_date }} and will be deleted
+                                    {% if item.days_to_deletion < 2 %}
+                                        soon.
+                                    {% else %}
+                                        in {{ item.days_to_deletion }} days.
+                                    {% endif %}
+                                </strong></p>
                             {% endif %}
                             </div>
                             {% if item.region %}
