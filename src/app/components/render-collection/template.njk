@@ -146,7 +146,9 @@
                                         in {{ item.days_to_deletion }} days.
                                     {% endif %}
                                 </strong></p>
+
                             {% endif %}
+
                             </div>
                             {% if item.region %}
                                 <div class="govuk-grid-column-one-third">
@@ -158,8 +160,18 @@
                             {% endif %}
                             <div class="govuk-grid-column-full">
 
-                                {% if item.line_of_business or item.dit_sectors  %}
+                                {% if item.line_of_business or item.dit_sectors or item.is_joined_find_a_supplier %}
                                     <div class="govuk-!-display-block govuk-!-padding-top-1 govuk-!-padding-bottom-4">
+                                        {% if item.is_joined_find_a_supplier %}
+                                            <div class="govuk-!-display-block great-link-with-logo">
+                                                <img src="/public/img/great.svg" alt="GREAT" class="great-logo"/>
+                                                {% if item.find_a_supplier_url %}
+                                                    <a href="{{ item.find_a_supplier_url }}">
+                                                        GREAT Profile
+                                                    </a>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
                                         {% if item.line_of_business  %}
                                             <div class="govuk-!-display-block">
                                                 <span class="app-metric-header govuk-!-display-inline">Line of business:</span>
