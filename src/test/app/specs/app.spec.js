@@ -5,14 +5,6 @@ const logger = require('../../../app/lib/logger')
 const app = require('../../../app/app')
 const config = require('../../../../config')
 
-jest.mock('../../../app/middleware/sso-bypass', () => { return (req, res, next) => next() })
-jest.mock('../../../app/lib/redis-client')
-jest.mock('readdirp')
-jest.mock('chokidar')
-jest.mock('nunjucks')
-jest.mock('../../../app/lib/static-globals')
-jest.mock('../../../app/lib/nunjucks-filters')
-
 function getTitle (res) {
   const text = res.text
   const openTag = '<title>'
@@ -39,7 +31,7 @@ describe('App', () => {
   beforeEach(() => {
     logger.remove(winston.transports.Console)
     oldTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
   })
 
   afterEach(() => {
@@ -62,21 +54,17 @@ describe('App', () => {
     })
 
     describe('index page', () => {
-      it('Should render the index page', (done) => {
-        supertest(testApp).get('/').end((res) => {
-          checkResponse(res, 200)
-          expect(getTitle(res)).toEqual('DS - Find Exporters')
-        })
-        done()
+      it('Should render the index page', async () => {
+        const response = await supertest(testApp).get('/')
+        checkResponse(response, 200)
+        expect(getTitle(response)).toContain('Find Exporters')
       })
     })
 
     describe('Ping', () => {
-      it('Should return a status of 200', function (done) {
-        supertest(testApp).get('/ping/').end((res) => {
-          checkResponse(res, 200)
-        })
-        done()
+      it('Should return a status of 200', async () => {
+        const response = await supertest(testApp).get('/ping/')
+        checkResponse(response, 200)
       })
     })
   })
@@ -84,36 +72,24 @@ describe('App', () => {
   describe('With SSO bypass disabled', () => {
     let testApp
     beforeEach(function () {
+      config.isDev = false
+      config.sso = { bypass: false }
       testApp = app.create(undefined, config)
     })
 
     describe('Pages requiring auth', function () {
-      const pages = [
-        ['/', 'Index'],
-      ]
-      for (let [path, page] of pages) {
-        it(`Should redirect the ${page} page to the login page`, (done) => {
-          supertest(testApp).get(path).end((res) => {
-            checkResponse(res, 302)
-            expect(res.headers.location).toEqual('/login/')
-          })
-          done()
-        })
-      }
+      it(`Should redirect the index page to the login page`, async () => {
+        const response = await supertest(testApp).get('/')
+        checkResponse(response, 302)
+        expect(response.headers.location).toEqual('/login/')
+      })
     })
 
     describe('Pages not requiring auth', () => {
-      const pages = [
-        ['/ping/', 'Healthcheck'],
-      ]
-      for (let [path, page] of pages) {
-        it(`Should render the ${page} page`, (done) => {
-          supertest(testApp).get(path).end((res) => {
-            checkResponse(res, 200)
-          })
-          done()
-        })
-      }
+      it(`Should render the Healthcheck page`, async () => {
+        const response = await supertest(testApp).get('/ping/')
+        checkResponse(response, 200)
+      })
     })
   })
 })
