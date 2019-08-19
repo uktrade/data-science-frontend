@@ -39,7 +39,6 @@ const companySearch = {
                 "incorporation_month": "November 2000"}]
 }
 
-
 function getTitle (res) {
   const text = res.text
   const openTag = '<title>'
@@ -117,7 +116,7 @@ describe('App', () => {
   describe('With SSO bypass disabled', () => {
     let testApp
     beforeEach(function () {
-      config.isDev = false
+      config.isDev = true
       config.sso = { bypass: false }
       testApp = app.create(undefined, config)
     })
