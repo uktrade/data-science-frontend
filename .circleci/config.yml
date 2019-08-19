@@ -46,6 +46,7 @@ aliases:
     SSO_REDIRECT_URI: x
     BACKEND_KEY: x
     BACKEND_USER: x
+    NODE_ENV: development
 
 jobs:
   dependencies:
@@ -84,6 +85,7 @@ jobs:
           <<: *find_exporters_base_envs
           REDIS_CACHING_DISABLED: true
           TZ: "/usr/share/zoneinfo/Europe/London"
+      - *docker_redis
     working_directory: ~/data-science-frontend
     steps:
       - checkout
