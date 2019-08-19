@@ -32,8 +32,14 @@ describe('buildFilters', () => {
   const emptyCases = ['', ' ', ',', ',,', ', ', ', ,', ' ,', ' , ', ' , , ,, , ']
   emptyCases.forEach(emptyCase => {
     it('Cleans invalid postcode searches', async () => {
+      req.query = { postcode: emptyCase }
       await buildFilters(req, res, next)
       expect(res.locals.query.filters).toEqual({})
     })
+  })
+  it('Removes white space within postcodes', async () => {
+    req.query = { postcode: 'N1 8HJ, AB123 ,  WC  2B    5QH' }
+    await buildFilters(req, res, next)
+    expect(res.locals.query.filters.postcode).toEqual(['N18HJ', 'AB123', 'WC2B5QH'])
   })
 })

@@ -22,7 +22,8 @@ function selectCheckboxFilter (query, filter) {
 
 function sanitizeKeyValuePair (key, value = '', utility = {}) {
   if (isFunction(utility)) {
-    return (value.length && { [key]: utility(value) })
+    const transformedValue = utility(value)
+    return (value.length && transformedValue.length && { [key]: utility(value) })
   } else {
     return (value.length && { [key]: value })
   }
@@ -140,7 +141,7 @@ function transformStringToOption (string) {
 
 function transformPostcodeFilter (string) {
   const arr = string.split(',')
-  const normalized = arr.map(s => s.trim().toUpperCase())
+  const normalized = arr.map(s => s.replace(/\s/g, '').toUpperCase())
   const emptyRemoved = normalized.filter(s => s)
   return [...new Set(emptyRemoved)]
 }
