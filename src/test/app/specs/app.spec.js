@@ -6,11 +6,6 @@ const logger = require('../../../app/lib/logger')
 const app = require('../../../app/app')
 const config = require('../../../../config')
 
-const companySearch = {
-  count: 1,
-  result: [{ 'cash_bank_in_hand': '1194675.0' }],
-}
-
 function getTitle (res) {
   const text = res.text
   const openTag = '<title>'
@@ -37,7 +32,7 @@ describe('App', () => {
   beforeEach(() => {
     nock(config.backend.url)
       .post('/api/v1/company/search/?offset=0&limit=20')
-      .reply(200, companySearch)
+      .reply(200, { count: 1, result: [{ 'cash_bank_in_hand': '1194675.0' }] })
     nock(config.backend.url).get('/api/v1/company/search/region/').reply(200, { 'result': ['East of London'] })
     nock(config.backend.url).get('/api/v1/company/search/export_propensity/').reply(200, { 'result': ['Low'] })
     nock(config.backend.url).get('/api/v1/company/search/market_of_interest/').reply(200, { 'result': ['Colombia'] })
