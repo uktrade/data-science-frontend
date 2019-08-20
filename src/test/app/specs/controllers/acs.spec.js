@@ -48,7 +48,7 @@ describe('renderIndex', () => {
             }],
           },
         }))
-        renderIndex(req, res, next).then(() => {
+        return renderIndex(req, res, next).then(() => {
           expect(res.render.mock.calls.length).toBe(1)
           const renderContext = res.render.mock.calls[0][1]
           expect(renderContext.result.result[0].time_since_remove_recorded).toBe(timeSinceRemoveRecorded)
@@ -59,7 +59,7 @@ describe('renderIndex', () => {
       })
     }
     for (let garbageDate of ['', undefined, null, '2019-02-29T00:00:00', 'asdfasdf']) {
-      it(`Doesn't choke on date ${garbageDate}`, () => {
+      it(`Doesn't choke on date ${garbageDate}`, (done) => {
         repos.getData.mockReturnValueOnce(Promise.resolve({
           body: {
             result: [{
@@ -67,12 +67,12 @@ describe('renderIndex', () => {
             }],
           },
         }))
-        renderIndex(req, res, next).then(() => {
+        return renderIndex(req, res, next).then(() => {
           expect(res.render.mock.calls.length).toBe(1)
           const renderContext = res.render.mock.calls[0][1]
-          expect(renderContext.result.result[0].time_since_remove_recorded).toBe(null)
-          expect(renderContext.result.result[0].dissolved_date).toBe(null)
-          expect(renderContext.result.result[0].days_to_deletion).toBe(null)
+          expect(renderContext.result.result[0].time_since_remove_recorded).toBeFalsy()
+          expect(renderContext.result.result[0].dissolved_date).toBeFalsy()
+          expect(renderContext.result.result[0].days_to_deletion).toBeFalsy()
           done()
         })
       })
