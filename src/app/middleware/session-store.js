@@ -5,15 +5,20 @@ const redisClient = require('../lib/redis-client')
 
 module.exports = {
   create: () => {
-    const RedisStore = connectRedis(session)
+    let storeObj
 
-    return session({
-      store: new RedisStore({
+    if (config.redis.isCacheEnabled) {
+      const RedisStore = connectRedis(session)
+      storeObj = new RedisStore({
         client: redisClient.get(),
         // config ttl defined in milliseconds for cookie
         ttl: (config.session.ttl / 1000),
         secret: config.session.secret,
-      }),
+      })
+    }
+
+    return session({
+      store: storeObj,
       proxy: !config.isDev, // prod uses a proxy and we need to trust it to set cookies
       cookie: {
         secure: !config.isDev,

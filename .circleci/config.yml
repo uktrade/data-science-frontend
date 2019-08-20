@@ -85,7 +85,6 @@ jobs:
           <<: *find_exporters_base_envs
           REDIS_CACHING_DISABLED: true
           TZ: "/usr/share/zoneinfo/Europe/London"
-      - *docker_redis
     working_directory: ~/data-science-frontend
     steps:
       - checkout
