@@ -1,6 +1,6 @@
 version: 2
 aliases:
-  - &node_version  node:8.15.1
+  - &node_version  node:10.16.0
   - &redis_version redis:3.2.10
   # Common steps
   - &restore_npm_cache
@@ -47,6 +47,7 @@ aliases:
     BACKEND_KEY: x
     BACKEND_USER: x
     NODE_ENV: development
+    TZ: Europe/London
 
 jobs:
   dependencies:
@@ -84,7 +85,6 @@ jobs:
         environment:
           <<: *find_exporters_base_envs
           REDIS_CACHING_DISABLED: true
-          TZ: "/usr/share/zoneinfo/Europe/London"
     working_directory: ~/data-science-frontend
     steps:
       - checkout
