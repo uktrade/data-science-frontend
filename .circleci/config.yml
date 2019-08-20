@@ -16,9 +16,9 @@ aliases:
       name: Restore end to end test npm dependencies cache
       key: webdriverio-npm-dependency-{{ checksum "package.json" }}
 
-  # Cypress dependencies base docker container
-  - &docker_dit_cypress_dependencies
-    image: ukti/docker-dit-cypress
+  # Data hub base docker container
+  - &docker_data_hub_base
+    image: ukti/data-hub-frontend-test:2.0.0
 
   # Data hub redis container
   - &docker_redis
@@ -97,7 +97,7 @@ jobs:
 
   functional_test:
     docker:
-      - <<: *docker_dit_cypress_dependencies
+      - <<: *docker_data_hub_base
         environment:
           <<: *find_exporters_base_envs
           REDIS_CACHING_DISABLED: false
