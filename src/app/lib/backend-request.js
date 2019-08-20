@@ -13,7 +13,7 @@ const credentials = {
   algorithm: 'sha256',
 }
 
-const redis = redisClient.get()
+const redis = config.redis.isCacheEnabled ? redisClient.get() : {}
 
 function createRedisKey (method, path, data) {
   const hash = crypto.createHash('sha256')
