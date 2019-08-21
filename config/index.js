@@ -70,6 +70,8 @@ let config = {
   paginationMaxResults: 10000,
   paginationOffset: 20,
   daysUntilDissolvedCompaniesDeleted: 180,
+  findASupplierProfileUrlPrefix: env('FIND_A_SUPPLIER_PROFILE_URL_PREFIX', 'https://www.great.gov.uk/trade/suppliers/'),
+  companiesHouseIdentificationSystemCode: 'CRO',
   defaultSortValue: 'export_propensity:desc',
   redis: {
     host: env('REDIS_HOST'),
