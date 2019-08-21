@@ -137,7 +137,7 @@ jobs:
 
   end_to_end_test:
     docker:
-      - <<: *docker_end_to_end
+      - <<: *docker_data_hub_base
         environment: *find_exporters_e2e_envs
       - *docker_redis
     working_directory: ~/data-science-frontend
