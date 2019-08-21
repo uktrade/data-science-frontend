@@ -10,7 +10,13 @@ async function renderCompanyTimeline (req, res) {
     const profile = companyProfile.body.result[0]
     const title = startCase(profile.company_name)
 
-    return res.render('company-activity-page', { title, profile })
+    return res.render('company-activity-page', {
+      title,
+      profile,
+      params: {
+        apiEndpoint: `/company-profile/${companyId}/data`,
+      },
+    })
   } catch (error) {
     errors.handle404(req, res)
   }

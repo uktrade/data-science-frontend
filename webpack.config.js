@@ -13,6 +13,11 @@ const common = {
       './src/public/js/vendor/details.polyfill.js',
       './src/public/js/app.js',
     ],
+    'activity-feed-app': [
+      'react-app-polyfill/ie9',
+      'react-app-polyfill/stable',
+      './src/app/components/activity-feed/client.jsx',
+    ],
   },
   output: {
     path: config.buildDir,
@@ -20,9 +25,14 @@ const common = {
 
   },
   module: {
+    exprContextCritical: false,
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
+
+        // Package "hex-rgb" is not transpiled to ES5 by default so we need to transpile it again.
+        // See: https://stackoverflow.com/questions/51289261/babel-does-not-transpile-imported-modules-from-node-modules
+        exclude: /node_modules\/(?!(hex-rgb)\/).*/,
         loader: 'babel-loader',
         options: {
           cacheDirectory: './babel_cache',
@@ -80,7 +90,7 @@ const common = {
       'node_modules',
       path.resolve(__dirname, 'src'),
     ],
-    extensions: ['*', '.js', '.json'],
+    extensions: ['*', '.js', '.jsx', '.json'],
   },
   plugins: [
     new WebpackAssetsManifest(),

@@ -44,11 +44,13 @@ function checkRequiredEnvs () {
 }
 
 const cpus = (os.cpus().length || 1)
-const isDev = ((process.env.NODE_ENV || 'development') === 'development')
+const isDev = process.env.NODE_ENV === 'development'
+const isProd = ((process.env.NODE_ENV || 'production') === 'production')
 const vcapRedisUrl = vcap.parseRedis(env('VCAP_SERVICES'))
 
 let config = {
   isDev,
+  isProd,
   showErrors: isDev,
   version: env('npm_package_version', 'unknown'),
   logLevel: env('LOG_LEVEL', 'warn'),

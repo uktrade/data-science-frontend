@@ -53,19 +53,19 @@ function transformEvents (responseData) {
 module.exports = {
 
   getEventsByCompanyName: async (name) => {
-    const responseData = await backendRequest('/api/v1/company/events/?company_name=' + encodeURIComponent(name).replace(/%20/g, '+').toLowerCase())
+    const responseData = await backendRequest('/api/v1/company-activities/?company_name=' + encodeURIComponent(name).replace(/%20/g, '+').toLowerCase())
 
     return transformEvents(responseData)
   },
 
   getEventsByCompanyId: async (id) => {
-    const responseData = await backendRequest('/api/v1/company/events/?companies_house_id=' + parseInt(id, 10))
+    const responseData = await backendRequest('/api/v1/company-activities/?companies_house_id=' + parseInt(id, 10))
 
     return transformEvents(responseData)
   },
 
   getEventsByInternalCompanyId: async function (id) {
-    const responseData = await backendRequest('/api/v2/company/events/?company_id=' + parseInt(id, 10) + '&meta_data=true')
+    const responseData = await backendRequest('/api/v1/company-activities/?company_id=' + parseInt(id, 10))
 
     return transformEvents(responseData)
   },
