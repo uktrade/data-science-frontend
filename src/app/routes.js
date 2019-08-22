@@ -4,6 +4,7 @@ const { renderIndex } = require('./controllers/acs')
 const { renderCompanyTimeline } = require('./controllers/company-timeline')
 
 const {
+  getCompanyActivities,
   getMarketExportedMetadata,
   getMarketOfInterestMetadata,
   getSectorsMetadata,
@@ -40,5 +41,9 @@ module.exports = function (express, app) {
   app.get('/company-profile/:company_id',
     buildHeader,
     renderCompanyTimeline,
+  )
+
+  app.get('/company-profile/:company_id/data',
+    getCompanyActivities,
   )
 }

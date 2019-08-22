@@ -53,39 +53,31 @@ function transformEvents (responseData) {
 module.exports = {
 
   getEventsByCompanyName: async (name) => {
-    const responseData = await backendRequest('/api/v1/company/events/?company_name=' + encodeURIComponent(name).replace(/%20/g, '+').toLowerCase())
+    const responseData = await backendRequest('/api/v1/company-activities/?company_name=' + encodeURIComponent(name).replace(/%20/g, '+').toLowerCase())
 
     return transformEvents(responseData)
   },
 
   getEventsByCompanyId: async (id) => {
-    const responseData = await backendRequest('/api/v1/company/events/?companies_house_id=' + parseInt(id, 10))
+    const responseData = await backendRequest('/api/v1/company-activities/?companies_house_id=' + parseInt(id, 10), {
+      cache: config.redis.isCachingEnabled,
+    })
 
     return transformEvents(responseData)
   },
 
   getEventsByInternalCompanyId: async function (id) {
-    const responseData = await backendRequest('/api/v2/company/events/?company_id=' + parseInt(id, 10) + '&meta_data=true')
+    const responseData = await backendRequest('/api/v1/company-activities/?company_id=' + parseInt(id, 10))
 
     return transformEvents(responseData)
   },
 
   getCompanyProfileByInternalCompanyId: async function (id) {
-    const responseData = await backendRequest('/api/v1/company/profile/' + parseInt(id, 10) + '/')
+    const responseData = await backendRequest('/api/v1/company/profile/' + parseInt(id, 10) + '/', {
+      cache: config.redis.isCachingEnabled,
+    })
 
     return transformEvents(responseData)
-  },
-
-  searchBySicCode: async (code) => {
-    const responseData = await backendRequest('/api/v1/company/search/sic_code/?codes=' + encodeURIComponent(code))
-
-    return responseData
-  },
-
-  searchByExportCode: async (code) => {
-    const responseData = await backendRequest('/api/v1/company/search/commodity_code/?codes=' + encodeURIComponent(code))
-
-    return responseData
   },
 
   getDataByType: async (type) => {

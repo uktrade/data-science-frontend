@@ -39,6 +39,12 @@ async function getSectorsMetadata (req, res) {
   res.send(JSON.stringify(data))
 }
 
+async function getCompanyActivities (req, res) {
+  const data = await backendService.getEventsByInternalCompanyId(req.params.company_id)
+
+  res.send(data.body)
+}
+
 async function getCheckboxFilter (req, apiParam, queryParam) {
   const list = await backendService.getDataByType(apiParam)
 
@@ -54,25 +60,12 @@ async function search (req, res) {
   res.json(data.body)
 }
 
-async function searchBySicCode (req, res) {
-  const data = await backendService.searchBySicCode(req.params.code)
-
-  res.json(data.body)
-}
-
-async function searchByExportCode (req, res) {
-  const data = await backendService.searchByExportCode(req.params.code)
-
-  res.json(data.body)
-}
-
 module.exports = {
   getCheckboxFilter,
+  getCompanyActivities,
   getData,
   getMarketExportedMetadata,
   getMarketOfInterestMetadata,
   getSectorsMetadata,
   search,
-  searchBySicCode,
-  searchByExportCode,
 }
