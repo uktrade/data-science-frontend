@@ -57,6 +57,7 @@
   },
   "homepage": "https://github.com/uktrade/data-science-frontend#readme",
   "devDependencies": {
+    "browser-sync": "^2.26.7",
     "browser-sync-webpack-plugin": "^2.2.2",
     "cypress": "^3.4.1",
     "dotenv": "^6.0.0",

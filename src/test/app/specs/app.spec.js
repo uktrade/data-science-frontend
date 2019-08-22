@@ -54,9 +54,9 @@ describe('App', () => {
     let testApp
 
     beforeEach(() => {
-      testApp = app.create(undefined, config)
       config.isDev = true
       config.sso = { bypass: true }
+      testApp = app.create(undefined, config)
     })
 
     afterEach(() => {

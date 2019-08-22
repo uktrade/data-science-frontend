@@ -44,8 +44,8 @@ function checkRequiredEnvs () {
 }
 
 const cpus = (os.cpus().length || 1)
-const isDev = process.env.NODE_ENV === 'development'
-const isProd = ((process.env.NODE_ENV || 'production') === 'production')
+const isDev = ((process.env.NODE_ENV || 'development') === 'development')
+const isProd = process.env.NODE_ENV === 'production'
 const vcapRedisUrl = vcap.parseRedis(env('VCAP_SERVICES'))
 
 let config = {

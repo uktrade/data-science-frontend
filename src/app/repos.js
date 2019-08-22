@@ -60,18 +60,6 @@ async function search (req, res) {
   res.json(data.body)
 }
 
-async function searchBySicCode (req, res) {
-  const data = await backendService.searchBySicCode(req.params.code)
-
-  res.json(data.body)
-}
-
-async function searchByExportCode (req, res) {
-  const data = await backendService.searchByExportCode(req.params.code)
-
-  res.json(data.body)
-}
-
 module.exports = {
   getCheckboxFilter,
   getCompanyActivities,
@@ -80,6 +68,4 @@ module.exports = {
   getMarketOfInterestMetadata,
   getSectorsMetadata,
   search,
-  searchBySicCode,
-  searchByExportCode,
 }
