@@ -9,7 +9,7 @@ const browserStackKey = process.env.BROWSERSTACK_ACCESS_KEY || "";
 const isRemote = !!process.env.BROWSERSTACK_ACCESS_KEY;
 const clients = process.env.CLIENTS
   ? process.env.CLIENTS.split(",").map(client => client.trim())
-  : ['chrome_latest']
+  : ['chrome_latest', 'ie11']
 const clientMatrixList = clientMatrix.requestedClients(clients)
 
 const remoteConfig = {
@@ -33,19 +33,12 @@ const remoteConfig = {
   onComplete: function () {
     exports.bs_local.stop(function() {});
   },
-  capabilities: [
-    {
-      'os': 'Windows',
-      'os_version': '10',
-      'browser': 'Chrome',
-      'browser_version': '76.0 beta',
-    },
-  ]
+  capabilities: [...clientMatrixList]
 }
 
 const defaultConfig = {
   specs: [
-    './src/test/specs/**/*.js'
+    './uiTest/end-to-end/src/specs/**/*.js'
   ],
   maxInstances: 10,
   capabilities: [{ browser: 'Chrome' }],

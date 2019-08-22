@@ -1,7 +1,7 @@
 import assert from 'assert'
-import actionSequences from '../../action-sequences'
-import selectors from '../../../../selectors'
-import userActions from '../../action/user-actions'
+import actionSequences from '../action-sequences'
+import selectors from '../../../selectors'
+import userActions from '../action/user-actions'
 
 const companyFilterName = 'Limited'
 

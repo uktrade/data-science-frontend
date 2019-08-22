@@ -103,10 +103,6 @@ Execute all the tests on `specs` in chrome browser:
 
 ### Setup
 
-When starting the app, ensure the `BACKEND_URL` in the `.env` file has the path of DT07 dev instance.
-
-i.e `export BACKEND_URL=https://dt07-staging.london.cloudapps.digital`
-
 And ensure the following environment variables are set with the correct values:
 
 ```
