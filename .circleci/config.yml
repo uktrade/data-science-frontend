@@ -11,18 +11,10 @@ aliases:
     run:
       name: Temporarily store node/npm versions on filesystem
       command: node --version > node_version; npm --version > npm_version
-  - &restore_end_to_end_npm_cache
-    restore_cache:
-      name: Restore end to end test npm dependencies cache
-      key: webdriverio-npm-dependency-{{ checksum "package.json" }}
 
   # Data hub base docker container
   - &docker_data_hub_base
     image: ukti/data-hub-frontend-test:2.0.0
-
-  # End to end test dependency container
-  - &docker_end_to_end
-    image: ukti/data-sci-end-to-end
 
   # Data hub redis container
   - &docker_redis
@@ -145,24 +137,12 @@ jobs:
       - checkout
       - *store_versions
       - *restore_npm_cache
-      - *restore_end_to_end_npm_cache
       - run:
           name: App dependencies
           command: npm install
       - run:
-          name: End to end dependencies
-          command: |
-            cd uiTest/end-to-end
-            npm install
-      - run:
           name: Webdriverio tests
           command: ./run-end-to-end-tests-ci.sh
-          when: always
-      - save_cache:
-          name: Save functional test npm dependencies cache
-          key: webdriverio-npm-dependency-{{ checksum "package.json" }}
-          paths:
-            - ~/data-science-frontend/uiTest/end-to-end/node_modules
           when: always
 
 workflows:
