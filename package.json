@@ -31,7 +31,7 @@
     "lint:all:js": "eslint ./src ./config ./uiTest/functional/cypress ./uiTest/end-to-end/src",
     "lint:all:styles": "sass-lint -v -q -c .sass-lint.yml src/public/scss/**/*.scss",
     "dev": "NODE_ENV=development; SSO_BYPASS=true; webpack",
-    "prod": "webpack",
+    "prod": "NODE_ENV=production; webpack",
     "develop": "NODE_ENV=development; SSO_BYPASS=true;run-p watch:js:*",
     "watch:js:client": "webpack --watch --progress",
     "watch:js:server": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'"
