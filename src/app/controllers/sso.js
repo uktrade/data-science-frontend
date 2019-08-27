@@ -110,7 +110,7 @@ module.exports = {
 
     if (errMessage) {
       logger.error(errMessage)
-      // next(errMessage)
+      next(errMessage)
     }
 
     request({
