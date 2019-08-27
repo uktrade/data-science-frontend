@@ -42,6 +42,11 @@ function checkCallbackErrors (errorParam, stateParam, codeParam, stateId) {
   }
 
   if (stateParam !== stateId) {
+    console.log('2222222222222222222222')
+    console.log(errorParam, stateParam, codeParam, stateId)
+    console.log('2222222222222222222222')
+
+
     return `StateId mismatch: '${stateParam}' !== '${stateId}'`
   }
 
@@ -77,6 +82,10 @@ module.exports = {
       urlParams.code = config.sso.mockCode
     }
 
+    console.log('1111111111111111111111111')
+    console.log(req.session)
+    console.log('1111111111111111111111111')
+
     req.session.oauthStateId = stateId // used to check the callback received contains matching state param
     req.session.save((err) => {
       if (err) { next(err) }
@@ -93,9 +102,13 @@ module.exports = {
     const stateId = req.session.oauthStateId
     const errMessage = checkCallbackErrors(errorParam, stateParam, codeParam, stateId)
 
+    console.log('3333333333333333333333333')
+    console.log(errorParam, stateParam, codeParam, stateId)
+    console.log('3333333333333333333333333')
+
     if (errMessage) {
       logger.error(errMessage)
-      next(errMessage)
+      // next(errMessage)
     }
 
     request({
