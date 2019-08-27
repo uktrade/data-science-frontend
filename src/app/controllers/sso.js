@@ -144,6 +144,10 @@ module.exports = {
   signOutOAuth: function (req, res) {
     req.session = null
     res.clearCookie('connect.sid')
+
+    console.log('444444444444444')
+    console.log('logout ', `${config.sso.protocol}://${config.sso.domain}/logout`)
+    console.log('444444444444444')
     res.redirect(`${config.sso.protocol}://${config.sso.domain}/logout`)
   },
 }
