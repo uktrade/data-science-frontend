@@ -107,6 +107,7 @@ module.exports = {
     console.log('3333333333333333333333333')
     console.log(req.session)
     console.log('3333333333333333333333333')
+    console.log(config)
 
     if (errMessage) {
       logger.error(errMessage)
