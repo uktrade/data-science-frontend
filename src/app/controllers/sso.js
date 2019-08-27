@@ -81,13 +81,16 @@ module.exports = {
       urlParams.code = config.sso.mockCode
     }
 
+    req.session.oauthStateId = stateId // used to check the callback received contains matching state param
+
     console.log('1111111111111111111111111')
     console.log(req.session.oauthStateId)
     console.log('1111111111111111111111111')
-
-    req.session.oauthStateId = stateId // used to check the callback received contains matching state param
     req.session.save((err) => {
       if (err) { next(err) }
+      console.log('121212121212121212121212')
+      console.log(req.session.oauthStateId)
+      console.log('121212121212121212121212')
 
       logger.info('Session saved to redis')
       res.redirect(`${urls.auth}?${stringify(urlParams)}`)
