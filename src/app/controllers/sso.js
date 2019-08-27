@@ -46,7 +46,6 @@ function checkCallbackErrors (errorParam, stateParam, codeParam, stateId) {
     console.log(errorParam, stateParam, codeParam, stateId)
     console.log('2222222222222222222222')
 
-
     return `StateId mismatch: '${stateParam}' !== '${stateId}'`
   }
 
