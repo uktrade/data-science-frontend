@@ -20,6 +20,7 @@ module.exports = {
         comments: false,
       },
       sourceMap: true,
+      uglifyOptions: { ecma: 8 },
       dead_code: true,
     }),
     new ExtractTextPlugin('css/[name].css'),

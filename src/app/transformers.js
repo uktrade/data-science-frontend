@@ -1,6 +1,7 @@
 const { castArray, isFunction, map, toLower, toNumber, trimStart } = require('lodash')
 const moment = require('moment')
 const config = require('../../config')
+const { padStart } = require('lodash')
 
 function selectCheckboxFilter (query, filter) {
   const data = map(filter, (item) => {
@@ -22,7 +23,8 @@ function selectCheckboxFilter (query, filter) {
 
 function sanitizeKeyValuePair (key, value = '', utility = {}) {
   if (isFunction(utility)) {
-    return (value.length && { [key]: utility(value) })
+    const transformedValue = utility(value)
+    return (value.length && transformedValue.length && { [key]: utility(value) })
   } else {
     return (value.length && { [key]: value })
   }
@@ -140,25 +142,25 @@ function transformStringToOption (string) {
 
 function transformPostcodeFilter (string) {
   const arr = string.split(',')
-  const normalized = arr.map(s => s.trim().toUpperCase())
+  const normalized = arr.map(s => s.replace(/\s/g, '').toUpperCase())
   const emptyRemoved = normalized.filter(s => s)
   return [...new Set(emptyRemoved)]
 }
 
 /**
- * prepareCompany
- * prepares a company as returned from the dt07 backend, for use
- * in the nunjucks template frontend.
- * Transformations applied:
- *  1. If company.time_since_remove_recorded is present and valid,
+ * prepareCompanyDisolvedInfo
+ *  If company.time_since_remove_recorded is present and valid,
  *      a) this is formated to DD/MM/YYYY and saved to company.dissolved_date
  *      b) the number of days until the company will dissappear is calculated
  *         and saved to company.days_to_deletion.
  *     OTOH if company.time_since_remove_recorded is not valid,
  *     it is set to null.
+ * @param company
+ * @returns {*}
+ * @private
  */
 
-function prepareCompany (company) {
+function prepareCompanyDissolvedInfo (company) {
   if (company.time_since_remove_recorded) {
     const dt = moment(company.time_since_remove_recorded)
     if (dt.isValid()) {
@@ -169,6 +171,53 @@ function prepareCompany (company) {
       company.time_since_remove_recorded = null
     }
   }
+  return company
+}
+
+/**
+ * prepareCompanyGreatProfile
+ * 1. Sets a helper property is_joined_find_a_supplier which is true
+ * if and only if 'dit.find-a-buyer.suppliers' is in the company.service_usage
+ * comma separated string
+ * 2. Sets the find_a_supplier_url using a templated GREAT url plus the company's
+ *  national identification number, if it has one and if company.is_published_find_a_supplier
+ *
+ * @param company
+ * @returns {*}
+ * @private
+ */
+
+function prepareCompanyGreatProfile (company) {
+  /* eslint-disable camelcase */
+  const { is_published_find_a_supplier, service_usage, national_identification_number,
+    national_identification_system_code } = company
+
+  company.is_joined_find_a_supplier = !!service_usage &&
+    service_usage.indexOf('dit.find-a-buyer.suppliers') !== -1
+  if (
+    is_published_find_a_supplier &&
+    national_identification_number &&
+    national_identification_system_code === config.companiesHouseIdentificationSystemCode
+  ) {
+    const urlSegment = padStart(national_identification_number, 8, '0')
+    company.find_a_supplier_url = `${config.findASupplierProfileUrlPrefix}${urlSegment}/`
+  } else {
+    company.find_a_supplier_url = null
+  }
+  return company
+}
+/**
+ * prepareCompany
+ * prepares a company as returned from the dt07 backend, for use
+ * in the nunjucks template frontend.
+ * Transformations applied:
+ * 1. prepareCompanyDissolvedInfo
+ * 2. prepareCompanyGreatProfile
+ */
+
+function prepareCompany (company) {
+  company = prepareCompanyDissolvedInfo(company)
+  company = prepareCompanyGreatProfile(company)
   return company
 }
 

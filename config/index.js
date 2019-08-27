@@ -45,10 +45,12 @@ function checkRequiredEnvs () {
 
 const cpus = (os.cpus().length || 1)
 const isDev = ((process.env.NODE_ENV || 'development') === 'development')
+const isProd = process.env.NODE_ENV === 'production'
 const vcapRedisUrl = vcap.parseRedis(env('VCAP_SERVICES'))
 
 let config = {
   isDev,
+  isProd,
   showErrors: isDev,
   version: env('npm_package_version', 'unknown'),
   logLevel: env('LOG_LEVEL', 'warn'),
@@ -70,6 +72,8 @@ let config = {
   paginationMaxResults: 10000,
   paginationOffset: 20,
   daysUntilDissolvedCompaniesDeleted: 180,
+  findASupplierProfileUrlPrefix: env('FIND_A_SUPPLIER_PROFILE_URL_PREFIX', 'https://www.great.gov.uk/international/trade/suppliers/'),
+  companiesHouseIdentificationSystemCode: 'CRO',
   defaultSortValue: 'export_propensity:desc',
   redis: {
     host: env('REDIS_HOST'),
