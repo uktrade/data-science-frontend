@@ -82,11 +82,8 @@ module.exports = {
     }
 
     console.log('1111111111111111111111111')
-    console.log(req.session)
+    console.log(req.session.oauthStateId)
     console.log('1111111111111111111111111')
-    console.log(config)
-    console.log('1111111111111111111111111')
-
 
     req.session.oauthStateId = stateId // used to check the callback received contains matching state param
     req.session.save((err) => {
