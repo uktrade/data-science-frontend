@@ -105,7 +105,7 @@ module.exports = {
     const errMessage = checkCallbackErrors(errorParam, stateParam, codeParam, stateId)
 
     console.log('3333333333333333333333333')
-    console.log(errorParam, stateParam, codeParam, stateId)
+    console.log(req.session)
     console.log('3333333333333333333333333')
 
     if (errMessage) {
