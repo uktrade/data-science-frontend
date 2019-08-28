@@ -15,7 +15,7 @@ module.exports = {
     })
 
     return session({
-      store: config.redis.isCachingEnabled ? storeObj : null,
+      store: storeObj,
       proxy: !config.isDev, // prod uses a proxy and we need to trust it to set cookies
       cookie: {
         secure: !config.isDev,
