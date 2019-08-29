@@ -5,17 +5,14 @@ const redisClient = require('../lib/redis-client')
 
 module.exports = {
   create: () => {
-    let storeObj
 
-    if (config.redis.isCacheEnabled) {
-      const RedisStore = connectRedis(session)
-      storeObj = new RedisStore({
-        client: redisClient.get(),
-        // config ttl defined in milliseconds for cookie
-        ttl: (config.session.ttl / 1000),
-        secret: config.session.secret,
-      })
-    }
+    const RedisStore = connectRedis(session)
+    const storeObj = new RedisStore({
+      client: redisClient.get(),
+      // config ttl defined in milliseconds for cookie
+      ttl: (config.session.ttl / 1000),
+      secret: config.session.secret,
+    })
 
     return session({
       store: storeObj,
