@@ -50,7 +50,7 @@ describe('App', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = oldTimeout
   })
 
-  describe('With SSO bypass enabled', () => {
+  xdescribe('With SSO bypass enabled', () => {
     let testApp
 
     beforeEach(() => {
@@ -80,7 +80,7 @@ describe('App', () => {
     })
   })
 
-  describe('With SSO bypass disabled', () => {
+  xdescribe('With SSO bypass disabled', () => {
     let testApp
     beforeEach(function () {
       config.isDev = true

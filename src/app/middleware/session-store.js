@@ -6,6 +6,7 @@ const redisClient = require('../lib/redis-client')
 module.exports = {
   create: () => {
     const RedisStore = connectRedis(session)
+    console.log('2222222222222')
 
     const storeObj = new RedisStore({
       client: redisClient.get(),

@@ -113,6 +113,7 @@ let config = {
     user: requiredEnv('BACKEND_USER'),
   },
 }
+console.log('111111111111111')
 
 checkRequiredEnvs()
 
