@@ -7,7 +7,7 @@ module.exports = {
   create: () => {
     let storeObj
 
-    if (config.redis.isCacheEnabled) {
+    if (config.redis.isCachingEnabled) {
       const RedisStore = connectRedis(session)
       storeObj = new RedisStore({
         client: redisClient.get(),
