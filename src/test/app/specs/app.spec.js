@@ -6,6 +6,21 @@ const logger = require('../../../app/lib/logger')
 const app = require('../../../app/app')
 const config = require('../../../../config')
 
+jest.mock('../../../app/lib/redis-client', () => {
+  return { get: () => Promise.resolve() }
+})
+
+jest.mock('connect-redis', () => {
+  return jest.fn(() => {
+    return jest.fn().mockImplementation(() => {
+      return {
+        on: jest.fn(() => Promise.resolve()),
+        set: jest.fn(() => Promise.resolve()),
+      }
+    })
+  })
+})
+
 function getTitle (res) {
   const text = res.text
   const openTag = '<title>'
