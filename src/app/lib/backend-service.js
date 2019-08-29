@@ -50,8 +50,9 @@ function transformEvents (responseData) {
   return responseData
 }
 
-module.exports = {
+const useCache = !config.redis.isCachingDisabled
 
+module.exports = {
   getEventsByCompanyName: async (name) => {
     const responseData = await backendRequest('/api/v1/company-activities/?company_name=' + encodeURIComponent(name).replace(/%20/g, '+').toLowerCase())
 
@@ -60,7 +61,7 @@ module.exports = {
 
   getEventsByCompanyId: async (id) => {
     const responseData = await backendRequest('/api/v1/company-activities/?companies_house_id=' + parseInt(id, 10), {
-      cache: config.redis.isCachingEnabled,
+      cache: useCache,
     })
 
     return transformEvents(responseData)
@@ -74,7 +75,7 @@ module.exports = {
 
   getCompanyProfileByInternalCompanyId: async function (id) {
     const responseData = await backendRequest('/api/v1/company/profile/' + parseInt(id, 10) + '/', {
-      cache: config.redis.isCachingEnabled,
+      cache: useCache,
     })
 
     return transformEvents(responseData)
@@ -82,7 +83,7 @@ module.exports = {
 
   getDataByType: async (type) => {
     const responseData = await backendRequest('/api/v1/company/search/' + encodeURIComponent(type) + '/', {
-      cache: config.redis.isCachingEnabled,
+      cache: useCache,
     })
 
     return responseData
@@ -91,7 +92,7 @@ module.exports = {
   searchForCompanies: async (offset, limit, data) => {
     const responseData = await backendRequest(`/api/v1/company/search/?offset=${offset}&limit=${limit}`, {
       method: 'POST',
-      cache: config.redis.isCachingEnabled,
+      cache: useCache,
       data,
     })
 
