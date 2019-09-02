@@ -81,7 +81,7 @@
     "file-loader": "^4.2.0",
     "jasmine": "3.0.0",
     "jasmine-core": "2.99.1",
-    "jest": "^24.8.0",
+    "jest": "^23.6.0",
     "jest-codemods": "^0.20.0",
     "mocha": "^5.2.0",
     "mocha-circleci-reporter": "0.0.3",
