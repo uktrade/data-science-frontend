@@ -53,8 +53,8 @@ const defaultConfig = {
   framework: 'mocha',
   reporters: ['spec'],
   mochaOpts: {
-    compilers: ["js:babel-register"],
-    timeout: 60000
+    timeout: 60000,
+    require: ['@babel/register']
   },
   before: function () {
     browser.setTimeout({ 'implicit': IMPLICIT_TIMEOUT })
