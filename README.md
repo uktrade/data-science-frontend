@@ -76,22 +76,10 @@ Run the command below to start the application:
 
 ### Setup
 
-Pre-requisites:
+You will need to have DataScience FE application running against the mocking service.
+When starting the app, ensure the `BACKEND_URL` in the `.env` file has the path of your local sandbox instance.
 
-Ensure you have [node](https://nodejs.org/en/download/) v8 installed then install dependencies:
-
-`$ npm install`
-
-You will also need to have DataScience FE application running against the mocking service.
-When starting the app, ensure the `BACKEND_URL` in the `.env` file has the following value:
-
-`export BACKEND_URL=https://dit-find-exporters.getsandbox.com:443`
-
-### Coding standards
-
-Eslint will run as part of the build, assure you run the command below before committing:
-
-`$ npm run lint`
+i.e `export BACKEND_URL=http://localhost:5555`
 
 ### Running the tests
 
@@ -110,3 +98,31 @@ Execute all the tests on `specs` in chrome browser:
 ### Running a specific spec
 
 `$ npm run test:functional -- cypress/specs/company-filter-spec.js`
+
+## End to End tests
+
+### Setup
+
+And ensure the following environment variables are set with the correct values:
+
+```
+export BACKEND_KEY=
+export BACKEND_USER=
+```
+
+### Running the tests
+
+to run in browserstack, ensure you have the following environment variables set:
+
+```
+export BROWSERSTACK_USERNAME=
+export BROWSERSTACK_ACCESS_KEY=
+```
+
+the above required environment variable values can be found in confluence:
+
+`https://uktrade.atlassian.net/wiki/spaces/DT/pages/727515737/End+to+end+testing+environment+variables`
+
+after setting up the environment variables, run the following commands to execute the tests:
+
+`$(data-science-frontend) npm run test:end-to-end`
