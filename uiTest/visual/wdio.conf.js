@@ -1,5 +1,6 @@
 const clientMatrix = require('@uktrade/client-matrix-js')
 const browserstack = require('browserstack-local')
+const WdioImage = require ('@uktrade/wdio-image-diff-js').default
 
 const IMPLICIT_TIMEOUT = process.env.WDIO_IMPLICIT_TIMEOUT || 90000
 const BASE_URL = process.env.BASE_URL || 'http://localhost:8080'
@@ -38,7 +39,7 @@ const remoteConfig = {
 
 const defaultConfig = {
   specs: [
-    './uiTest/end-to-end/src/specs/**/*.js'
+    './uiTest/visual/src/specs/**/*.js'
   ],
   maxInstances: 10,
   capabilities: [{ browser: 'Chrome' }],
@@ -56,12 +57,22 @@ const defaultConfig = {
     timeout: 60000,
     require: ['@babel/register']
   },
-  before: function () {
+  before: () => {
     browser.setTimeout({ 'implicit': IMPLICIT_TIMEOUT })
     browser.url('')
+    const wdioImageDiff = new WdioImage(browser, { threshold: 0.2, width: 1792, height: 1008 })
+    browser.imageDiff = wdioImageDiff
   },
+  beforeTest: (test) => {
+    testName = `${test.fullTitle} - ${browser.capabilities.browserName}`
+    browser.imageDiff.testName = testName
+  },
+  after: () => {
+    browser.imageDiff.generateReport()
+  }
 }
 
 exports.config = isRemote
   ? Object.assign({}, defaultConfig, remoteConfig)
   : defaultConfig
+  
