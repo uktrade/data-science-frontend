@@ -121,8 +121,12 @@ jobs:
       - *restore_npm_cache
       - *wait_for_api_sandbox
       - run:
+          name: Start App
+          command: ./start-app.sh
+          when: always
+      - run:
           name: Cypress tests
-          command: ./run-functional-tests-ci.sh
+          command: npm run test:functional
           when: always
       - store_artifacts:
           path: cypress/screenshots
@@ -141,9 +145,40 @@ jobs:
           name: App dependencies
           command: npm install
       - run:
-          name: Webdriverio tests
-          command: ./run-end-to-end-tests-ci.sh
+          name: Start App
+          command: ./start-app.sh
           when: always
+      - run:
+          name: Webdriverio tests
+          command: npm run test:e2e
+          when: always
+
+  visual_test:
+    docker:
+      - <<: *docker_data_hub_base
+        environment:
+          <<: *find_exporters_base_envs
+          REDIS_CACHING_DISABLED: false
+      - *docker_redis
+      - *docker_dt07_api_sandbox
+    working_directory: ~/data-science-frontend
+    steps:
+      - checkout
+      - *store_versions
+      - *restore_npm_cache
+      - *wait_for_api_sandbox
+      - run:
+          name: Start App
+          command: ./start-app.sh
+          when: always
+      - run:
+          name: Visual tests
+          command: npm run test:visual
+          when: always
+      - store_artifacts:
+          path: visual-screenshots
+      - store_artifacts:
+          path: visual-test-report.html
 
 workflows:
   version: 2
@@ -161,5 +196,8 @@ workflows:
             - lint_test
             - unit_test
       - end_to_end_test:
+          requires:
+            - functional_test
+      - visual_test:
           requires:
             - functional_test
