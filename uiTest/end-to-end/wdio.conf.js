@@ -54,7 +54,8 @@ const defaultConfig = {
   reporters: ['spec'],
   mochaOpts: {
     timeout: 60000,
-    require: ['@babel/register']
+    require: ['@babel/register'],
+    retries: 3
   },
   before: function () {
     browser.setTimeout({ 'implicit': IMPLICIT_TIMEOUT })

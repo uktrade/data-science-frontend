@@ -55,7 +55,8 @@ const defaultConfig = {
   reporters: ['spec'],
   mochaOpts: {
     timeout: 60000,
-    require: ['@babel/register']
+    require: ['@babel/register'],
+    retries: 3
   },
   before: () => {
     browser.setTimeout({ 'implicit': IMPLICIT_TIMEOUT })
@@ -75,4 +76,3 @@ const defaultConfig = {
 exports.config = isRemote
   ? Object.assign({}, defaultConfig, remoteConfig)
   : defaultConfig
-  
