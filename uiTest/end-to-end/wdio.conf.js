@@ -42,7 +42,12 @@ const defaultConfig = {
     './uiTest/end-to-end/src/specs/**/*.js'
   ],
   maxInstances: 10,
-  capabilities: [{ browserName: 'chrome' }],
+  capabilities: [{ 
+      browserName: 'chrome',
+      'goog:chromeOptions': {
+        args: ['--headless', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--window-size=1920,1080']
+      }
+  }],
   logLevel: 'error',
   deprecationWarnings: true,
   bail: 0,
