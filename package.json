@@ -71,6 +71,7 @@
     "browser-sync": "^2.26.7",
     "browser-sync-webpack-plugin": "^2.2.2",
     "browserstack-local": "^1.4.0",
+    "chromedriver": "^74.0.0",
     "cypress": "^3.4.1",
     "dotenv": "^6.0.0",
     "eslint": "^5.16.0",
