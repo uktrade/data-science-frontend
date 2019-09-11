@@ -37,11 +37,12 @@ const remoteConfig = {
 }
 
 const defaultConfig = {
+  runner: 'local',
   specs: [
     './uiTest/end-to-end/src/specs/**/*.js'
   ],
   maxInstances: 10,
-  capabilities: [{ browser: 'Chrome' }],
+  capabilities: [{ browserName: 'chrome' }],
   logLevel: 'error',
   deprecationWarnings: true,
   bail: 0,
