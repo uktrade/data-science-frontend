@@ -6,7 +6,7 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:8080'
 
 const browserStackUser = process.env.BROWSERSTACK_USERNAME || ''
 const browserStackKey = process.env.BROWSERSTACK_ACCESS_KEY || ''
-const isRemote = !!process.env.BROWSERSTACK_ACCESS_KEY
+const isRemote = process.env.IS_REMOTE || false
 const clients = process.env.CLIENTS
   ? process.env.CLIENTS.split(',').map(client => client.trim())
   : ['chrome_latest', 'ie11']

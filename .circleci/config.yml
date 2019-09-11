@@ -59,6 +59,7 @@ aliases:
     SSO_REDIRECT_URI: x
     BACKEND_KEY: x
     BACKEND_USER: prospects
+    IS_REMOTE: false
 
 jobs:
   dependencies:
@@ -159,6 +160,7 @@ jobs:
         environment:
           <<: *find_exporters_base_envs
           REDIS_CACHING_DISABLED: false
+          IS_REMOTE: true
       - *docker_redis
       - *docker_dt07_api_sandbox
     working_directory: ~/data-science-frontend
