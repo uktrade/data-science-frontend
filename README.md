@@ -126,3 +126,32 @@ the above required environment variable values can be found in confluence:
 after setting up the environment variables, run the following commands to execute the tests:
 
 `$(data-science-frontend) npm run test:end-to-end`
+
+## Visual Testing
+
+The aim of this suite is taking screenshots from pages and comparing to baselines
+to ensure consistency between builds.
+
+### Folder structure
+
+Screenshots will be stored in the root of the project. We commit the baselines and ignore the comparison diff images. If we need to update the baseline screenshot we need to delete the old baseline and rerun the test (it will then copy the new screenshot saved in comparison folder into the baseline folder)
+
+```
+- visual-screenshots
+  - baseline
+  - comparison
+  - diff
+```
+
+### Browserstack environment variables
+
+to run in browserstack, ensure you have the following environment variables set:
+
+```
+export BROWSERSTACK_USERNAME=xxx
+export BROWSERSTACK_ACCESS_KEY=xxx
+```
+### Running the tests
+After setting up the environment variables, run the following command to execute the tests:
+
+`$ npm run test:visual`

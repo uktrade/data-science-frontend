@@ -1,12 +1,13 @@
 const clientMatrix = require('@uktrade/client-matrix-js')
 const browserstack = require('browserstack-local')
+const WdioImage = require ('@uktrade/wdio-image-diff-js').default
 
 const IMPLICIT_TIMEOUT = process.env.WDIO_IMPLICIT_TIMEOUT || 90000
 const BASE_URL = process.env.BASE_URL || 'http://localhost:8080'
 
 const browserStackUser = process.env.BROWSERSTACK_USERNAME || ''
 const browserStackKey = process.env.BROWSERSTACK_ACCESS_KEY || ''
-const isRemote = process.env.IS_REMOTE || false
+const isRemote = !!process.env.BROWSERSTACK_ACCESS_KEY
 const clients = process.env.CLIENTS
   ? process.env.CLIENTS.split(',').map(client => client.trim())
   : ['chrome_latest', 'ie11']
@@ -37,17 +38,11 @@ const remoteConfig = {
 }
 
 const defaultConfig = {
-  runner: 'local',
   specs: [
-    './uiTest/end-to-end/src/specs/**/*.js'
+    './uiTest/visual/src/specs/**/*.js'
   ],
   maxInstances: 10,
-  capabilities: [{ 
-      browserName: 'chrome',
-      'goog:chromeOptions': {
-        args: ['--headless', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--window-size=1920,1080']
-      }
-  }],
+  capabilities: [{ browser: 'Chrome' }],
   logLevel: 'error',
   deprecationWarnings: true,
   bail: 0,
@@ -63,10 +58,21 @@ const defaultConfig = {
     require: ['@babel/register'],
     retries: 3
   },
-  before: function () {
+  before: () => {
     browser.setTimeout({ 'implicit': IMPLICIT_TIMEOUT })
     browser.url('')
+    const wdioImageDiff = new WdioImage(browser, { threshold: 0.2, width: 1792, height: 1008 })
+    browser.imageDiff = wdioImageDiff
   },
+  beforeTest: (test) => {
+    testName = `${test.fullTitle} - ${browser.capabilities.browserName}`
+    browser.imageDiff.testName = testName
+  },
+  after: () => {
+    browser.imageDiff.generateReport()
+  }
 }
 
-exports.config = defaultConfig
+exports.config = isRemote
+  ? Object.assign({}, defaultConfig, remoteConfig)
+  : defaultConfig
