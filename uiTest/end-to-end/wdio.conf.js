@@ -63,6 +63,4 @@ const defaultConfig = {
   },
 }
 
-exports.config = isRemote
-  ? Object.assign({}, defaultConfig, remoteConfig)
-  : defaultConfig
+exports.config = defaultConfig
