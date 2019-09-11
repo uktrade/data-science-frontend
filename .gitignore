@@ -64,4 +64,4 @@ cypress/
 # Ignore visual test generated files
 visual-screenshots/diff
 visual-screenshots/comparison
-visual-test-report.html
+visual-report
