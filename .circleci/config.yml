@@ -33,6 +33,13 @@ aliases:
       name: Wait for frontend
       command: dockerize -wait ${FRONTEND_URL}/ping/ -timeout 120s
 
+  - &start_frontend
+    run:
+      name: Start App
+      command: yarn develop
+      when: always
+      background: true
+
   - &find_exporters_base_envs
     FRONTEND_URL: http://localhost:8080
     BACKEND_URL: http://localhost:8002
@@ -128,10 +135,7 @@ jobs:
       - *store_versions
       - *restore_npm_cache
       - *wait_for_api_sandbox
-      - run:
-          name: Start App
-          command: yarn develop
-          when: always
+      - *start_frontend
       - *wait_for_frontend
       - run:
           name: Cypress tests
@@ -153,10 +157,7 @@ jobs:
       - run:
           name: App dependencies
           command: npm install
-      - run:
-          name: Start App
-          command: yarn develop
-          when: always
+      - *start_frontend
       - *wait_for_frontend
       - run:
           name: Webdriverio tests
@@ -178,10 +179,7 @@ jobs:
       - *store_versions
       - *restore_npm_cache
       - *wait_for_api_sandbox
-      - run:
-          name: Start App
-          command: yarn develop
-          when: always
+      - *start_frontend
       - *wait_for_frontend
       - run:
           name: Visual tests
