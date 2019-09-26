@@ -28,7 +28,20 @@ aliases:
       name: Wait for api sandbox
       command: dockerize -wait ${BACKEND_URL}/ping.xml -timeout 120s
 
+  - &wait_for_frontend
+    run:
+      name: Wait for frontend
+      command: dockerize -wait ${FRONTEND_URL}/ping/ -timeout 120s
+
+  - &start_frontend
+    run:
+      name: Start App
+      command: yarn develop
+      when: always
+      background: true
+
   - &find_exporters_base_envs
+    FRONTEND_URL: http://localhost:8080
     BACKEND_URL: http://localhost:8002
     LOG_LEVEL: debug
     SSO_BYPASS: true
@@ -46,6 +59,7 @@ aliases:
     TZ: Europe/London
 
   - &find_exporters_e2e_envs
+    FRONTEND_URL: http://localhost:8080
     BACKEND_URL: https://dt07-staging.london.cloudapps.digital
     LOG_LEVEL: debug
     SSO_BYPASS: true
@@ -121,10 +135,8 @@ jobs:
       - *store_versions
       - *restore_npm_cache
       - *wait_for_api_sandbox
-      - run:
-          name: Start App
-          command: ./start-app.sh
-          when: always
+      - *start_frontend
+      - *wait_for_frontend
       - run:
           name: Cypress tests
           command: npm run test:functional
@@ -145,10 +157,8 @@ jobs:
       - run:
           name: App dependencies
           command: npm install
-      - run:
-          name: Start App
-          command: ./start-app.sh
-          when: always
+      - *start_frontend
+      - *wait_for_frontend
       - run:
           name: Webdriverio tests
           command: npm run test:e2e
@@ -169,10 +179,8 @@ jobs:
       - *store_versions
       - *restore_npm_cache
       - *wait_for_api_sandbox
-      - run:
-          name: Start App
-          command: ./start-app.sh
-          when: always
+      - *start_frontend
+      - *wait_for_frontend
       - run:
           name: Visual tests
           command: npm run test:visual
