@@ -132,9 +132,9 @@
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-two-thirds">
                             {% if item.datahub_company_id %}
-                                <h3 class="govuk-heading-m govuk-!-margin-top-4"><a href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}">{{ item.company_name | title }}</a></h3>
+                                <h2 class="govuk-heading-m govuk-!-margin-top-4"><a href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}" class="app-company-link">{{ item.company_name | title }}</a></h2>
                             {% else %}
-                                <h3 class="govuk-heading-m govuk-!-margin-top-4"><a href="/company-profile/{{ item.company_id }}">{{ item.company_name | title }}</a></h3>
+                                <h2 class="govuk-heading-m govuk-!-margin-top-4"><a href="/company-profile/{{ item.company_id }}" class="app-company-link">{{ item.company_name | title }}</a></h2>
                             {% endif %}
                             {% if item.time_since_remove_recorded %}
                                 <p>

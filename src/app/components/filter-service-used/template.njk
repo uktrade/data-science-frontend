@@ -2,20 +2,21 @@
 {% from "label/macro.njk" import govukLabel %}
 
 <div class="govuk-form-group">
-    <div class=" app-filter-group-heading">
-        {{ govukLabel({
-            text: "Service used",
-            classes: "govuk-!-font-weight-bold app-filter-heading"
-        }) }}
-    </div>
-    <div class="app-filter-group-list ">
-        {{ govukCheckboxes({
-            idPrefix: "service-used",
-            name: "service-used",
-            classes: "app-filter-checkboxes-group",
-            items: params.serviceUsed
-        }) }}
-    </div>
+    <fieldset class="app-filter-group-fieldset">
+        <div class=" app-filter-group-heading">
+            <legend class="govuk-label govuk-!-font-weight-bold app-filter-label app-filter-group-legend">
+                Service used
+            </legend>
+        </div>
+        <div class="app-filter-group-list ">
+            {{ govukCheckboxes({
+                idPrefix: "service-used",
+                name: "service-used",
+                classes: "app-filter-checkboxes-group",
+                items: params.serviceUsed
+            }) }}
+        </div>
+    </fieldset>
 </div>
 
 

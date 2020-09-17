@@ -1,3 +1,14 @@
+.app-filter-group-fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.app-filter-group-legend {
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+}
+
 .app-filter-group-heading {
   background-color: govuk-colour("grey-3");
   padding: 10px;
@@ -152,6 +163,16 @@
 
 .app-collection-link {
   font-size: 16px;
+}
+
+.app-company-link {
+	outline: 3px solid transparent;
+	&:focus {
+		transition: box-shadow 0.1s, outline-color 0.1s 0.1s;
+		box-shadow: 0 0 0 3px #ffbf47;
+		outline-offset: 0;
+    outline-color: #ffbf47;
+  }
 }
 
 .app-comma:last-of-type {

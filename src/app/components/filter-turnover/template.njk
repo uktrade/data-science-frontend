@@ -1,25 +1,27 @@
 {% from "input/macro.njk" import govukInput %}
 
-<div class="govuk-form-group app-filter-group-heading">
-    <h4 class="govuk-heading-s app-filter-label">Turnover (&pound;)</h4>
-    {{ govukInput({
-        label: {
-            classes: "app-filter-label",
-            text: "Minimum"
-            
-        },
-        id: "turnover-minimum",
-        name: "turnover-minimum",
-        value: params.turnover.min
-    }) }}
+<fieldset class="app-filter-group-fieldset">
+    <div class="govuk-form-group app-filter-group-heading">
+        <legend class="govuk-heading-s app-filter-label app-filter-group-legend">Turnover (&pound;)</legend>
+        {{ govukInput({
+            label: {
+                classes: "app-filter-label",
+                text: "Minimum"
+                
+            },
+            id: "turnover-minimum",
+            name: "turnover-minimum",
+            value: params.turnover.min
+        }) }}
 
-    {{ govukInput({
-        label: {
-            classes: "app-filter-label",
-            text: "Maximum"
-        },
-        id: "turnover-maximum",
-        name: "turnover-maximum",
-        value: params.turnover.max
-    }) }}
-</div>
+        {{ govukInput({
+            label: {
+                classes: "app-filter-label",
+                text: "Maximum"
+            },
+            id: "turnover-maximum",
+            name: "turnover-maximum",
+            value: params.turnover.max
+        }) }}
+    </div>
+</fieldset>
