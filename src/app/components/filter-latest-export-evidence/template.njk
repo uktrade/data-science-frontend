@@ -1,41 +1,44 @@
 {% from "input/macro.njk" import govukInput %}
 
-<div class="govuk-form-group app-filter-group-heading">
-    <h4 class="govuk-heading-s app-filter-heading">Latest export evidence</h4>
-    {% set start = params.latestExport.start %}
-    {% set end = params.latestExport.end %}
+<fieldset class="app-filter-group-fieldset">
+    <div class="govuk-form-group app-filter-group-heading">
+        <legend class="govuk-heading-s app-filter-heading app-filter-group-legend">Latest export evidence</legend>
+        {% set start = params.latestExport.start %}
+        {% set end = params.latestExport.end %}
 
-    {{ govukInput({
-        label: {
-            classes: "app-filter-label",
-            text: "Start date"
-        },
-        id: "export-evidence-start-date",
-        name: "export-evidence-start-date",
-        classes: "app-filter-dateinput-group",
-        hint: {
-            text: 'YYYY-MM'
-        },
-        placeholder: 'e.g. 2018-07',
-        value: params.latestExport.startDate
-    }) }}
+        {{ govukInput({
+            label: {
+                classes: "app-filter-label",
+                text: "Start date"
+            },
+            id: "export-evidence-start-date",
+            name: "export-evidence-start-date",
+            classes: "app-filter-dateinput-group",
+            hint: {
+                text: 'YYYY-MM',
+                classes: "app-filter-hint"
+            },
+            placeholder: 'e.g. 2018-07',
+            value: params.latestExport.startDate
+        }) }}
 
-    {{ govukInput({
-        label: {
-            classes: "app-filter-label",
-            text: "End date"
-        },
-        id: "export-evidence-end-date",
-        name: "export-evidence-end-date",
-        classes: "app-filter-dateinput-group",
-        hint: {
-            text: 'YYYY-MM'
-        },
-        placeholder: 'e.g. 2018-07',
-        value: params.latestExport.endDate
-    }) }}
-</div>
-
+        {{ govukInput({
+            label: {
+                classes: "app-filter-label",
+                text: "End date"
+            },
+            id: "export-evidence-end-date",
+            name: "export-evidence-end-date",
+            classes: "app-filter-dateinput-group",
+            hint: {
+                text: 'YYYY-MM',
+                classes: "app-filter-hint"
+            },
+            placeholder: 'e.g. 2018-07',
+            value: params.latestExport.endDate
+        }) }}
+    </div>
+</fieldset>
 
 
 

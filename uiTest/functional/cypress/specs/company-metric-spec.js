@@ -44,10 +44,7 @@ describe('Company metrics', function () {
     cy.visit('/?company-name=single%20company')
 
     cy.get(selectors.company.dataHub).then($a => {
-      const href = $a.prop('href')
-      cy.request(href)
-        .its('body')
-        .should('include', 'GOV.UK – DIT system access')
+      cy.wrap($a.prop('href')).should('contain', 'www.datahub.trade.gov.uk/companies/')
     })
   })
 })

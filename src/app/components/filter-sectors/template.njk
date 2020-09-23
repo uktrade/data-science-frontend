@@ -1,29 +1,10 @@
-{% from "checkboxes/macro.njk" import govukCheckboxes %}
-{% from "label/macro.njk" import govukLabel %}
-{% from "input/macro.njk" import govukInput %}
+{% from "checkbox-typeahead-fieldset/macro.njk" import checkboxTypeaheadFieldset %}
 
-<div class="govuk-form-group js-checkbox-typeahead">
-    <div class=" app-filter-group-heading">
-        {{ govukLabel({
-            text: "DIT Sectors",
-            classes: "govuk-!-font-weight-bold app-filter-label"
-        }) }}
-        <div class="app-checkbox-typeahead">
-            {{ govukInput({
-                label: {
-                    text: "Search sector",
-                    classes: "app-filter-label"
-                },
-                classes: "js-dit-sectors js-checkbox-typeahead-input js-prevent-auto-submit"
-            }) }}
-        </div>
-    </div>
-    <div class="app-filter-group-list">
-        {{ govukCheckboxes({
-            idPrefix: "dit-sectors",
-            name: "dit-sectors",
-            classes: "app-filter-checkboxes-group",
-            items: params.sectors
-        }) }}
-    </div>
-</div>
+{{
+    checkboxTypeaheadFieldset({
+        legend: "DIT Sectors",
+        searchLabel:"Search sector",
+        id: "dit-sectors",
+        items: params.sectors
+    })
+}}
