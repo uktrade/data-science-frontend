@@ -5,7 +5,7 @@
   "main": "server.js",
   "engines": {
     "node": "10.16.0",
-    "npm": "5.6.0"
+    "yarn": "1.16.0"
   },
   "jest": {
     "moduleNameMapper": {
@@ -20,8 +20,10 @@
     "tag-master": "git tag v${npm_package_version}-master && git push --tags",
     "test": "NODE_ENV=development; SSO_BYPASS=true; jest",
     "test:unit": "jest src/",
-    "test:functional": "cypress run",
+    "test:functional": "cypress run --browser chrome",
     "test:functional:watch": "cypress open",
+    "test:e2e": "./node_modules/.bin/wdio uiTest/end-to-end/wdio.conf.js",
+    "test:visual": "./node_modules/.bin/wdio uiTest/visual/wdio.conf.js",
     "start": "NODE_ENV=production node --use-strict server.js",
     "watch": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'",
     "build": "npm run clean && npm run prod",
@@ -57,8 +59,19 @@
   },
   "homepage": "https://github.com/uktrade/data-science-frontend#readme",
   "devDependencies": {
+    "@uktrade/client-matrix-js": "^1.0.38",
+    "@uktrade/wdio-image-diff-js": "^1.7.0",
+    "@wdio/browserstack-service": "^5.9.3",
+    "@wdio/cli": "5.10.0",
+    "@wdio/local-runner": "^5.10.0",
+    "@wdio/mocha-framework": "^5.10.0",
+    "@wdio/selenium-standalone-service": "^5.9.3",
+    "@wdio/spec-reporter": "^5.9.3",
+    "@wdio/sync": "5.10.0",
     "browser-sync": "^2.26.7",
     "browser-sync-webpack-plugin": "^2.2.2",
+    "browserstack-local": "^1.4.0",
+    "chromedriver": "^74.0.0",
     "cypress": "^3.4.1",
     "dotenv": "^6.0.0",
     "eslint": "^5.16.0",
@@ -97,11 +110,12 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
-    "@uktrade/datahub-header": "^1.2.0",
+    "@babel/register": "^7.5.5",
+    "@uktrade/datahub-header": "^1.2.5",
     "array-from": "^2.1.1",
     "autoprefixer": "^9.6.1",
     "axios": ">=0.19.0",
-    "babel-core": "^7.0.0-bridge.0",
+    "babel-core": "7.0.0-bridge.0",
     "babel-loader": "^8.0.0-beta.6",
     "compression": "1.7.2",
     "connect-redis": "3.3.3",
@@ -146,11 +160,11 @@
   "resolutions": {
     "tar": "^4.4.8",
     "fstream": ">=1.0.12",
-    "js-yaml": ">=3.13.1",
-    "underscore.string": ">=3.3.5",
     "handlebars": ">=4.0.14",
+    "js-yaml": ">=3.13.1",
     "lodash": ">=4.17.13",
+    "mem": ">=4.0.0",
     "shelljs": ">=0.8.3",
-    "mem": ">=4.0.0"
+    "underscore.string": ">=3.3.5"
   }
 }

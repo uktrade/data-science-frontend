@@ -1,0 +1,33 @@
+{% from "checkboxes/macro.njk" import govukCheckboxes %}
+{% from "label/macro.njk" import govukLabel %}
+{% from "input/macro.njk" import govukInput %}
+
+{% set typaheadClasses = ["js-", params.id, " js-checkbox-typeahead-input js-prevent-auto-submit"] %}
+
+<div class="govuk-form-group js-checkbox-typeahead">
+    <fieldset class="app-filter-group-fieldset">
+        <div class=" app-filter-group-heading">
+            <legend class="govuk-label govuk-!-font-weight-bold app-filter-label app-filter-group-legend">
+                {{ params.legend }}
+            </legend>
+        <div class="app-checkbox-typeahead">
+                {{ govukInput({
+                    label: {
+                        text: params.searchLabel,
+                        classes: "app-filter-label"
+                    },
+                    classes: typaheadClasses | join,
+                    id: params.id + "-search"
+                }) }}
+            </div>
+        </div>
+        <div class="app-filter-group-list">
+            {{ govukCheckboxes({
+                idPrefix: params.id,
+                name: params.id,
+                classes: "app-filter-checkboxes-group",
+                items: params.items
+            }) }}
+        </div>
+    </fieldset>
+</div>

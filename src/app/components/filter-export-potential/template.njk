@@ -3,46 +3,43 @@
 {% from "label/macro.njk" import govukLabel %}
 
 <div class="govuk-form-group">
-    <div class=" app-filter-group-heading">
-        {{ govukLabel({
-            text: "Export potential",
-            classes: "govuk-!-font-weight-bold app-filter-label"
-        }) }}
-        {{ govukDetails({
-            summaryText: "What is export potential?",
-            classes: "app-filter-group-details app-filter-label",
-            html: "
-                <p class='app-filter-label'><small>This tool provides export potential scores for companies. The results are produced by an algorithm that uses machine learning. The algorithm is a work in progress that learns mostly using data of exporters of goods so it is more accurate in that area. We are continuing to improve the algorithm so, please do share your <a class='govuk-link' target='_blank'  href='https://docs.google.com/forms/d/e/1FAIpQLSc-H72Kx9azBV4NvVTn-EmQ867gAZsVQ0UWEIpmD7Njcpm4BQ/viewform'>feedback</a>.</small></p>
-                <ul class='govuk-list'>
-                    <li>
-                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-label'>Very High:</span> Most of the businesses with common features to this one are exporters</p>
-                    </li>
-                    <li>
-                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>High:</span> This business shares some features with successful exporters</p>
-                    </li>
-                    <li>
-                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Medium:</span> Some businesses that look like this one do export, while some others don't</p>
-                    </li>
-                    <li>
-                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Low:</span> This business shares many features with companies that do not export</p>
-                    </li>
-                    <li>
-                        <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Very Low:</span> Most of the businesses with common features to this one aren't exporters</p>
-                    </li>
-                </ul>
-            "
-        }) }}
-    </div>
-    <div class="app-filter-group-list">
-        {{ govukCheckboxes({
-            idPrefix: "export-potential",
-            classes:"app-filter-checkboxes-group label",
-            name: "export-potential",
-            items: params.exportPotential
-        }) }}
-    </div>
+    <fieldset class="app-filter-group-fieldset">
+        <div class=" app-filter-group-heading">
+            <legend class="govuk-label govuk-!-font-weight-bold app-filter-label app-filter-group-legend">
+                Export potential
+            </legend>
+            {{ govukDetails({
+                summaryText: "What is export potential?",
+                classes: "app-filter-group-details app-filter-label",
+                html: "
+                    <p class='app-filter-label'><small>This tool provides export potential scores for companies. The results are produced by an algorithm that uses machine learning. The algorithm is a work in progress that learns mostly using data of exporters of goods so it is more accurate in that area. We are continuing to improve the algorithm so, please do share your <a class='govuk-link' target='_blank'  href='https://docs.google.com/forms/d/e/1FAIpQLSc-H72Kx9azBV4NvVTn-EmQ867gAZsVQ0UWEIpmD7Njcpm4BQ/viewform'>feedback</a>.</small></p>
+                    <ul class='govuk-list'>
+                        <li>
+                            <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-label'>Very High:</span> Most of the businesses with common features to this one are exporters</p>
+                        </li>
+                        <li>
+                            <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>High:</span> This business shares some features with successful exporters</p>
+                        </li>
+                        <li>
+                            <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Medium:</span> Some businesses that look like this one do export, while some others don't</p>
+                        </li>
+                        <li>
+                            <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Low:</span> This business shares many features with companies that do not export</p>
+                        </li>
+                        <li>
+                            <p class='app-filter-label'><span class='govuk-body govuk-!-font-weight-bold app-filter-heading'>Very Low:</span> Most of the businesses with common features to this one aren't exporters</p>
+                        </li>
+                    </ul>
+                "
+            }) }}
+        </div>
+        <div class="app-filter-group-list">
+            {{ govukCheckboxes({
+                idPrefix: "export-potential",
+                classes:"app-filter-checkboxes-group label",
+                name: "export-potential",
+                items: params.exportPotential
+            }) }}
+        </div>
+    </fieldset>
 </div>
-
-
-
-

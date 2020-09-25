@@ -1,29 +1,10 @@
-{% from "checkboxes/macro.njk" import govukCheckboxes %}
-{% from "label/macro.njk" import govukLabel %}
-{% from "input/macro.njk" import govukInput %}
+{% from "checkbox-typeahead-fieldset/macro.njk" import checkboxTypeaheadFieldset %}
 
-<div class="govuk-form-group js-checkbox-typeahead">
-    <div class=" app-filter-group-heading">
-        {{ govukLabel({
-            text: "Market exported to",
-            classes: "govuk-!-font-weight-bold app-filter-label"
-        }) }}
-        <div class="app-checkbox-typeahead">
-            {{ govukInput({
-                label: {
-                    text: "Search for country",
-                    classes: "app-filter-label"
-                },
-                classes: "js-market-exported-to js-checkbox-typeahead-input js-prevent-auto-submit"
-            }) }}
-        </div>
-    </div>
-    <div class="app-filter-group-list">
-        {{ govukCheckboxes({
-            idPrefix: "market-exported-to",
-            name: "market-exported-to",
-            classes: "app-filter-checkboxes-group",
-            items: params.marketExportedTo
-        }) }}
-    </div>
-</div>
+{{
+    checkboxTypeaheadFieldset({
+        legend: "Market exported to",
+        searchLabel:"Search for country",
+        id: "market-exported-to",
+        items: params.marketExportedTo
+    })
+}}

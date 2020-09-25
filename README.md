@@ -10,12 +10,12 @@
 
 Pre-requisites:
 
-Ensure you install [node](https://nodejs.org/en/download/) v8+ 
+Ensure you install [node](https://nodejs.org/en/download/) v10+ 
 And also [redis](https://redis.io/topics/quickstart)
 
 Then run:
 
-`$ npm install`
+`$ yarn`
 
 You will also need to have to create a `.env` file in the root of the project
 with the below environment variables:
@@ -58,40 +58,28 @@ The above needs to be changed according to the backend environment you want to p
 
 [StandardJS](https://standardjs.com/) will run as part of the build, ensure you run the command below before committing:
 
-`$ npm run lint`
+`$ yarn lint`
 
 ## Running the tests
 
 Tests are written in jest and can be executed by running the command below:
 
-`$ npm run test:unit`
+`$ yarn test:unit`
 
 ## Starting the application
 
 Run the command below to start the application:
 
-`$ npm run watch`
+`$ yarn develop`
 
 ## Functional tests
 
 ### Setup
 
-Pre-requisites:
+You will need to have DataScience FE application running against the mocking service.
+When starting the app, ensure the `BACKEND_URL` in the `.env` file has the path of your local sandbox instance.
 
-Ensure you have [node](https://nodejs.org/en/download/) v8 installed then install dependencies:
-
-`$ npm install`
-
-You will also need to have DataScience FE application running against the mocking service.
-When starting the app, ensure the `BACKEND_URL` in the `.env` file has the following value:
-
-`export BACKEND_URL=https://dit-find-exporters.getsandbox.com:443`
-
-### Coding standards
-
-Eslint will run as part of the build, assure you run the command below before committing:
-
-`$ npm run lint`
+i.e `export BACKEND_URL=http://localhost:5555`
 
 ### Running the tests
 
@@ -101,12 +89,69 @@ By default cypress will run on electron headlessly, you can read more about it [
 
 Execute all the tests on `specs` in chrome browser:
 
-`$ npm run test:functional -- --browser chrome`
+`$ yarn test:functional -- --browser chrome`
 
 ### Running the tests manually in cypress interface
 
-`$ npm run test:functional:watch`
+`$ yarn test:functional:watch`
 
 ### Running a specific spec
 
-`$ npm run test:functional -- cypress/specs/company-filter-spec.js`
+`$ yarn test:functional -- cypress/specs/company-filter-spec.js`
+
+## End to End tests
+
+### Setup
+
+And ensure the following environment variables are set with the correct values:
+
+```
+export BACKEND_KEY=
+export BACKEND_USER=
+```
+
+### Running the tests
+
+to run in browserstack, ensure you have the following environment variables set:
+
+```
+export BROWSERSTACK_USERNAME=
+export BROWSERSTACK_ACCESS_KEY=
+```
+
+the above required environment variable values can be found in confluence:
+
+`https://uktrade.atlassian.net/wiki/spaces/DT/pages/727515737/End+to+end+testing+environment+variables`
+
+after setting up the environment variables, run the following commands to execute the tests:
+
+`$(data-science-frontend) npm run test:end-to-end`
+
+## Visual Testing
+
+The aim of this suite is taking screenshots from pages and comparing to baselines
+to ensure consistency between builds.
+
+### Folder structure
+
+Screenshots will be stored in the root of the project. We commit the baselines and ignore the comparison diff images. If we need to update the baseline screenshot we need to delete the old baseline and rerun the test (it will then copy the new screenshot saved in comparison folder into the baseline folder)
+
+```
+- visual-screenshots
+  - baseline
+  - comparison
+  - diff
+```
+
+### Browserstack environment variables
+
+to run in browserstack, ensure you have the following environment variables set:
+
+```
+export BROWSERSTACK_USERNAME=xxx
+export BROWSERSTACK_ACCESS_KEY=xxx
+```
+### Running the tests
+After setting up the environment variables, run the following command to execute the tests:
+
+`$ npm run test:visual`

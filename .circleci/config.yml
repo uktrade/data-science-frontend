@@ -11,10 +11,6 @@ aliases:
     run:
       name: Temporarily store node/npm versions on filesystem
       command: node --version > node_version; npm --version > npm_version
-  - &restore_end_to_end_npm_cache
-    restore_cache:
-      name: Restore end to end test npm dependencies cache
-      key: webdriverio-npm-dependency-{{ checksum "package.json" }}
 
   # Data hub base docker container
   - &docker_data_hub_base
@@ -32,7 +28,23 @@ aliases:
       name: Wait for api sandbox
       command: dockerize -wait ${BACKEND_URL}/ping.xml -timeout 120s
 
+  - &wait_for_frontend
+    run:
+      name: Wait for frontend
+      command: dockerize -wait ${FRONTEND_URL}/ping/ -timeout 120s
+
+  - &start_frontend
+    run:
+      name: Start App
+      command: |
+        npm run clean
+        npm run dev
+        npm run watch:js:server
+      when: always
+      background: true
+
   - &find_exporters_base_envs
+    FRONTEND_URL: http://localhost:8080
     BACKEND_URL: http://localhost:8002
     LOG_LEVEL: debug
     SSO_BYPASS: true
@@ -109,37 +121,40 @@ jobs:
       - *store_versions
       - *restore_npm_cache
       - *wait_for_api_sandbox
+      - *start_frontend
+      - *wait_for_frontend
       - run:
           name: Cypress tests
-          command: ./run-functional-tests-ci.sh
+          command: npm run test:functional
           when: always
       - store_artifacts:
           path: cypress/screenshots
 
-  end_to_end_test:
+  visual_test:
     docker:
-      - image: ukti/data-sci-end-to-end
+      - <<: *docker_data_hub_base
+        environment:
+          <<: *find_exporters_base_envs
+          REDIS_CACHING_DISABLED: false
+          IS_REMOTE: true
+      - *docker_redis
+      - *docker_dt07_api_sandbox
     working_directory: ~/data-science-frontend
     steps:
       - checkout
       - *store_versions
       - *restore_npm_cache
-      - *restore_end_to_end_npm_cache
+      - *wait_for_api_sandbox
+      - *start_frontend
+      - *wait_for_frontend
       - run:
-          name: End to end dependencies
-          command: |
-            cd uiTest/end-to-end
-            npm install
-      - run:
-          name: Webdriverio tests
-          command: ./run-end-to-end-tests-ci.sh
+          name: Visual tests
+          command: npm run test:visual
           when: always
-      - save_cache:
-          name: Save functional test npm dependencies cache
-          key: webdriverio-npm-dependency-{{ checksum "package.json" }}
-          paths:
-            - ~/data-science-frontend/uiTest/end-to-end/node_modules
-          when: always
+      - store_artifacts:
+          path: visual-screenshots
+      - store_artifacts:
+          path: visual-report
 
 workflows:
   version: 2
@@ -156,3 +171,6 @@ workflows:
           requires:
             - lint_test
             - unit_test
+      - visual_test:
+          requires:
+            - functional_test

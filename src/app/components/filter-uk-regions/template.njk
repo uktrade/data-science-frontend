@@ -2,21 +2,22 @@
 {% from "label/macro.njk" import govukLabel %}
 
 <div class="govuk-form-group">
-    <div class=" app-filter-group-heading">
-        {{ govukLabel({
-            text: "UK regions",
-            classes: "govuk-!-font-weight-bold app-filter-heading"
-        }) }}
-    </div>
-    <div class="app-filter-group-list">
-        {{ govukCheckboxes({
-            idPrefix: "uk-regions",
-            name: "uk-regions",
-            classes: "app-filter-checkboxes-group",
+    <fieldset class="app-filter-group-fieldset">
+        <div class=" app-filter-group-heading">
+            <legend class="govuk-label govuk-!-font-weight-bold app-filter-label app-filter-group-legend">
+                UK regions
+            </legend>
+        </div>
+        <div class="app-filter-group-list">
+            {{ govukCheckboxes({
+                idPrefix: "uk-regions",
+                name: "uk-regions",
+                classes: "app-filter-checkboxes-group",
 
-            items: params.ukRegions
-        }) }}
-    </div>
+                items: params.ukRegions
+            }) }}
+        </div>
+    </fieldset>
 </div>
 
 

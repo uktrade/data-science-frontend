@@ -1,13 +1,12 @@
 import assert from 'assert'
-import actionSequences from '../../action-sequences'
-import selectors from '../../../../selectors'
-import userActions from '../../action/user-actions'
+import actionSequences from '../action-sequences'
+import selectors from '../../../selectors'
+import userActions from '../action/user-actions'
 
 const companyFilterName = 'Limited'
 
 describe('Find Exporter', () => {
   it('should retrieve company list after applying filters', () => {
-    actionSequences.login()
     actionSequences.applyFilters({
       companyName: companyFilterName,
       turnOverMin: '10000',
