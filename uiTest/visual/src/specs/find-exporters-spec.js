@@ -5,7 +5,7 @@ describe('Find Exporters', () => {
     await browser.url('')
     await browser.imageDiff.take()
     await browser.imageDiff.validate().then(result => {
-      assert.equal(result, 0)
+      assert.strictEqual(result, 0)
     })
   })
 })
