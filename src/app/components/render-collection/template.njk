@@ -10,10 +10,10 @@
     <header>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
-                <p class="govuk-body-l govuk-!-margin-bottom-2 ">
+                <h2 class="govuk-body-l govuk-!-margin-bottom-2 ">
                     <span class="govuk-body govuk-!-font-size-36 govuk-!-font-weight-bold govuk-!-padding-right-2">{{ count | formatNumberWithCommas }}</span>
                     companies
-                </p>
+                </h2>
             </div>
             <div class="govuk-grid-column-one-half">
                 <a class="govuk-link app-pull-right govuk-!-margin-top-3" href="/">Remove all filters</a>
@@ -131,11 +131,13 @@
                     <div class="app-collection-heading">
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-two-thirds">
-                            {% if item.datahub_company_id %}
-                                <h2 class="govuk-heading-m govuk-!-margin-top-4"><a href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}" class="app-company-link">{{ item.company_name | title }}</a></h2>
-                            {% else %}
-                                <h2 class="govuk-heading-m govuk-!-margin-top-4"><a href="/company-profile/{{ item.company_id }}" class="app-company-link">{{ item.company_name | title }}</a></h2>
-                            {% endif %}
+                                <h3 class="govuk-heading-m govuk-!-margin-top-4">
+                                    {% if item.datahub_company_id %}
+                                        <a href="https://www.datahub.trade.gov.uk/companies/{{ item.datahub_company_id }}" class="app-company-link">{{ item.company_name | title }}</a>
+                                    {% else %}
+                                        <a href="/company-profile/{{ item.company_id }}" class="app-company-link">{{ item.company_name | title }}</a>
+                                    {% endif %}
+                                </h3>
                             {% if item.time_since_remove_recorded %}
                                 <p>
                                     <strong>
