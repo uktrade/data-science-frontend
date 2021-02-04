@@ -4,8 +4,8 @@
   "description": "Data Hub Find Exporters",
   "main": "server.js",
   "engines": {
-    "node": "10.16.0",
-    "yarn": "1.16.0"
+    "node": "12.18.0",
+    "yarn": "1.22.5"
   },
   "jest": {
     "moduleNameMapper": {
