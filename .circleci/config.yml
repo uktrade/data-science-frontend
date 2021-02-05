@@ -171,6 +171,6 @@ workflows:
           requires:
             - lint_test
             - unit_test
-      - visual_test:
-          requires:
-            - functional_test
+      #- visual_test:
+      #    requires:
+      #      - functional_test
