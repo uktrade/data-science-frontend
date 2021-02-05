@@ -37,6 +37,7 @@ aliases:
     run:
       name: Start App
       command: |
+        npm install
         npm run clean
         npm run dev
         npm run watch:js:server
@@ -118,8 +119,6 @@ jobs:
     working_directory: ~/data-science-frontend
     steps:
       - checkout
-      - *store_versions
-      - *restore_npm_cache
       - *wait_for_api_sandbox
       - *start_frontend
       - *wait_for_frontend
@@ -142,8 +141,6 @@ jobs:
     working_directory: ~/data-science-frontend
     steps:
       - checkout
-      - *store_versions
-      - *restore_npm_cache
       - *wait_for_api_sandbox
       - *start_frontend
       - *wait_for_frontend
