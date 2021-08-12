@@ -111,7 +111,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.5.5",
-    "@uktrade/datahub-header": "^1.4.2",
+    "@uktrade/datahub-header": "^1.4.3",
     "array-from": "^2.1.1",
     "autoprefixer": "^9.6.1",
     "axios": ">=0.19.0",
