@@ -14,6 +14,7 @@
     }
   },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "clean": "del src/app/public/dist",
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
@@ -111,10 +112,10 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.5.5",
-    "@uktrade/datahub-header": "^1.4.2",
+    "@uktrade/datahub-header": "^1.4.3",
     "array-from": "^2.1.1",
     "autoprefixer": "^9.6.1",
-    "axios": ">=0.19.0",
+    "axios": ">=0.21.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-loader": "^8.0.0-beta.6",
     "compression": "1.7.2",
@@ -138,7 +139,7 @@
     "image-webpack-loader": "^5.0.0",
     "istanbul-api": "^2.1.6",
     "js-yaml": "^3.13.1",
-    "lodash": ">=4.17.13",
+    "lodash": ">=4.17.21",
     "morgan": ">=1.9.1",
     "nunjucks": "^3.1.3",
     "pluralise": "^1.0.1",
@@ -163,11 +164,10 @@
   "resolutions": {
     "tar": "^4.4.8",
     "fstream": ">=1.0.12",
-    "handlebars": ">=4.0.14",
-    "js-yaml": ">=3.13.1",
-    "lodash": ">=4.17.13",
+    "js-yaml": "^3.13.1",
     "mem": ">=4.0.0",
     "shelljs": ">=0.8.3",
-    "underscore.string": ">=3.3.5"
+    "underscore.string": ">=3.3.5",
+    "xmlhttprequest-ssl": ">=1.6.2"
   }
 }
