@@ -5,7 +5,7 @@ module.exports = {
     if (json) {
       try {
         const config = JSON.parse(json)
-        return config.redis[0].credentials.uri
+        return config.redis[0].credentials.uri.replace('//x:', '//')
       } catch (e) {
         console.error(e)
       }
