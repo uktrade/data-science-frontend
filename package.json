@@ -69,7 +69,7 @@
     "@wdio/selenium-standalone-service": "^5.16.10",
     "@wdio/spec-reporter": "^6.1.23",
     "@wdio/sync": "6.1.5",
-    "browser-sync": "^2.26.7",
+    "browser-sync": "2.27.5",
     "browser-sync-webpack-plugin": "^2.2.2",
     "browserstack-local": "^1.4.0",
     "chromedriver": "^74.0.0",
