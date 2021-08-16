@@ -162,7 +162,7 @@
   },
   "sasslintConfig": ".sass-lint.yml",
   "resolutions": {
-    "tar": "^4.4.8",
+    "tar": "^4.4.15",
     "fstream": ">=1.0.12",
     "js-yaml": "^3.13.1",
     "mem": ">=4.0.0",
