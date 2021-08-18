@@ -13,11 +13,11 @@ Pre-requisites:
 Ensure you install [node](https://nodejs.org/en/download/) v10+ 
 And also [redis](https://redis.io/topics/quickstart)
 
-Then run:
+Then to install node modules, run:
 
-`$ yarn`
+`$ npm install`
 
-You will also need to have to create a `.env` file in the root of the project
+You will also need to create a `.env` file in the root of the project
 with the below environment variables:
 
 ```
@@ -54,34 +54,46 @@ BACKEND_USER
 
 The above needs to be changed according to the backend environment you want to point to.
 
+## Running the app
+
+### Setup sandbox
+
+The easiest way to run the app is by running it against the sandbox backend.
+
+1. Run `docker run -p 8002:8002 ukti/find-exporters-sandbox:latest`. This will pull the `find-exporters-sandbox` docker image from dockerhub and run it in a container on port 8002.
+
+2. In your environment variable set: `BACKEND_URL=http://localhost:8002`. `BACKEND_KEY` and `BACKEND_USER` can be left with the defaults.
+
+### Starting the application
+
+Run the command below to start the application:
+
+`$ npm run develop`
+
 ## Coding standards
 
 [StandardJS](https://standardjs.com/) will run as part of the build, ensure you run the command below before committing:
 
-`$ yarn lint`
+`$ npm run lint`
 
 ## Running the tests
 
-Tests are written in jest and can be executed by running the command below:
+### Unit tests
 
-`$ yarn test:unit`
+Unit tests are written in jest and can be executed by running the command below:
 
-## Starting the application
+`$ npm run test:unit`
 
-Run the command below to start the application:
+### Functional tests
 
-`$ yarn develop`
+#### Setup
 
-## Functional tests
+You will need to have the application running against the sandbox.
+When starting the app, ensure the `BACKEND_URL` in the `.env` file has the path to where your local sandbox instance is running.
 
-### Setup
+i.e `export BACKEND_URL=http://localhost:8002`
 
-You will need to have DataScience FE application running against the mocking service.
-When starting the app, ensure the `BACKEND_URL` in the `.env` file has the path of your local sandbox instance.
-
-i.e `export BACKEND_URL=http://localhost:5555`
-
-### Running the tests
+#### Running the tests
 
 Notice that before running the tests the application should be up and running.
 
@@ -89,28 +101,28 @@ By default cypress will run on electron headlessly, you can read more about it [
 
 Execute all the tests on `specs` in chrome browser:
 
-`$ yarn test:functional -- --browser chrome`
+`$ npm run test:functional -- --browser chrome`
 
-### Running the tests manually in cypress interface
+#### Running the tests manually in cypress interface
 
-`$ yarn test:functional:watch`
+`$ npm run test:functional:watch`
 
-### Running a specific spec
+#### Running a specific spec
 
-`$ yarn test:functional -- cypress/specs/company-filter-spec.js`
+`$ npm run test:functional -- cypress/specs/company-filter-spec.js`
 
-## End to End tests
+### End to End tests
 
-### Setup
+#### Setup
 
-And ensure the following environment variables are set with the correct values:
+Ensure the following environment variables are set with the correct values:
 
 ```
 export BACKEND_KEY=
 export BACKEND_USER=
 ```
 
-### Running the tests
+#### Running the tests
 
 to run in browserstack, ensure you have the following environment variables set:
 
@@ -127,12 +139,12 @@ after setting up the environment variables, run the following commands to execut
 
 `$(data-science-frontend) npm run test:end-to-end`
 
-## Visual Testing
+### Visual Testing
 
-The aim of this suite is taking screenshots from pages and comparing to baselines
+The aim of this suite is to take screenshots from pages and compare them to baselines
 to ensure consistency between builds.
 
-### Folder structure
+#### Folder structure
 
 Screenshots will be stored in the root of the project. We commit the baselines and ignore the comparison diff images. If we need to update the baseline screenshot we need to delete the old baseline and rerun the test (it will then copy the new screenshot saved in comparison folder into the baseline folder)
 
@@ -143,7 +155,7 @@ Screenshots will be stored in the root of the project. We commit the baselines a
   - diff
 ```
 
-### Browserstack environment variables
+#### Browserstack environment variables
 
 to run in browserstack, ensure you have the following environment variables set:
 
@@ -151,7 +163,7 @@ to run in browserstack, ensure you have the following environment variables set:
 export BROWSERSTACK_USERNAME=xxx
 export BROWSERSTACK_ACCESS_KEY=xxx
 ```
-### Running the tests
+#### Running the tests
 After setting up the environment variables, run the following command to execute the tests:
 
 `$ npm run test:visual`

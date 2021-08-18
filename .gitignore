@@ -66,6 +66,5 @@ visual-screenshots/diff
 visual-screenshots/comparison
 visual-report
 
-# Yarn version and policy
-.yarn/
-.yarnrc
+# Old yarn.lock file in case it's regenerated
+yarn.lock
