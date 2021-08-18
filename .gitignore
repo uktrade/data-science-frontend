@@ -65,3 +65,6 @@ cypress/
 visual-screenshots/diff
 visual-screenshots/comparison
 visual-report
+
+# Old yarn.lock file in case it's regenerated
+yarn.lock
