@@ -65,7 +65,3 @@ cypress/
 visual-screenshots/diff
 visual-screenshots/comparison
 visual-report
-
-# Yarn version and policy
-.yarn/
-.yarnrc

@@ -15,7 +15,7 @@ And also [redis](https://redis.io/topics/quickstart)
 
 Then run:
 
-`$ yarn`
+`$ npm install`
 
 You will also need to have to create a `.env` file in the root of the project
 with the below environment variables:
@@ -58,19 +58,19 @@ The above needs to be changed according to the backend environment you want to p
 
 [StandardJS](https://standardjs.com/) will run as part of the build, ensure you run the command below before committing:
 
-`$ yarn lint`
+`$ npm run lint`
 
 ## Running the tests
 
 Tests are written in jest and can be executed by running the command below:
 
-`$ yarn test:unit`
+`$ npm run test:unit`
 
 ## Starting the application
 
 Run the command below to start the application:
 
-`$ yarn develop`
+`$ npm run develop`
 
 ## Functional tests
 
@@ -89,15 +89,15 @@ By default cypress will run on electron headlessly, you can read more about it [
 
 Execute all the tests on `specs` in chrome browser:
 
-`$ yarn test:functional -- --browser chrome`
+`$ npm run test:functional -- --browser chrome`
 
 ### Running the tests manually in cypress interface
 
-`$ yarn test:functional:watch`
+`$ npm run test:functional:watch`
 
 ### Running a specific spec
 
-`$ yarn test:functional -- cypress/specs/company-filter-spec.js`
+`$ npm run test:functional -- cypress/specs/company-filter-spec.js`
 
 ## End to End tests
 
