@@ -1,5 +1,5 @@
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const config = require('./config')
 
@@ -10,7 +10,9 @@ module.exports = {
     devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
   },
   plugins: [
-    new ExtractTextPlugin('css/[name].css'),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+    }),
     new BrowserSyncPlugin({
       port: 8081,
       proxy: `http://localhost:${config.server.port}`,

@@ -1,6 +1,6 @@
 const merge = require('webpack-merge')
 const path = require('path')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackAssetsManifest = require('webpack-assets-manifest')
 
 const config = require('./config')
@@ -51,37 +51,39 @@ const common = {
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: config.isDev,
-                minimize: config.isProd,
-              },
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: config.isDev,
             },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: (loader) => [
-                  require('autoprefixer')(),
-                ],
-                sourceMap: config.isDev,
-              },
-            },
-            'resolve-url-loader',
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true, // required for resolve-url-loader
-                includePaths: [
-                  path.resolve(__dirname, 'node_modules/govuk_frontend'),
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [ 'autoprefixer',
+                    { sourceMap: config.isDev },
+                  ],
                 ],
               },
             },
-          ],
-        }),
+          },
+          'resolve-url-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true, // required for resolve-url-loader
+              sassOptions: { includePaths: [
+                path.resolve(__dirname, 'node_modules/govuk_frontend'),
+              ] },
+            },
+          },
+        ],
       },
     ],
   },
