@@ -73,13 +73,18 @@ const common = {
               },
             },
           },
-          'resolve-url-loader',
+          {
+            loader: 'resolve-url-loader',
+            options: {
+              root: path.join(__dirname, 'node_modules/govuk-frontend'),
+            }
+          },
           {
             loader: 'sass-loader',
             options: {
               sourceMap: true, // required for resolve-url-loader
               sassOptions: { includePaths: [
-                path.resolve(__dirname, 'node_modules/govuk_frontend'),
+                path.resolve(__dirname, 'node_modules/govuk-frontend'),
               ] },
             },
           },
