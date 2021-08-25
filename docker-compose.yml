@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  data-science-frontend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    env_file: .env
+    ports:
+      - "8081:8081"
+      - "3001:3001"
+    depends_on:
+      - data-science-frontend-redis
+      - sandbox-backend
+    environment:
+      - BACKEND_URL=http://sandbox-backend:8002
+      - REDIS_HOST=data-science-frontend-redis
+    command: npm run develop
+
+  sandbox-backend:
+    image: "ukti/find-exporters-sandbox:latest"
+    expose:
+      - "8002"
+
+  data-science-frontend-redis:
+    image: redis:3.2
+    restart: always
+    expose:
+      - "6379"
