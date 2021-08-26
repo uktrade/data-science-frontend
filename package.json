@@ -14,7 +14,7 @@
   },
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
-    "clean": "del src/app/public/dist",
+    "clean": "rm -rf src/app/public/dist",
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
     "tag-master": "git tag v${npm_package_version}-master && git push --tags",
@@ -121,7 +121,6 @@
     "css-loader": "^5.2.7",
     "date-fns": "^2.23.0",
     "dateformat": "3.0.3",
-    "del-cli": "^4.0.1",
     "element-closest": "^3.0.2",
     "es6-promise": "^4.2.5",
     "express": "^4.16.2",
