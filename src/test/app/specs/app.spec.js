@@ -43,6 +43,7 @@ function checkResponse (res, statusCode) {
 
 describe('App', () => {
   let oldTimeout
+  const consoleTransport = new winston.transports.Console({ colorize: true })
 
   beforeEach(() => {
     nock(config.backend.url)
@@ -55,13 +56,13 @@ describe('App', () => {
     nock(config.backend.url).get('/api/v1/company/search/market_exported/').reply(200, { 'result': ['Indonesia'] })
     nock(config.backend.url).get('/api/v1/company/search/dit_sectors/').reply(200, { 'result': ['Earth'] })
 
-    logger.remove(winston.transports.Console)
+    logger.remove(consoleTransport)
     oldTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
   })
 
   afterEach(() => {
-    logger.add(winston.transports.Console)
+    logger.add(consoleTransport)
     jasmine.DEFAULT_TIMEOUT_INTERVAL = oldTimeout
   })
 

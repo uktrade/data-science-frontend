@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid')
 const request = require('request')
 const config = require('../../../config')
 const logger = require('../lib/logger')
@@ -64,7 +64,7 @@ function checkCallbackErrors (errorParam, stateParam, codeParam, stateId) {
 
 module.exports = {
   authRedirect: (req, res, next) => {
-    const stateId = uuid()
+    const stateId = uuidv4()
     const urlParams = {
       response_type: 'code',
       client_id: config.sso.client,

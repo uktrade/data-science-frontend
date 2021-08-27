@@ -1,0 +1,14 @@
+FROM cypress/browsers:node14.17.0-chrome91-ff89
+
+COPY . /code
+WORKDIR /code
+
+ENV TZ="Europe/London"
+
+RUN npm run preinstall
+RUN npm install
+RUN npm run build
+
+CMD npm run-script develop
+
+# vim: ft=dockerfile

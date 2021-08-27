@@ -1,5 +1,5 @@
 const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   devtool: false,
@@ -23,6 +23,6 @@ module.exports = {
       uglifyOptions: { ecma: 8 },
       dead_code: true,
     }),
-    new ExtractTextPlugin('css/[name].css'),
+    new MiniCssExtractPlugin({ fileName: 'css/[name].css' }),
   ],
 }

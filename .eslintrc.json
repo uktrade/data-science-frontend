@@ -2,8 +2,11 @@
   "env": {
     "jest": true
   },
-  "extends": "standard",
-
+  "extends": [
+    "standard",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "rules": {
     "comma-dangle": [
       "error",

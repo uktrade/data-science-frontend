@@ -1,7 +1,9 @@
 const app = require('../../../app/app')
 const config = require('../../../../config')
 
-jest.mock('../../../app/lib/redis-client')
+jest.mock('../../../app/lib/redis-client', () => {
+  return { get: () => Promise.resolve() }
+})
 jest.mock('readdirp')
 jest.mock('chokidar')
 jest.mock('nunjucks')
