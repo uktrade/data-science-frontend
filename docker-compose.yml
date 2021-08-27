@@ -6,16 +6,34 @@ services:
       context: .
       dockerfile: ./Dockerfile.dev
     env_file: .env
+    volumes:
+      # We want to mount the host repository directory, but don't want to replace the
+      # `node_modules` generated during image build. So we granularise the mounts
+      - "./babel.config.js:/code/babel.config.js"
+      - "./config:/code/config"
+      - "./cypress.json:/code/cypress.json"
+      - "./Gruntfile.js:/code/Gruntfile.js"
+      - "./includePaths:/code/includePaths"
+      - "./manifest.yml:/code/manifest.yml"
+      - "./nodemon.json:/code/nodemon.json"
+      - "./package-lock.json:/code/package-lock.json"
+      - "./package.json:/code/package.json"
+      - "./server.js:/code/server.js"
+      - "./src:/code/src"
+      - "./uiTest:/code/uiTest"
+      - "./visual-screenshots:/code/visual-screenshots"
+      - "./webpack.config.develop.js:/code/webpack.config.develop.js"
+      - "./webpack.config.js:/code/webpack.config.js"
     ports:
       - "8081:8081"
       - "3001:3001"
+      - "9229:9229" # Node inspect debug port
     depends_on:
       - data-science-frontend-redis
       - sandbox-backend
     environment:
       - BACKEND_URL=http://sandbox-backend:8002
       - REDIS_HOST=data-science-frontend-redis
-    command: npm run develop
 
   sandbox-backend:
     image: "ukti/find-exporters-sandbox:latest"
