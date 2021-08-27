@@ -8,6 +8,36 @@
 
 ## Setup
 
+### Dockerised development environment
+
+If you have docker and docker-compose installed then all you need to do is 
+create an` .env` file in project root with the following contents:
+
+```
+LOG_LEVEL=debug
+SSO_BYPASS=true
+SESSION_SECRET=x
+SSO_DOMAIN=x
+SSO_CLIENT=x
+SSO_SECRET=x
+SSO_PATH_AUTH=x
+SSO_PATH_TOKEN=x
+SSO_PATH_INTROSPECT=x
+SSO_REDIRECT_URI=x
+BACKEND_KEY=""
+BACKEND_USER=x
+NODE_ENV=development
+DASHBOARD_POWERBI_USERNAME=x
+DASHBOARD_POWERBI_PASSWORD=x
+DASHBOARD_POWERBI_CLIENTID=x
+DASHBOARD_POWERBI_GROUPID=x
+DASHBOARD_POWERBI_REPORTID=x
+DASHBOARD_POWERBI_EMBEDURL=x
+DASHBOARD_GOOGLEDS_EMBEDURL=x
+```
+
+### Non-dockerised development environment
+
 Pre-requisites:
 
 Ensure you install [node](https://nodejs.org/en/download/) v10+ 
@@ -56,7 +86,13 @@ The above needs to be changed according to the backend environment you want to p
 
 ## Running the app
 
-### Setup sandbox
+### Dockerised development environment
+
+Just run `docker-compose up` from the project root
+
+### Non-dockerised development environment
+
+#### Setup sandbox
 
 The easiest way to run the app is by running it against the sandbox backend.
 
@@ -64,7 +100,7 @@ The easiest way to run the app is by running it against the sandbox backend.
 
 2. In your environment variable set: `BACKEND_URL=http://localhost:8002`. `BACKEND_KEY` and `BACKEND_USER` can be left with the defaults.
 
-### Starting the application
+#### Starting the application
 
 Run the command below to start the application:
 
@@ -96,6 +132,8 @@ i.e `export BACKEND_URL=http://localhost:8002`
 #### Running the tests
 
 Notice that before running the tests the application should be up and running.
+
+If you are running the development environment in docker, prepend the following commands with `docker-compose exec data-science-frontend `
 
 By default cypress will run on electron headlessly, you can read more about it [here](https://docs.cypress.io/guides/core-concepts/launching-browsers.html#Electron-Browser)
 

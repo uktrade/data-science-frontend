@@ -1,5 +1,6 @@
 ---
 applications:
-  - buildpack: https://github.com/cloudfoundry/nodejs-buildpack.git#v1.7.54
+  - buildpacks:
+    - https://github.com/cloudfoundry/nodejs-buildpack.git#v1.7.54
     health-check-type: http
     health-check-http-endpoint: /ping/
