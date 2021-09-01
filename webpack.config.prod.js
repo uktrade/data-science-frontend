@@ -6,23 +6,14 @@ module.exports = {
   output: {
     filename: 'js/[name].js',
   },
+  optimization: { sideEffects: false },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
       },
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-      output: {
-        comments: false,
-      },
-      sourceMap: true,
-      uglifyOptions: { ecma: 8 },
-      dead_code: true,
-    }),
-    new MiniCssExtractPlugin({ fileName: 'css/[name].css' }),
+
+    new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
   ],
 }

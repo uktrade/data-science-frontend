@@ -22,7 +22,6 @@ const common = {
   output: {
     path: config.buildDir,
     publicPath: '/',
-
   },
   module: {
     exprContextCritical: false,
