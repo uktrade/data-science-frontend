@@ -31,7 +31,7 @@ const common = {
 
         // Package "hex-rgb" is not transpiled to ES5 by default so we need to transpile it again.
         // See: https://stackoverflow.com/questions/51289261/babel-does-not-transpile-imported-modules-from-node-modules
-        exclude: /node_modules\/(?!(hex-rgb)\/).*/,
+        exclude: /node_modules\/(?!(.*(hex-rgb|set-harmonic-interval|rafz|react-spring|internmap|unified|is-plain-obj|d3-.*))\/).*/,
         loader: 'babel-loader',
         options: {
           cacheDirectory: './babel_cache',
@@ -103,6 +103,7 @@ const common = {
   ],
   node: {
     fs: 'empty',
+    child_process: 'empty',
     module: 'empty',
     net: 'empty',
     tls: 'empty',

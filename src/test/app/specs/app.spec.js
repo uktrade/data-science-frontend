@@ -42,10 +42,11 @@ function checkResponse (res, statusCode) {
 }
 
 describe('App', () => {
-  let oldTimeout
   const consoleTransport = new winston.transports.Console({ colorize: true })
 
   beforeEach(() => {
+//    jest.useFakeTimers()
+
     nock(config.backend.url)
       .post('/api/v1/company/search/?offset=0&limit=20')
       .reply(200, { count: 1, result: [{ 'cash_bank_in_hand': '1194675.0' }] })
@@ -57,32 +58,25 @@ describe('App', () => {
     nock(config.backend.url).get('/api/v1/company/search/dit_sectors/').reply(200, { 'result': ['Earth'] })
 
     logger.remove(consoleTransport)
-    oldTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
   })
 
   afterEach(() => {
+//    nock.cleanAll()
     logger.add(consoleTransport)
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = oldTimeout
   })
 
   describe('With SSO bypass enabled', () => {
-    let testApp
+    let testApp, request
 
     beforeEach(() => {
       config.isDev = true
       config.sso = { bypass: true }
       testApp = app.create(undefined, config)
+      request = supertest(testApp)
     })
-
-    afterEach(() => {
-      jest.restoreAllMocks()
-      jest.resetModules()
-    })
-
     describe('index page', () => {
       it('Should render the index page', async () => {
-        const response = await supertest(testApp).get('/')
+        const response = await request.get('/')
         checkResponse(response, 200)
         expect(getTitle(response)).toContain('Find Exporters')
       })
@@ -90,23 +84,28 @@ describe('App', () => {
 
     describe('Ping', () => {
       it('Should return a status of 200', async () => {
-        const response = await supertest(testApp).get('/ping/')
+        const response = await request.get('/ping/')
         expect(response.statusCode).toEqual(200)
       })
     })
   })
 
   describe('With SSO bypass disabled', () => {
-    let testApp
-    beforeEach(function () {
+    let testApp, request
+
+    beforeEach(() => {
       config.isDev = true
       config.sso = { bypass: false }
       testApp = app.create(undefined, config)
+      request = supertest(testApp)
     })
 
-    describe('Pages requiring auth', function () {
+    afterEach(() => {
+    })
+
+    describe('Pages requiring auth', () => {
       it(`Should redirect the index page to the login page`, async () => {
-        const response = await supertest(testApp).get('/')
+        const response = await request.get('/')
         checkResponse(response, 302)
         expect(response.headers.location).toEqual('/login/')
       })
@@ -114,7 +113,7 @@ describe('App', () => {
 
     describe('Pages not requiring auth', () => {
       it(`Should render the Healthcheck page`, async () => {
-        const response = await supertest(testApp).get('/ping/')
+        const response = await request.get('/ping/')
         expect(response.statusCode).toEqual(200)
       })
     })
