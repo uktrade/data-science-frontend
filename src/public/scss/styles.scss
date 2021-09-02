@@ -2,6 +2,7 @@ $govuk-font-family: Arial, sans-serif;
 
 @import "../../../node_modules/govuk-frontend/all";
 @import "../../../node_modules/@uktrade/datahub-header/component/header";
+
 @import "global-header";
 @import "utilities";
 @import "../../app/components/render-collection/styles";
