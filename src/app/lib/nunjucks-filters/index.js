@@ -5,21 +5,21 @@ function formatNumberWithCommas (x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
-function formatDate (value, format = 'MMMM YYYY') {
+function formatDate (value, format = 'MMMM yyyy') {
   if (!value) {
     return value
   }
-  const parsedDate = dateFns.parse(value)
+  const parsedDate = dateFns.parseISO(value)
 
   if (!dateFns.isValid(parsedDate)) { return value }
   return dateFns.format(parsedDate, format)
 }
 
-function formatLongDate (value, format = 'DD MMMM YYYY') {
+function formatLongDate (value, format = 'dd MMMM yyyy') {
   if (!value) {
     return value
   }
-  const parsedDate = dateFns.parse(value)
+  const parsedDate = dateFns.parseISO(value)
 
   if (!dateFns.isValid(parsedDate)) { return value }
   return dateFns.format(parsedDate, format)

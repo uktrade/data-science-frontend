@@ -39,16 +39,12 @@ function createRequestOptions (uri, method, opts) {
     }
   }
 
-  try {
-    // Generate Authorization request header
-    clientHeader = hawk.client.header(uri, method, {
-      credentials,
-      payload,
-      contentType: (payload ? 'application/json' : ''),
-    })
-  } catch (e) {
-    throw e
-  }
+  // Generate Authorization request header
+  clientHeader = hawk.client.header(uri, method, {
+    credentials,
+    payload,
+    contentType: (payload ? 'application/json' : ''),
+  })
 
   if (!clientHeader) {
     throw new Error('Unable to create header')

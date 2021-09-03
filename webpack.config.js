@@ -1,6 +1,6 @@
 const merge = require('webpack-merge')
 const path = require('path')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackAssetsManifest = require('webpack-assets-manifest')
 
 const config = require('./config')
@@ -22,7 +22,6 @@ const common = {
   output: {
     path: config.buildDir,
     publicPath: '/',
-
   },
   module: {
     exprContextCritical: false,
@@ -51,37 +50,38 @@ const common = {
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: config.isDev,
-                minimize: config.isProd,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: config.isDev,
+              importLoaders: 3,
+              url: (url) => {
+                const files = [
+                  '/assets/images/icon-pointer.png',
+                  '/assets/images/icon-pointer-2x.png',
+                  '/assets/images/govuk-crest.png',
+                  '/assets/images/govuk-crest-2x.png',
+                ]
+
+                return !files.some((file) => url.includes(file))
               },
             },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: (loader) => [
-                  require('autoprefixer')(),
-                ],
-                sourceMap: config.isDev,
-              },
+          },
+          {
+            loader: 'postcss-loader',
+          },
+          'resolve-url-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true, // required for resolve-url-loader
             },
-            'resolve-url-loader',
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true, // required for resolve-url-loader
-                includePaths: [
-                  path.resolve(__dirname, 'node_modules/govuk_frontend'),
-                ],
-              },
-            },
-          ],
-        }),
+          },
+        ],
       },
     ],
   },

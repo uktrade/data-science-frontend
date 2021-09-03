@@ -3,7 +3,7 @@ const winston = require('winston')
 
 const colorize = config.isDev
 
-const logger = new winston.Logger({
+const logger = winston.createLogger({
   level: config.logLevel,
   transports: [
     new winston.transports.Console({ colorize }),
