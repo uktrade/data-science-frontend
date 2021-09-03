@@ -1,3 +1,12 @@
+.govuk-list a:link {
+  color: #005ea5; }
+.govuk-list a:visited {
+  color: #4c2c92; }
+.govuk-list a:hover {
+  color: #2b8cc4; }
+.govuk-list a:active {
+  color: #2b8cc4; }
+
 .app-pull-right {
   float: right;
 }
@@ -76,7 +85,3 @@
 .js-border-none {
   border: none !important;
 }
-
-
-
-

@@ -58,33 +58,27 @@ const common = {
             loader: 'css-loader',
             options: {
               sourceMap: config.isDev,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [ 'autoprefixer',
-                    { sourceMap: config.isDev },
-                  ],
-                ],
+              importLoaders: 3,
+              url: (url) => {
+                const files = [
+                  '/assets/images/icon-pointer.png',
+                  '/assets/images/icon-pointer-2x.png',
+                  '/assets/images/govuk-crest.png',
+                  '/assets/images/govuk-crest-2x.png',
+                ]
+
+                return !files.some((file) => url.includes(file))
               },
             },
           },
           {
-            loader: 'resolve-url-loader',
-            options: {
-              root: path.join(__dirname, 'node_modules/govuk-frontend'),
-            }
+            loader: 'postcss-loader',
           },
+          'resolve-url-loader',
           {
             loader: 'sass-loader',
             options: {
               sourceMap: true, // required for resolve-url-loader
-              sassOptions: { includePaths: [
-                path.resolve(__dirname, 'node_modules/govuk-frontend'),
-              ] },
             },
           },
         ],
