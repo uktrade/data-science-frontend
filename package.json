@@ -10,7 +10,8 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    }
+    },
+    "testRunner": "jest-jasmine2"
   },
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
@@ -59,6 +60,7 @@
   },
   "homepage": "https://github.com/uktrade/data-science-frontend#readme",
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.15.0",
     "@uktrade/client-matrix-js": "^1.0.38",
     "@uktrade/wdio-image-diff-js": "^1.8.0",
     "@wdio/browserstack-service": "^6.12.1",
@@ -83,9 +85,9 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-standard": "^4.0.0",
     "file-loader": "^4.2.0",
-    "jasmine": "3.0.0",
+    "jasmine": "^3.0.0",
     "jasmine-core": "2.99.1",
-    "jest": "^23.6.0",
+    "jest": "^27.1.0",
     "jest-codemods": "^0.24.0",
     "mocha": "^5.2.0",
     "mocha-circleci-reporter": "0.0.3",
