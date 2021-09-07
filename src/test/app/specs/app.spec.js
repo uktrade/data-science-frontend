@@ -81,17 +81,19 @@ describe('App', () => {
     })
 
     describe('index page', () => {
-      it('Should render the index page', async () => {
-        const response = await supertest(testApp).get('/')
-        checkResponse(response, 200)
-        expect(getTitle(response)).toContain('Find Exporters')
+      it('Should render the index page', (done) => {
+        supertest(testApp).get('/')
+          .expect(response => {
+            checkResponse(response, 200)
+            expect(getTitle(response.body)).toContain('Find Exporters')
+          })
+          .end(done)
       })
     })
 
     describe('Ping', () => {
-      it('Should return a status of 200', async () => {
-        const response = await supertest(testApp).get('/ping/')
-        expect(response.statusCode).toEqual(200)
+      it('Should return a status of 200', (done) => {
+        supertest(testApp).get('/ping/').expect(200, done)
       })
     })
   })
@@ -104,18 +106,18 @@ describe('App', () => {
       testApp = app.create(undefined, config)
     })
 
-    describe('Pages requiring auth', function () {
-      it(`Should redirect the index page to the login page`, async () => {
-        const response = await supertest(testApp).get('/')
-        checkResponse(response, 302)
-        expect(response.headers.location).toEqual('/login/')
+    describe('Pages requiring auth', () => {
+      it('Should redirect the index page to the login page', (done) => {
+        supertest(testApp).get('/')
+          .expect(302)
+          .expect('location', '/login/')
+          .end(done)
       })
     })
 
     describe('Pages not requiring auth', () => {
-      it(`Should render the Healthcheck page`, async () => {
-        const response = await supertest(testApp).get('/ping/')
-        expect(response.statusCode).toEqual(200)
+      it(`Should render the Healthcheck page`, (done) => {
+        supertest(testApp).get('/ping/').expect(200, done)
       })
     })
   })
