@@ -117,7 +117,7 @@
     "@uktrade/datahub-header": "^1.4.3",
     "array-from": "^2.1.1",
     "autoprefixer": "^10.3.4",
-    "axios": ">=0.21.1",
+    "axios": ">=0.21.2",
     "babel-loader": "^8.2.2",
     "compression": "1.7.2",
     "connect-redis": "^6.0.0",
