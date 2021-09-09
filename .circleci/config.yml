@@ -104,7 +104,7 @@ jobs:
       - *restore_npm_cache
       - run:
           name: Jest tests
-          command: npm run test
+          command: npm run build && npm run test
           when: always
 
   functional_test:
