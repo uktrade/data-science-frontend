@@ -165,11 +165,8 @@
   "sasslintConfig": ".sass-lint.yml",
   "resolutions": {
     "tar": "^4.4.15",
-    "fstream": ">=1.0.12",
-    "js-yaml": "^3.13.1",
     "mem": ">=4.0.0",
     "shelljs": ">=0.8.3",
-    "underscore.string": ">=3.3.5",
     "xmlhttprequest-ssl": ">=1.6.2",
     "glob-parent": ">=5.1.2",
     "is-svg": "4.2.2",
