@@ -186,7 +186,7 @@ describe('Company filters', () => {
 
   describe('Market of Interest', () => {
     it('Filters by selecting a single market of interest', () => {
-      cy.get(`${selectors.filters.marketOfInterest}`)
+      cy.get(`${selectors.filters.marketOfInterest1}`)
         .should('not.be.disabled')
         .click()
 
@@ -199,7 +199,7 @@ describe('Company filters', () => {
     it('Filters by selecting multiple market of interest', () => {
       const usMarketOfInterest = 2
 
-      cy.get(`${selectors.filters.marketOfInterest}`)
+      cy.get(`${selectors.filters.marketOfInterest1}`)
         .should('not.be.disabled')
         .click()
 
@@ -254,7 +254,7 @@ describe('Company filters', () => {
 
   describe('Service Used', () => {
     it('Filters by selecting a single service used', () => {
-      cy.get(`${selectors.filters.serviceUsed}`)
+      cy.get(`${selectors.filters.serviceUsed1}`)
         .should('not.be.disabled')
         .click()
 
@@ -267,7 +267,7 @@ describe('Company filters', () => {
     it('Filters by selecting multiple service used', () => {
       const tbdServiceUsed = 3
 
-      cy.get(`${selectors.filters.serviceUsed}`)
+      cy.get(`${selectors.filters.serviceUsed1}`)
         .should('not.be.disabled')
         .click()
 
@@ -287,7 +287,7 @@ describe('Company filters', () => {
 
   describe('Uk Regions', () => {
     it('Filters by selecting a single market exported to', () => {
-      cy.get(`${selectors.filters.ukRegion}`)
+      cy.get(`${selectors.filters.ukRegion1}`)
         .should('not.be.disabled')
         .click()
 
@@ -300,7 +300,7 @@ describe('Company filters', () => {
     it('Filters by selecting multiple market exported to', () => {
       const london = 2
 
-      cy.get(`${selectors.filters.ukRegion}`)
+      cy.get(`${selectors.filters.ukRegion1}`)
         .should('not.be.disabled')
         .click()
 

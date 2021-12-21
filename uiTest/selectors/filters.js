@@ -17,7 +17,9 @@ const filters = {
   sectors1: '#dit-sectors',
   sectorsTypeahead: '.js-dit-sectors',
   serviceUsed: '#service-used-',
+  serviceUsed1: '#service-used',
   ukRegion: '#uk-regions-',
+  ukRegion1: '#uk-regions',
 }
 
 export default filters
