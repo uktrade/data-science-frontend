@@ -31,7 +31,6 @@ module.exports = {
     const pathToNodeModules = path.resolve(__dirname, (isDev ? '../../' : '../../../deps/0') + '/node_modules')
     const staticMaxAge = (isDev ? 0 : '2y')
     const nunjucksEnv = nunjucks.configure([
-      `${pathToNodeModules}/govuk-frontend/components`,
       `${pathToNodeModules}/govuk-frontend/govuk/components`,
       `${pathToNodeModules}/@uktrade`,
       `${__dirname}/views`,

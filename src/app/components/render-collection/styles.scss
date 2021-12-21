@@ -10,14 +10,14 @@
 }
 
 .app-filter-group-heading {
-  background-color: govuk-colour("grey-3");
+  background-color: govuk-colour("light-grey");
   padding: 10px;
 }
 
 .app-filter-group-list {
   background-color: white;
   border-style: solid;
-  border-color: govuk-colour("grey-3");
+  border-color: govuk-colour("light-grey");
   padding: 10px;
   border-top: 0px;
   height: 8.5em;
@@ -39,7 +39,7 @@
 .app-badge {
   display: block;
   margin-top: 15px;
-  border: 2px solid govuk-colour("grey-3");
+  border: 2px solid govuk-colour("light-grey");
   border-radius: 4px;
   padding: 2px 5px;
   float: right;
@@ -72,7 +72,7 @@
 .app-pagination-list-item {
   display: inline-block;
   padding: 8px 16px;
-  background-color: govuk-colour("grey-4");
+  background-color: govuk-colour("light-grey");
 }
 
 .app-pagination-list-item.is-current,
@@ -129,7 +129,7 @@
 
 .app-metric-header {
   font-size: 16px;
-  color: govuk-colour("grey-1");
+  color: govuk-colour("dark-grey");
 }
 
 .app-metric-value {
@@ -147,7 +147,7 @@
 .app-metric-potential-title {
   font-size: 16px;
   display: block;
-  color: govuk-colour("grey-1");
+  color: govuk-colour("dark-grey");
 }
 
 .app-metric-potential-data {
