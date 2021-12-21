@@ -43,7 +43,7 @@ module.exports = {
       express: app,
     })
 
-    nunjucksEnv.addGlobal('isExpired', new Date() < new Date('2022-01-19'))
+    nunjucksEnv.addGlobal('isExpired', new Date() > new Date('2022-01-19'))
 
     app.set('view engine', 'njk')
     app.set('view cache', appConfig.views.cache)
