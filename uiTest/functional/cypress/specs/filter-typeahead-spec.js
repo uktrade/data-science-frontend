@@ -12,7 +12,7 @@ describe('Filters typeahead', () => {
         .should('not.be.disabled')
         .type('Col')
 
-      cy.get(`${selectors.filters.marketOfInterest}1`).should('be.visible')
+      cy.get(`${selectors.filters.marketOfInterest1}`).should('be.visible')
       cy.get(`${selectors.filters.marketOfInterest}2`).should('not.be.visible')
       cy.get(`${selectors.filters.marketOfInterest}3`).should('not.be.visible')
       cy.get(`${selectors.filters.marketOfInterest}4`).should('not.be.visible')
@@ -23,7 +23,7 @@ describe('Filters typeahead', () => {
         .should('not.be.disabled')
         .type('Co')
 
-      cy.get(`${selectors.filters.marketOfInterest}1`).should('be.visible')
+      cy.get(`${selectors.filters.marketOfInterest1}`).should('be.visible')
       cy.get(`${selectors.filters.marketOfInterest}2`).should('be.visible')
       cy.get(`${selectors.filters.marketOfInterest}3`).should('be.visible')
     })
@@ -35,7 +35,7 @@ describe('Filters typeahead', () => {
         .should('not.be.disabled')
         .type('Ind')
 
-      cy.get(`${selectors.filters.marketExportedTo}1`).should('be.visible')
+      cy.get(`${selectors.filters.marketOfInterest1}`).should('be.visible')
       cy.get(`${selectors.filters.marketExportedTo}2`).should('not.be.visible')
       cy.get(`${selectors.filters.marketExportedTo}3`).should('not.be.visible')
       cy.get(`${selectors.filters.marketExportedTo}4`).should('not.be.visible')
@@ -46,7 +46,7 @@ describe('Filters typeahead', () => {
         .should('not.be.disabled')
         .type('In')
 
-      cy.get(`${selectors.filters.marketExportedTo}1`).should('be.visible')
+      cy.get(`${selectors.filters.marketOfInterest1}`).should('be.visible')
       cy.get(`${selectors.filters.marketExportedTo}2`).should('be.visible')
       cy.get(`${selectors.filters.marketExportedTo}3`).should('be.visible')
     })
@@ -58,7 +58,7 @@ describe('Filters typeahead', () => {
         .should('not.be.disabled')
         .type('Ear')
 
-      cy.get(`${selectors.filters.sectors}1`).should('be.visible')
+      cy.get(`${selectors.filters.sectors1}`).should('be.visible')
       cy.get(`${selectors.filters.sectors}2`).should('not.be.visible')
       cy.get(`${selectors.filters.sectors}3`).should('not.be.visible')
       cy.get(`${selectors.filters.sectors}4`).should('not.be.visible')
@@ -69,7 +69,7 @@ describe('Filters typeahead', () => {
         .should('not.be.disabled')
         .type('Ea')
 
-      cy.get(`${selectors.filters.sectors}1`).should('be.visible')
+      cy.get(`${selectors.filters.sectors1}`).should('be.visible')
       cy.get(`${selectors.filters.sectors}2`).should('be.visible')
       cy.get(`${selectors.filters.sectors}3`).should('be.visible')
     })

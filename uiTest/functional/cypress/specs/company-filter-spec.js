@@ -10,7 +10,7 @@ describe('Company filters', () => {
 
   describe('Export Potential', () => {
     it('Filters by selecting a single export potential', () => {
-      cy.get(`${selectors.filters.exportPotential}`)
+      cy.get(`${selectors.filters.exportPotential1}`)
         .should('not.be.disabled')
         .click()
 
@@ -23,7 +23,7 @@ describe('Company filters', () => {
     it('Filters by selecting multiple export potential', () => {
       const mediumExportPotential = 2
 
-      cy.get(`${selectors.filters.exportPotential}`)
+      cy.get(`${selectors.filters.exportPotential1}`)
         .should('not.be.disabled')
         .click()
 
@@ -320,7 +320,7 @@ describe('Company filters', () => {
 
   describe('Multiple filters', () => {
     it('Filters by selecting a export potential and company name', () => {
-      cy.get(`${selectors.filters.exportPotential}`)
+      cy.get(`${selectors.filters.exportPotential1}`)
         .should('not.be.disabled')
         .click()
 
