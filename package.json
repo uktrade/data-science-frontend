@@ -130,7 +130,7 @@
     "express-session": "1.17.2",
     "gauge": "^4.0.0",
     "get-form-data": "^3.0.0",
-    "govuk-frontend": "^2.11.0",
+    "govuk-frontend": "^4.0.0",
     "govuk-react": "^0.7.0",
     "hawk": "7.0.7",
     "history": "^4.10.1",
