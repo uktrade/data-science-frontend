@@ -6,7 +6,15 @@ jest.mock('../../../app/lib/redis-client', () => {
 })
 jest.mock('readdirp')
 jest.mock('chokidar')
-jest.mock('nunjucks')
+jest.mock('nunjucks', () => {
+  return {
+    configure: jest.fn(() => {
+      return {
+        addGlobal: jest.fn(),
+      }
+    }),
+  }
+})
 jest.mock('../../../app/lib/static-globals')
 jest.mock('../../../app/lib/nunjucks-filters')
 jest.mock('morgan')

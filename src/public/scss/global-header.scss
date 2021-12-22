@@ -13,7 +13,7 @@ $datahub-mobile-breakpoint: 640px;
   }
 
   .global-nav {
-    background: govuk-colour("grey-3");
+    background: govuk-colour("light-grey");
 
     &-list {
       display: inline;
@@ -133,7 +133,7 @@ $datahub-mobile-breakpoint: 640px;
       display: block;
       width: 100%;
       padding: 0;
-      border-bottom: 1px solid govuk-colour("grey-1");
+      border-bottom: 1px solid govuk-colour("dark-grey");
     }
 
     .proposition-menu__link {

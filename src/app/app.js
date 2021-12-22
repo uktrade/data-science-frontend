@@ -31,7 +31,7 @@ module.exports = {
     const pathToNodeModules = path.resolve(__dirname, (isDev ? '../../' : '../../../deps/0') + '/node_modules')
     const staticMaxAge = (isDev ? 0 : '2y')
     const nunjucksEnv = nunjucks.configure([
-      `${pathToNodeModules}/govuk-frontend/components`,
+      `${pathToNodeModules}/govuk-frontend/govuk/components`,
       `${pathToNodeModules}/@uktrade`,
       `${__dirname}/views`,
       `${__dirname}/components`,
@@ -42,6 +42,8 @@ module.exports = {
       noCache: !appConfig.views.cache,
       express: app,
     })
+
+    nunjucksEnv.addGlobal('isExpired', new Date() > new Date('2022-01-19'))
 
     app.set('view engine', 'njk')
     app.set('view cache', appConfig.views.cache)
